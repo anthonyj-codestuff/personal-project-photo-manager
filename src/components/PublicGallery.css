@@ -1,0 +1,10 @@
+img {
+  height: 100px;
+  width: auto;
+}
+
+p {
+  color: red;
+  background-color: #BADA55;
+  line-height: 500;
+}

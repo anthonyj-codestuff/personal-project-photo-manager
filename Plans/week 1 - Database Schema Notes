@@ -1,0 +1,88 @@
+CREATE TABLE photo
+(
+  pid SERIAL PRIMARY KEY,
+  url VARCHAR(200) NOT NULL,
+  title VARCHAR(100) DEFAULT "Untitled",
+  uid INTEGER NOT NULL,
+  datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE user
+(
+  uid SERIAL PRIMARY KEY,
+  uname VARCHAR(50),
+  email VARCHAR(200),
+  phone INTEGER,
+  avatar VARCHAR(200),
+  upload_count INTEGER,
+  created_date date
+);
+
+CREATE TABLE tag
+(
+  tid SERIAL PRIMARY KEY,
+  tag_name VARCHAR(50)
+);
+
+CREATE TABLE tag_ref
+(
+  tid SERIAL PRIMARY KEY,
+  pid INTEGER
+);
+
+
+
+
+
+
+
+
+photo
+pid 	integer
+url 	varchar(200)
+uid 	integer
+desc  varchar(2000)
+
+tag
+pid 			integer
+tag_name 	varchar(50)
+
+tag_ref
+tid 	integer
+pid 	integer
+
+user
+uid 					integer
+uname 				varchar(50)
+email 				varchar(200)
+phone 				integer
+avatar 				varchar(200)
+upload_count 	integer
+created_date 	date
+
+===== OR =====
+
+user
+uid 					integer
+uname 				varchar(50)
+email 				varchar(200)
+phone 				integer
+avatar 				varchar(200)
+upload_count 	integer
+created_date 	date
+
+photo
+pid 	integer
+url 	varchar(200)
+uid 	integer
+desc  varchar(2000)
+tags  array --holds a list of tag ids
+
+tag
+tid        integer
+tag_name   varchar(50)
+assoc_pid  array --holds a list of photo ids
+
+
+
+
