@@ -3,6 +3,12 @@ import axios from 'axios';
 import FileUploader from "react-firebase-file-uploader";
 import fbConfig from '../Firebase';
 import firebase from "firebase";
+
+//Redux stuff
+import { connect } from 'react-redux';
+import { sendPicToDB, addPictureIdToState } from '../redux/generalReducer';
+
+//styling and ocmponents
 import './uploadPictureButton.css'
 import PublicGallery from "./PublicGallery";
 
@@ -15,7 +21,7 @@ class UploadPictureButton extends Component {
       isUploading: false,
       progress: 0,
       newURL: "",
-      userID: 3
+      userID: 3 //TODO: Set this to the user's ID on session
     };
     
     this.sendURLtoDB = this.sendURLtoDB.bind('this');
@@ -40,23 +46,15 @@ class UploadPictureButton extends Component {
       {
         this.setState({ newURL: url});
         this.sendURLtoDB(url, this.state.userID);
-        // console.log(url);
-        // console.log(this.state.userID);
-      }) //TODO: Set this to the user's ID on session
+      })
   };
 
   sendURLtoDB = (url, uid) =>
   {
-    axios.post('/api/submit', {url, uid})
-    .then(response => 
-      {
-        let newArr = this.state.batchPhotoId;
-        newArr.push(response.data[0].pid);
-        this.setState({batchPhotoId: newArr});
-        // console.log(response.data[0].pid);
-        // console.log(this.state.batchPhotoId);
-      });
-    // .catch();
+    //send the url to the databse and retrieve the newest picture id
+    const newPid = this.props.sendPicToDB(url, uid)
+    //add the new pid to local state
+    this.setState({batchPhotoId: [...this.state.batchPhotoId, newPid]});
   }
     
   render() {
@@ -86,4 +84,6 @@ class UploadPictureButton extends Component {
   }
 }
 
-export default UploadPictureButton;
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps, { sendPicToDB, addPictureIdToState })(UploadPictureButton);

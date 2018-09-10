@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
 import NewUpload from './NewUpload';
 
 class PublicGallery extends Component 
 {
+  state =
+  {
+    picsToDisplay: []
+  }
 
-  getArrayOfPicData()
+  componentDidMount()
   {
     let pics = [];
     for(let i=0; i<this.props.arr.length; i++)
@@ -13,17 +18,16 @@ class PublicGallery extends Component
       axios.get(`/api/photos/${this.props.arr[i]}`)
         .then((response) => 
         {
-          // console.log("pics ", pics);
+          console.log("pics ", pics);
           pics.push(response.data[0]);
         }
       )
     }
-    return pics;
+    this.setState({picsToDisplay: pics});
   }
 
   render() 
   {
-    console.log(this.getArrayOfPicData())
     return (
       <div>
         {/* {pics.map((e) => 
