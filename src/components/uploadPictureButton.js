@@ -7,10 +7,7 @@ import firebase from "firebase";
 import { connect } from 'react-redux';
 import { sendPicToDB } from '../redux/generalReducer';
 
-//styling and ocmponents
 import './uploadPictureButton.css'
-import DefaultImageGallery from "./DefaultImageGallery";
-import NewUploadForm from "./NewUploadForm";
 
 class UploadPictureButton extends Component {
   constructor()
@@ -75,8 +72,8 @@ class UploadPictureButton extends Component {
             multiple={"multiple"}
             />
         </label>
-        {this.props.picsDataObj.length > 0 && <DefaultImageGallery picData={this.props.picsDataObj}/>}
-        <NewUploadForm/>
+        {/* Obsolete */}
+        {/* {this.props.picsDataObj.length > 0 && <DefaultImageGallery picData={this.props.picsDataObj}/>} */}
       </div>
     );
   }

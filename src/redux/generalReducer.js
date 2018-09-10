@@ -2,11 +2,13 @@ import axios from 'axios';
 
 //CONSTANTS
 const SEND_PIC_TO_DB = 'SEND_PIC_TO_DB';
+const GET_ALL_PICS = 'GET_ALL_PICS';
 const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
 
 // INITIAL APP STATE
 const initialState = {
-  picsDataObj: [] //holds data returned from the photos table. Created to hold the user's fresh uploads
+  picsDataObj: [], //holds data returned from the photos table. Created to hold the user's fresh uploads
+  userNewUploads: []
 };
 
 //REDUCER
@@ -24,11 +26,22 @@ export default function generalReducer(state = initialState, action)
         picsDataObj: [
           ...state.picsDataObj, newPicData
         ]
-      }
+      };
     case `${SEND_PIC_TO_DB}_REJECTED`:
       console.log('Error - SEND_PIC_TO_DB_REJECTED');
       break;
-    case `${GET_PICTURE_BY_ID}_FULFILLED`: //takes in an array of objects (picture data from table 'photo')
+    case `${GET_ALL_PICS}_FULFILLED`:
+      //Gets contents of database and adds it to the picData object. This should overwrite any existing contents
+      console.log(action.payload.data)
+      return {
+        ...state,
+        picsDataObj: action.payload.data
+      };
+    case `${GET_ALL_PICS}_REJECTED`:
+      console.log('Error - GET_ALL_PICS_REJECTED');
+      break;
+    case `${GET_PICTURE_BY_ID}_FULFILLED`: 
+      //unused as of 180910
       return {
         ...state,
         picsDataObj:action.payload.data
@@ -48,6 +61,14 @@ export function sendPicToDB(url, uid)
   return {
     type: SEND_PIC_TO_DB,
     payload: axios.post('/api/submit', {url, uid}) //post request returns an picture id int
+  }
+}
+
+export function getAllPics()
+{
+  return { 
+    type: GET_ALL_PICS,
+    payload: axios.get('/api/photos')
   }
 }
 

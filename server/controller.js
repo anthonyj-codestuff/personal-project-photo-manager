@@ -1,4 +1,12 @@
 
+const getAllPics = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  dbInst.get_photos()
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in get_photos() - ${err}`))
+}
+
 //requires an image url (up to 200 char) and an integer representing the user's id
 const getPhoto = (req, res, next) =>
 {
@@ -22,6 +30,7 @@ const addPhoto = (req, res, next) =>
 
 module.exports =
 {
+  getAllPics,
   getPhoto,
   addPhoto
 };

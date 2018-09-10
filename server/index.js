@@ -7,6 +7,7 @@ require('dotenv').config();
 const port = process.env.SERVER_PORT || 3001;
 
 const {
+  getAllPics,
   getPhoto,
   addPhoto
 } = require('./controller');
@@ -19,7 +20,7 @@ massive(process.env.DB_CONNECTION)
   .then(dbInst => app.set('db', dbInst))
   .catch(err => console.log(`Error in massive() - ${err}`));
 
-// app.get('/api/photos');            //for loading all (or some) pictures
+app.get('/api/photos', getAllPics);            //for loading all (or some) pictures
 app.get('/api/photos/:pid', getPhoto); //for loading a specific picture
 // app.get('/api/folder/:id');        //pull up the contents of a defined folder
 app.post('/api/submit', addPhoto);    //for posting a single picture with or without data

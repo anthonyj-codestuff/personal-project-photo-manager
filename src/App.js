@@ -6,15 +6,13 @@ import store from './store';
 import routes from './routes';
 import './App.css';
 
-import UploadPictureButton from './components/uploadPictureButton';
-
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <HashRouter>
           <div className="App">
-            <UploadPictureButton/>
+            {routes}
           </div>
         </HashRouter>
       </Provider>

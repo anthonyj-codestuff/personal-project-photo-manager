@@ -7,6 +7,13 @@
   flex-wrap: wrap;
   justify-content: space-around;
   padding: 10px;
+  margin: 5px;
+}
+
+/* This should maybe cause the last row to be left-justified */
+.image-gallery:after {
+  content: "";
+  flex: auto;
 }
 
 .single-image {
