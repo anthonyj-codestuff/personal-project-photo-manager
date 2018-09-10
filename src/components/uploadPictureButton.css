@@ -1,11 +1,18 @@
 .upload-module {
   box-sizing: border-box;
-  border: 2px solid black;
+  border: 1px solid black;
+  margin-right: 1px;
   padding: 10px;
+}
+
+input {
+  margin: 10px;  /* Margin should equal the padding on the label + actual margin or else divs will clip into label */
 }
 
 label {
   background-color: #54697a;
+  border: 2px solid #BADA55;
+  box-sizing: border-box;
   color: #000000;
   padding: 10px;
   border-radius: 4px;

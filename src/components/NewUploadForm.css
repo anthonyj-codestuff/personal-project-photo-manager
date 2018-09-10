@@ -1,0 +1,20 @@
+.new-picture-forms {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 3px;
+  padding-left: 30px;
+}
+
+.single-form-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid blue;
+  box-sizing: border-box;
+}
+
+.new-upload-form {
+  border: 1px solid red;
+  box-sizing: border-box;
+}

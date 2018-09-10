@@ -2,13 +2,11 @@ import axios from 'axios';
 
 //CONSTANTS
 const SEND_PIC_TO_DB = 'SEND_PIC_TO_DB';
-const SET_PICTURE_IDS = 'SET_PICTURE_IDS';
-// const GET_PICTURES_BY_ID = 'GET_PICTURES_BY_ID';
+const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
 
 // INITIAL APP STATE
 const initialState = {
-  pictureIDs: [], //holds integer picture ids. Created for holding the user's new uploads
-  picsDataObj: [] //holds data returned from the photos table
+  picsDataObj: [] //holds data returned from the photos table. Created to hold the user's fresh uploads
 };
 
 //REDUCER
@@ -16,20 +14,28 @@ export default function generalReducer(state = initialState, action)
 {
   switch(action.type)
   {
+    //Sends a URL to the database and recieves an object containing picture details
     case `${SEND_PIC_TO_DB}_FULFILLED`:
-      let newPid = action.payload.data[0].pid
-      console.log(state.pictureIDs);
+      let newPicData = action.payload.data[0]
+      console.log(newPicData);
       return {
         ...state,
-        pictureIDs: [
-          ...state.pictureIDs, newPid
+        //Add new picture data to state
+        picsDataObj: [
+          ...state.picsDataObj, newPicData
         ]
       }
-    case `${GET_PICTURES_BY_ID}_FULFILLED`: //takes in an array of objects (picture data from table 'photo')
+    case `${SEND_PIC_TO_DB}_REJECTED`:
+      console.log('Error - SEND_PIC_TO_DB_REJECTED');
+      break;
+    case `${GET_PICTURE_BY_ID}_FULFILLED`: //takes in an array of objects (picture data from table 'photo')
       return {
         ...state,
         picsDataObj:action.payload.data
       };
+    case `${GET_PICTURE_BY_ID}_REJECTED`:
+      console.log('Error - GET_PICTURES_BY_ID_REJECTED');
+      break;
     default:
       return state;
   }
@@ -45,9 +51,9 @@ export function sendPicToDB(url, uid)
   }
 }
 
-// export function getPicsByID() {
+// export function getPicByID() {
 //   return {
-//     type: GET_PICTURES_BY_ID,
+//     type: GET_PICTURE_BY_ID,
 //     payload: axios.get('/api/cart')
 //   };
 // }

@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import axios from 'axios';
 import FileUploader from "react-firebase-file-uploader";
 import fbConfig from '../Firebase';
 import firebase from "firebase";
 
 //Redux stuff
 import { connect } from 'react-redux';
-import { sendPicToDB, addPictureIdToState } from '../redux/generalReducer';
+import { sendPicToDB } from '../redux/generalReducer';
 
 //styling and ocmponents
 import './uploadPictureButton.css'
-import PublicGallery from "./PublicGallery";
+import DefaultImageGallery from "./DefaultImageGallery";
+import NewUploadForm from "./NewUploadForm";
 
 class UploadPictureButton extends Component {
   constructor()
@@ -75,10 +75,8 @@ class UploadPictureButton extends Component {
             multiple={"multiple"}
             />
         </label>
-        <br/><p>{this.state.newURL || "Nothing to show here"}</p>
-        <div>
-          <PublicGallery arr={this.state.batchPhotoId}/>
-        </div>
+        {this.props.picsDataObj.length > 0 && <DefaultImageGallery picData={this.props.picsDataObj}/>}
+        <NewUploadForm/>
       </div>
     );
   }
@@ -86,4 +84,4 @@ class UploadPictureButton extends Component {
 
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps, { sendPicToDB, addPictureIdToState })(UploadPictureButton);
+export default connect(mapStateToProps, { sendPicToDB })(UploadPictureButton);

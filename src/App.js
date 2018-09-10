@@ -15,7 +15,6 @@ class App extends Component {
         <HashRouter>
           <div className="App">
             <UploadPictureButton/>
-            {/* <PublicGallery/> */}
           </div>
         </HashRouter>
       </Provider>
