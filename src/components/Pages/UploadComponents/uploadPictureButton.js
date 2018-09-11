@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import FileUploader from "react-firebase-file-uploader";
-import fbConfig from '../Firebase';
+import fbConfig from '../../../Firebase';
 import firebase from "firebase";
 
 //Redux stuff
 import { connect } from 'react-redux';
-import { sendPicToDB } from '../redux/generalReducer';
+import { sendPicToDB } from '../../../redux/generalReducer';
 
 import './uploadPictureButton.css'
 

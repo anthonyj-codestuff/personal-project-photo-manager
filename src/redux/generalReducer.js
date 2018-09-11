@@ -8,7 +8,7 @@ const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
 // INITIAL APP STATE
 const initialState = {
   picsDataObj: [], //holds data returned from the photos table. Created to hold the user's fresh uploads
-  userNewUploads: []
+  userNewUploads: [] //not implemented as of 180910
 };
 
 //REDUCER
@@ -19,7 +19,7 @@ export default function generalReducer(state = initialState, action)
     //Sends a URL to the database and recieves an object containing picture details
     case `${SEND_PIC_TO_DB}_FULFILLED`:
       let newPicData = action.payload.data[0]
-      console.log(newPicData);
+      console.log("newPicData", newPicData);
       return {
         ...state,
         //Add new picture data to state
@@ -31,7 +31,7 @@ export default function generalReducer(state = initialState, action)
       console.log('Error - SEND_PIC_TO_DB_REJECTED');
       break;
     case `${GET_ALL_PICS}_FULFILLED`:
-      //Gets contents of database and adds it to the picData object. This should overwrite any existing contents
+      //Gets contents of database row and adds it to the picData object. This should overwrite any existing contents
       console.log(action.payload.data)
       return {
         ...state,
@@ -60,7 +60,7 @@ export function sendPicToDB(url, uid)
 { 
   return {
     type: SEND_PIC_TO_DB,
-    payload: axios.post('/api/submit', {url, uid}) //post request returns an picture id int
+    payload: axios.post('/api/submit', {url, uid}) //post request returns a data object with the pic's pid, url, and title
   }
 }
 

@@ -1,0 +1,77 @@
+.new-picture-forms {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 3px;
+  padding-left: 30px;
+}
+
+.single-form-container {
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.middle-box {
+  border: 1px solid red;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.middle-box-form {
+  margin: 0px;
+  width: 130px;
+  box-sizing: border-box; /*don't delete these. Input's internal padding throws off the size*/
+  -moz-box-sizing: border-box;
+}
+
+.right-box {
+  border: 1px solid orange;
+  box-sizing: border-box;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.new-upload-tag-box {
+  border: 1px solid purple;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.new-upload-tag-box textarea {
+  width: calc(100% - 10px);
+  height: 100px;
+  resize: none;
+}
+
+@media only screen and (max-width: 450px) {
+  input {
+    width: 80px;
+  }
+  .new-picture-forms {
+    padding-left: 0px;
+  }
+  .new-image {
+    height: 80px;
+    width: 80px;
+  }
+  .new-upload-tag-box textarea {
+    height: 75px;
+  }
+  p {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .middle-box {
+    width: 100px;
+  }
+  .middle-box-form {
+    width: 100px;
+  }
+}

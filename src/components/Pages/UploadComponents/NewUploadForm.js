@@ -20,15 +20,29 @@ const NewUploadForm = () =>
           {
             return ( */}
               <div key={e[0].pid} id={e[0].pid} className="single-form-container" >
-                <img className="single-image" src={e[0].url} alt={e[0].title}/>
-                <div className="new-upload-form">
-                Title: <input /><br/>
-                Tag: <input /><br/>
-                <button>Submit</button>
+                <img className="single-image new-image" src={e[0].url} alt={e[0].title}/>
+                <div className="middle-box">
+                    <p>Title:</p>
+                    <input className="middle-box-form" placeholder={e[0].title}/><br/>
+                    <p>Folder:</p>
+                    <select className="middle-box-form">
+                      <option value="null">Not Implemented</option>
+                      <option value="null">Not Implemented</option>
+                      <option value="null">Not Implemented</option>
+                      <option value="null">Not Implemented</option>
+                    </select> 
+                </div>
+                <div className="right-box">
+                  <div>
+                    <p>Tags:</p>
+                  </div>
+                  <div className="new-upload-tag-box" >
+                    <textarea/>
+                  </div>
                 </div>
               </div>
             {/* )
-          })
+          }) Put this back when it's time to map out the info forms
         } */}
       </div>
     </div>

@@ -39,8 +39,6 @@ p {
   }
   .single-image {
   margin: 5px;
-  height: 100px;
-  width: 100px;
   border: 1px solid #000000;
   border-radius: 5px;
   -webkit-box-shadow: 4px 4px 8px 0px #32323278;
