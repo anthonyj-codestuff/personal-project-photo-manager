@@ -9,7 +9,10 @@ const port = process.env.SERVER_PORT || 3001;
 const {
   getAllPics,
   getPhoto,
-  addPhoto
+  addPhoto,
+
+  //pic data editing
+  editTitle
 } = require('./controller');
 
 const app = express();
@@ -30,5 +33,8 @@ app.post('/api/submit', addPhoto);    //for posting a single picture with or wit
 // app.put('/api/me');                //MAYBE - editing the user's information or profile stats
 // app.delete('/api/photos/:id');     //delete a user's own photo (pid must match)
 // app.delete('/api/folder/:id');     //delete a user's own folder WITHOUT DELETING CONTENTS (pid must match)
+
+//Editing Picture Information
+app.put('/api/edit_title', editTitle);
 
 app.listen(port, () => console.log(`Listening for requests on port ${port}`));

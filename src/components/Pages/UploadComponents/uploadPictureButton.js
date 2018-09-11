@@ -5,7 +5,7 @@ import firebase from "firebase";
 
 //Redux stuff
 import { connect } from 'react-redux';
-import { sendPicToDB } from '../../../redux/generalReducer';
+import { sendPicToDB, clearPrevUploadData } from '../../../redux/generalReducer';
 
 import './uploadPictureButton.css'
 
@@ -14,18 +14,18 @@ class UploadPictureButton extends Component {
   {
     super()
     this.state = {
-      batchPhotoId: [],
       isUploading: false,
       progress: 0,
       newURL: "",
       userID: 3 //TODO: Set this to the user's ID on session
     };
-    
-    this.sendURLtoDB = this.sendURLtoDB.bind('this');
   }
   
-  //set loading and progress vars. Clear existing batch array
-  handleUploadStart = () => this.setState({ isUploading: true, progress: 0, batchPhotoId: [] });
+  //set loading and progress vars
+  handleUploadStart = () => {
+    this.setState({ isUploading: true, progress: 0 })
+    this.props.clearPrevUploadData();
+  };
   handleProgress = (progress) => this.setState({ progress });
   handleUploadError = (error) => {
     this.setState({ isUploading: false });
@@ -42,17 +42,10 @@ class UploadPictureButton extends Component {
     .then(url => 
       {
         this.setState({ newURL: url});
-        this.sendURLtoDB(url, this.state.userID);
+        //send the url and user id to the databse
+        this.props.sendPicToDB(url, this.state.userID);
       })
   };
-
-  sendURLtoDB = (url, uid) =>
-  {
-    //send the url to the databse and retrieve the newest picture id
-    const newPid = this.props.sendPicToDB(url, uid)
-    //add the new pid to local state
-    this.setState({batchPhotoId: [...this.state.batchPhotoId, newPid]});
-  }
     
   render() {
     // console.log(fbConfig)
@@ -72,8 +65,6 @@ class UploadPictureButton extends Component {
             multiple={"multiple"}
             />
         </label>
-        {/* Obsolete */}
-        {/* {this.props.picsDataObj.length > 0 && <DefaultImageGallery picData={this.props.picsDataObj}/>} */}
       </div>
     );
   }
@@ -81,4 +72,4 @@ class UploadPictureButton extends Component {
 
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps, { sendPicToDB })(UploadPictureButton);
+export default connect(mapStateToProps, { sendPicToDB, clearPrevUploadData })(UploadPictureButton);

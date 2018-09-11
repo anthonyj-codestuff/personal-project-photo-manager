@@ -28,9 +28,21 @@ const addPhoto = (req, res, next) =>
     .catch(err => console.log(`Error in add_photo() - ${err}`))
 };
 
+const editTitle = (req, res, next) =>
+{
+  const dbInst = req.app.get('db');
+  const {pid, title} = req.body;
+  dbInst.edit_photo_title([pid, title])
+    .then(response => res.sendStatus(200))
+    .catch(err => console.log(`Error in edit_photo_title() - ${err}`))
+}
+
 module.exports =
 {
   getAllPics,
   getPhoto,
-  addPhoto
+  addPhoto,
+
+  //pic data editing
+  editTitle
 };
