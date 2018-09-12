@@ -1,14 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 
 import Header from '../Header';
+import DateTime from '../DateTime';
+import './Pic.css';
 
-const Pic = () => {
-  return (
-    <div>
-      <Header/>
-      <h1>Pic Page</h1>
-    </div>
-  );
+class Pic extends Component
+{
+  constructor()
+  {
+    super()
+    this.state =
+    {
+      currentPic:'',
+      title: '',
+      uploadDate: '',
+      description: 'none', //not implemented
+      tagCloudObj: {} //not implemented
+    };
+  }
+
+  componentDidMount()
+  {
+    axios.get(`/api/photos/${this.props.match.params.pid}`)
+    .then(response => this.setState({
+      currentPic: response.data[0]["url"],
+      title: response.data[0]["title"],
+      uploadDate: response.data[0]["datetime"]
+    }))
+    .catch(err => console.log(`Error in Pic.componentDidMount() - ${err}`))
+  }
+
+  render()
+  {
+    return (
+      <div>
+        <Header/>
+        <div className="main-block">
+          <div className="left-block">
+            <div><h2>{this.state.title}</h2></div>
+            <img src={this.state.currentPic}/>
+            <div className="stat-block">
+              <p><DateTime datetime={this.state.uploadDate}/></p>
+              Stats: Size, dimensions, upload date, ratio
+            </div>
+            <div className="tag-cloud">
+              It would be really cool to render a tag cloud here, but when you click on it, it switches to a text box where you can edit the tags
+            </div>
+          </div>
+          <div className="right-block">
+            Single Photo Options: edit tags, download, crop, rotate, add to folder, delete photo
+          </div>
+        </div>
+
+      </div>
+    );
+  }
 };
 
 export default Pic;

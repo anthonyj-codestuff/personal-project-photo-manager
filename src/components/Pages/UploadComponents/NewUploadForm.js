@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { editPicTitle } from '../../../redux/generalReducer';
+import { editPicTitle, editPicTags } from '../../../redux/generalReducer';
 
 import './NewUploadForm.css';
 
@@ -30,7 +30,7 @@ const NewUploadForm = (props) =>
             <p>Tags:</p>
           </div>
           <div className="new-upload-tag-box" >
-            <textarea placeholder="enter_tags_here"/>
+            <textarea onBlur={(e) => props.editPicTags({pid:props.pid, tags:e.target.value})} placeholder="enter_tags_here"/>
           </div>
         </div>
       </div>
@@ -40,4 +40,4 @@ const NewUploadForm = (props) =>
 
 const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps, { editPicTitle })(NewUploadForm);
+export default connect(mapStateToProps, { editPicTitle, editPicTags })(NewUploadForm);

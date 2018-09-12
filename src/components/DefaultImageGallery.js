@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import './DefaultImageGallery.css';
 
 //pass in an array of objects containing AT LEAST an ID, title and URL
@@ -14,7 +16,9 @@ const DefaultImageGallery = (props) =>
           {
             return (
               <div key={e.pid} id={e.pid} >
-                <img className="single-image" src={e.url} alt={e.title}/>
+                <Link to={`/pic/${e.pid}`} style={{ textDecoration: 'none' }}>
+                  <img className="single-image" src={e.url} alt={e.title}/>
+                </Link>
               </div>
             )
           })

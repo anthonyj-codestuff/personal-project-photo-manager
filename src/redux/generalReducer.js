@@ -8,6 +8,7 @@ const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
+const EDIT_PIC_TAGS = "EDIT_PIC_TAGS";
 
 // INITIAL APP STATE
 const initialState = {
@@ -60,14 +61,26 @@ export default function generalReducer(state = initialState, action)
       break;
     //Consider moving these to another reducer
     case `${EDIT_PIC_TITLE}_FULFILLED`:
-    //TODO: Make this do something
+    //This doesn't change state. It just polls the db
+      console.log("Title changed successfully");
       return {
         ...state
       };
     case `${EDIT_PIC_TITLE}_REJECTED`:
-    return {
-      ...state
-    };
+      console.log("Error - EDIT_PIC_TITLE_REJECTED");
+      return {
+        ...state
+      };
+    case `${EDIT_PIC_TAGS}_FULFILLED`:
+    console.log("Tags updated successfully");
+      return {
+        ...state
+      }
+    case `${EDIT_PIC_TAGS}_REJECTED`:
+    console.log("Error - EDIT_PIC_TAGS_REJECTED");
+      return {
+        ...state
+      }
     default:
       return state;
   }
@@ -115,4 +128,16 @@ export function editPicTitle(titleObj)
     type: EDIT_PIC_TITLE,
     payload: axios.put('/api/edit_title', titleObj)
   };
+}
+
+export function editPicTags(tagsObj)
+// takes in an object with a picture ID and a string of space-delimited tags
+// splits string into an array of strings (by spaces) and sends the array to the db
+{
+  tagsObj ? tagsObj.tags = tagsObj.tags.split(' '): null;
+  console.log("Received", (tagsObj ? tagsObj.tags : 'undefined'))
+  return {
+    type: EDIT_PIC_TAGS,
+    payload: axios.put('/api/edit_tags', tagsObj)
+  }
 }

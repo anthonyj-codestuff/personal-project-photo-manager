@@ -10,7 +10,7 @@ export default (
   <Switch>
     <Route exact path="/" component={Home}/>
     <Route path="/upload" component={Upload}/>
-    <Route path="/pic" component={Pic}/>
+    <Route path="/pic/:pid" component={Pic}/>
     <Route path="/dashboard" component={Dashboard}/>
   </Switch>
 );

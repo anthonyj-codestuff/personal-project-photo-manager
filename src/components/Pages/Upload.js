@@ -21,7 +21,7 @@ const Upload = (props) => {
       <p>Test - Delete when finished</p>
       <NewUploadForm
                   pid={291}
-                  url={"https://firebasestorage.googleapis.com/v0/b/photo-storage-test-40dab.appspot.com/o/images%2F2b8d6186-9f76-4097-82f8-a3b0c04f90be.png?alt=media&token=c039d080-ff3b-46c4-8470-5e2df6bb29e6"}
+                  url={"https://firebasestorage.googleapis.com/v0/b/photo-storage-test-40dab.appspot.com/o/images%2Ff9d4dc61-bdd2-4d14-a30e-928a0b1339a2.png?alt=media&token=813e5f25-4113-4d05-a0eb-0f989410dba1"}
                   title={"Untitled"}/>
       <p>New Uploads</p>
         {props.userNewUploads.map((e) => 

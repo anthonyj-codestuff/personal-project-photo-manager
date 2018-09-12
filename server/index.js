@@ -12,7 +12,8 @@ const {
   addPhoto,
 
   //pic data editing
-  editTitle
+  editTitle,
+  editTags
 } = require('./controller');
 
 const app = express();
@@ -36,5 +37,7 @@ app.post('/api/submit', addPhoto);    //for posting a single picture with or wit
 
 //Editing Picture Information
 app.put('/api/edit_title', editTitle);
+app.put('/api/edit_tags', editTags);
+
 
 app.listen(port, () => console.log(`Listening for requests on port ${port}`));
