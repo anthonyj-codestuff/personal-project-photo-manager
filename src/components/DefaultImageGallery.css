@@ -40,9 +40,22 @@ p {
   .single-image {
   margin: 5px;
   border: 1px solid #000000;
-  border-radius: 5px;
-  -webkit-box-shadow: 4px 4px 8px 0px #32323278;
-  -moz-box-shadow:    4px 4px 8px 0px #32323278;
-  box-shadow:         4px 4px 8px 0px #32323278;
+  }
+}
+
+@media only screen and (max-width: 353px) {
+  .image-gallery {
+    padding: 2px;
+  }
+  .single-image {
+  margin: 3px;
+  }
+}
+
+@media only screen and (max-width: 335px) {
+  .single-image {
+    margin: 3px;
+    height: 90px;
+    width: 90px;
   }
 }

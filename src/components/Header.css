@@ -27,7 +27,18 @@ header div {
   margin: 0 5px;
 }
 
-p {
+header p {
+  font-family: 'Averia Sans Libre', sans-serif;
+  font-size: 20px;
   margin: 0;
-  color: #FFFFFF;
+  color: #000000;
+}
+
+@media only screen and (max-width: 450px) {
+  header {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 8px;
+    margin: 5px;
+  }
 }

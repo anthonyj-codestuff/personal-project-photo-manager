@@ -5,13 +5,22 @@
   box-sizing: border-box;
 }
 .left-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
   margin-left: auto;
   /* border: 2px solid #000000; */
   padding: 10px 20px 20px 20px;
   box-sizing: border-box;
 }
+
+.pic-title-block {
+  margin: auto;
+  box-sizing: border-box;
+}
+
 img {
-  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
 }
 

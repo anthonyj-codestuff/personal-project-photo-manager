@@ -38,8 +38,8 @@ class Pic extends Component
         <Header/>
         <div className="main-block">
           <div className="left-block">
-            <div><h2>{this.state.title}</h2></div>
-            <img src={this.state.currentPic}/>
+            <div className="pic-title-block"><h2>{this.state.title}</h2>
+            <img src={this.state.currentPic}/></div>
             <div className="stat-block">
               <p><DateTime datetime={this.state.uploadDate}/></p>
               Stats: Size, dimensions, upload date, ratio
