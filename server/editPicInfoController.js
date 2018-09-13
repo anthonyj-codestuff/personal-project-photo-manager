@@ -10,66 +10,80 @@ const editTitle = (req, res, next) =>
     .catch(err => console.log(`Error in edit_photo_title() - ${err}`))
 }
 
-// This function adds new tags, but it does not delete them.
-// This should only be used in conjunction with NewUploadForm component
-// TODO: Make  this into a general purpose tag editor
-const editTags = (req, res, next) =>
-{ 
-  // Handling an arbirtary number of values in SQL is really difficult, so this function does it in JS
-  // Declare db instance and dereference variables
-  const dbInst = req.app.get('db');
-  const {pid, tags} = req.body;
-  console.log('pid', pid);
-  console.log('tags', tags);
+async function editTagsMain(req, res, next)
+{
+  // Send any unknown tags supplied by the user to the tag_ref table
+  await newTagsToReferenceTable(req, res);
+  // Alter the tags associated with a single pid to match the user's request
+  changePhotoTags(req, res);
+  res.sendStatus(200);
+}
 
-  // Step 1: Go through the new tags and check if any of them need to be added to the tag reference table
-  dbInst.tag_ref.find() //get a copy of the tag_ref
+async function newTagsToReferenceTable(req, res)
+// Handling an arbirtary number of values in SQL is really difficult, so this function does it in JS
+// Declare db instance and dereference variables
+{
+  const dbInst = req.app.get('db');
+  const {tags} = req.body;
+  console.log('ENTERING newTagsToReferenceTable()');
+
+  await dbInst.tag_ref.find() //get a copy of the tag_ref
       .then(tagObjArray => { //reference each entry in the table
-          // check the database and filter out all user tags that already exist in the database
-        let noDupes = tags.filter(usersTag => {
-          // This DOES NOT remove duplicates in the user's input
-          return !tagObjArray.some(e => (e.tag_name === usersTag) || (usersTag === ''));
-        })
-        //Step 2: Before defining noDupes, filter out all duplicate tags
-        .filter((e, i, self) => i === self.indexOf(e));
-        // At this point, the user's list is pared down to only the items that are not in the db and not duplicates of each other
-        // Step 3: construct a query
-        console.log("pid", pid);
-        console.log("tags", tags);
-        console.log("noDupes", noDupes);
-        if(noDupes.length) //avoids trying to INSERT an empty list
+        // removes duplicate tags and empty strings from the user input
+        let sanitizedInput = tags.filter((e, i, self) => (e !== '') && (i === self.indexOf(e)));
+        //console.log("sanitizedInput =", sanitizedInput);
+        // gets an array of all existing tags in tag_ref table
+        let existingTags = tagObjArray.map(e => e.tag_name);
+        //console.log("existingTags =", existingTags);
+        // filters out all user tags that already exist in the tag_ref
+        let tagsToInsert = sanitizedInput.filter(e => !existingTags.includes(e));
+        //console.log("tagsToInsert =", tagsToInsert);
+
+        // this section takes the gathered information and construct a query that will insert any tag that is not found in existingTags
+        if(tagsToInsert.length) //avoids trying to INSERT an empty list
         {
           let queryStr = "INSERT INTO tag_ref (tag_name) VALUES ";
-          let queryStrValues = noDupes.map(e => `('${e}')`);
+          let queryStrValues = tagsToInsert.map(e => `('${e}')`);
           queryStr += queryStrValues.join(",") + ";";
           console.log("queryString: ", queryStr);
-          dbInst.query(queryStr)
-            .then(() =>  
-            {
-              noDupes.forEach(e => editTagsAddToDB(req, res, e, pid));
-              return res.sendStatus(200);
-            })
-            .catch(err => console.log(`Error in controller.editTags() [dbInst.query] - ${err}`));
+          dbInst.query(queryStr);
         }
-        else { res.sendStatus(200) }
       })
-      .catch(err => console.log(`Error in controller.editTags() [filter dupes] - ${err}`))
-    //By now, the tag_ref table has been populated without adding duplicates
+      .catch(err => console.log(`Error in controller.editTagsMain() [filter dupes] - ${err}`));
 
 }
 
-//Do not export. This function is used by editTags to stop it from getting enormous
-async function editTagsAddToDB(req, res, str, pid)
+async function changePhotoTags(req, res)
+// The tag_ref table should now be populated with any new tags supplied by the user
+// To apply tags to pictures, retrieve a list of the picture's existing tags and check for differences
+// 1. Any tags that do not exist in the user's query should be deleted
+// 2. Do not insert tags that already exist
+// 3. Any new tags should be inserted
 {
-  console.log(`Incoming data: ${str}, ${pid}`)
+  const {tags, pid} = req.body;
+  let sanitizedInput = tags.filter((e, i, self) => (e !== '') && (i === self.indexOf(e)))
+  console.log("SECOND sanitizedInput =", sanitizedInput);
   const dbInst = req.app.get('db');
-  await dbInst.edit_photo_tags([str, pid])
-    .then(response => res.sendStatus(200))
-    .catch(err => console.log(`Error in editTagsAddToDB() - ${err}`))
+
+  //obtain any tags that already exist on 'tag' table and reduce them to a simple array
+  existingTags = await dbInst.get_photo_tags(pid);
+  existingTags = existingTags.map(e => e.tag_name);
+
+  // Step 1: obtain all tags that should be deleted from the table
+  toDelete = existingTags.filter(e => !sanitizedInput.includes(e));
+  // Step 2: filter out existing tags from user's input
+  toAdd = sanitizedInput.filter(e => !existingTags.includes(e));
+
+  toDelete.forEach(str => {
+    dbInst.delete_photo_tag([str, pid]);
+  });
+  toAdd.forEach(str => {
+    dbInst.add_photo_tag([str, pid]);
+  });
 }
 
 module.exports =
 {
   editTitle,
-  editTags
+  editTagsMain
 };
