@@ -18,20 +18,14 @@ CREATE TABLE user
   created_date date
 );
 
-CREATE TABLE tag
-(
+CREATE TABLE tag_ref (
   tid SERIAL PRIMARY KEY,
-  tag_name VARCHAR(50)
+  tag_name VARCHAR(50) NOT NULL
 );
-
-CREATE TABLE tag_ref
-(
-  tid SERIAL PRIMARY KEY,
-  pid INTEGER
+CREATE TABLE tag (
+  tid INTEGER NOT NULL,
+  pid INTEGER NOT NULL
 );
-
-
-
 
 
 
