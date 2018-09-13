@@ -44,13 +44,28 @@ const editTags = (req, res, next) =>
           queryStr += queryStrValues.join(",") + ";";
           console.log("queryString: ", queryStr);
           dbInst.query(queryStr)
-            .then(response => res.sendStatus(200))
+            .then(() =>  
+            {
+              noDupes.forEach(e => editTagsAddToDB(req, res, e, pid));
+              return res.sendStatus(200);
+            })
             .catch(err => console.log(`Error in controller.editTags() [dbInst.query] - ${err}`));
         }
         else { res.sendStatus(200) }
       })
       .catch(err => console.log(`Error in controller.editTags() [filter dupes] - ${err}`))
     //By now, the tag_ref table has been populated without adding duplicates
+
+}
+
+//Do not export. This function is used by editTags to stop it from getting enormous
+async function editTagsAddToDB(req, res, str, pid)
+{
+  console.log(`Incoming data: ${str}, ${pid}`)
+  const dbInst = req.app.get('db');
+  await dbInst.edit_photo_tags([str, pid])
+    .then(response => res.sendStatus(200))
+    .catch(err => console.log(`Error in editTagsAddToDB() - ${err}`))
 }
 
 module.exports =

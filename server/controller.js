@@ -19,15 +19,24 @@ const addPhoto = (req, res, next) =>
 {
   const dbInst = req.app.get('db');
   const {url, uid} = req.body;
-  dbInst.post_photo([url, uid]) //TODO - user id is set to 1 for now, but change this when there are users
-    // .then(response => res.status(200).send(response))
+  dbInst.post_photo([url, uid])
     .then(response => res.status(200).send(response))
     .catch(err => console.log(`Error in add_photo() - ${err}`))
 };
+
+const getPhotoTags = (req, res, next) =>
+{
+  const dbInst = req.app.get('db');
+  const {pid} = req.body;
+  dbInst.get_photo_tags([url, uid])
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in add_photo() - ${err}`))
+}
 
 module.exports =
 {
   getAllPics,
   getPhoto,
   addPhoto,
+  getPhotoTags
 };
