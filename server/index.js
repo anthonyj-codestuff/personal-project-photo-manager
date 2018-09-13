@@ -9,12 +9,13 @@ const port = process.env.SERVER_PORT || 3001;
 const {
   getAllPics,
   getPhoto,
-  addPhoto,
+  addPhoto
+} = require('./controller');
 
-  //pic data editing
+const {
   editTitle,
   editTags
-} = require('./controller');
+} = require('./editPicInfoController');
 
 const app = express();
 app.use(json());
