@@ -76,9 +76,11 @@ async function changePhotoTags(req, res)
   toAdd = sanitizedInput.filter(e => !existingTags.includes(e));
 
   toDelete.forEach(str => {
+    console.log(`Removing tag '${str}'`);
     dbInst.delete_photo_tag([str, pid]);
   });
   toAdd.forEach(str => {
+    console.log(`Applying tag '${str}'`);
     dbInst.add_photo_tag([str, pid]);
   });
 }
