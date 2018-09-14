@@ -18,9 +18,9 @@
 .env.test.local
 .env.production.local
 src/Firebase.js
+public/index.html
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 Shea'sCode.js
-/public/index.html
