@@ -46,6 +46,7 @@ async function newTagsToReferenceTable(req, res)
           let queryStrValues = tagsToInsert.map(e => `('${e}')`);
           queryStr += queryStrValues.join(",") + ";";
           console.log("queryString: ", queryStr);
+          // send query to the DB
           dbInst.query(queryStr);
         }
       })

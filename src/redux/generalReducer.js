@@ -12,7 +12,7 @@ const EDIT_PIC_TAGS = "EDIT_PIC_TAGS";
 
 // INITIAL APP STATE
 const initialState = {
-  picsDataObj: [], //holds data returned from the photos table.
+  picsDataObj: [], //holds data returned from the photos table. Currently only for the entire database.
   userNewUploads: [] //Same as before, but specifically for holding the user's newest uploads
 };
 

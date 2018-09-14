@@ -39,7 +39,7 @@
   width: 100%;
 }
 
-.new-upload-tag-box textarea {
+.new-upload-tag-box > textarea {
   width: calc(100% - 10px);
   height: 100px;
   resize: none;
@@ -56,7 +56,7 @@
     height: 80px;
     width: 80px;
   }
-  .new-upload-tag-box textarea {
+  .new-upload-tag-box > textarea {
     height: 75px;
   }
   p {
