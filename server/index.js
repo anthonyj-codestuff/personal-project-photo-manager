@@ -28,7 +28,7 @@ massive(process.env.DB_CONNECTION)
 
 app.get('/api/photos', getAllPics);            //for loading all (or some) pictures
 app.get('/api/photos/:pid', getPhoto); //for loading a specific picture
-app.get('/api/tags', getPhotoTags);
+app.get('/api/tags/:pid', getPhotoTags);
 // app.get('/api/folder/:id');        //pull up the contents of a defined folder
 app.post('/api/submit', addPhoto);    //for posting a single picture with or without data
 // app.post('/api/folder');           //for creating new folders

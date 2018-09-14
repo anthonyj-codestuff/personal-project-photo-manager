@@ -1,0 +1,14 @@
+textarea {
+  width: calc(100% - 10px);
+  height: 100px;
+  resize: none;
+  
+  background-color: #664466;
+  color: #FFFFFF;
+}
+
+@media only screen and (max-width: 450px) {
+  textarea {
+    height: 75px;
+  }
+}

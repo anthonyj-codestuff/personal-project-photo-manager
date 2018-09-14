@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editPicTitle, editPicTags } from '../../../redux/generalReducer';
 
+import TagEditBox from '../PicStatComponents/TagEditBox';
 import './NewUploadForm.css';
 
 //takes in the data from one picture and creates an edit form
@@ -30,7 +31,8 @@ const NewUploadForm = (props) =>
             <p>Tags:</p>
           </div>
           <div className="new-upload-tag-box" >
-            <textarea onBlur={(e) => props.editPicTags({pid:props.pid, tags:e.target.value})} placeholder="enter_tags_here"/>
+            {/* <textarea onBlur={(e) => props.editPicTags({pid:props.pid, tags:e.target.value})} placeholder="enter_tags_here"/> */}
+            <TagEditBox pid={props.pid}/>
           </div>
         </div>
       </div>

@@ -27,10 +27,10 @@ const addPhoto = (req, res, next) =>
 const getPhotoTags = (req, res, next) =>
 {
   const dbInst = req.app.get('db');
-  const {pid} = req.body;
-  dbInst.get_photo_tags([url, uid])
+  const {pid} = req.params;
+  dbInst.get_photo_tags(pid)
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in add_photo() - ${err}`))
+    .catch(err => console.log(`Error in get_photo_tags() - ${err}`))
 }
 
 module.exports =

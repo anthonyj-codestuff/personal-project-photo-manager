@@ -4,6 +4,7 @@ import axios from 'axios';
 import Header from '../Header';
 import DateTime from '../DateTime';
 import './Pic.css';
+import TagEditBox from './PicStatComponents/TagEditBox';
 
 class Pic extends Component
 {
@@ -47,7 +48,8 @@ class Pic extends Component
               Stats: Size, dimensions, upload date, ratio
             </div>
             <div className="tag-cloud">
-              It would be really cool to render a tag cloud here, but when you click on it, it switches to a text box where you can edit the tags
+              <p>It would be really cool to render a tag cloud here, but when you click on it, it switches to a text box where you can edit the tags</p>
+              <TagEditBox pid={this.props.match.params.pid}/>
             </div>
           </div>
           <div className="right-block">
