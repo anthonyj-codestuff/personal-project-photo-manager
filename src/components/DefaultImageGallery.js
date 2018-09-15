@@ -17,7 +17,8 @@ const DefaultImageGallery = (props) =>
             return (
               <div key={e.pid} id={e.pid} >
                 <Link to={`/pic/${e.pid}`} style={{ textDecoration: 'none' }}>
-                  <img className="single-image" src={e.url} alt={e.title}/>
+                  {/* assign url to each card, but insert a '-small' after the filename */}
+                  <img className="single-image" src={e.url.replace(/(\?alt)/,'-small?alt')} alt={e.title}/>
                 </Link>
               </div>
             )
