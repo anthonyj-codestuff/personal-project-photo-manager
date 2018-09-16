@@ -1,0 +1,27 @@
+.search-bar-div {
+  display: flex;
+  align-content: center;
+}
+
+.search-bar-div input {
+  margin: 0px;
+  padding: 0 8px; /* keeps text away from the rounded edges */
+  border: 2px solid #061748;
+  /* background-color: #9BA0B4; */
+  color: #000000;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  border-spacing: 0px;
+  width: 125px;
+}
+
+.search-bar-div button {
+  /* padding: 4px; */
+  border-radius: 1rem;
+  border: 2px solid #061748;
+  background-color: #FFFFFF;
+}
+
+.search-bar-div button:hover {
+  background-color: orange;
+}

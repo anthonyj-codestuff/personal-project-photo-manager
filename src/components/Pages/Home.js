@@ -13,7 +13,7 @@ class Home extends Component
   componentDidMount()
   {
     //Upon visiting the home page, get all pictures from the database
-    this.props.getAllPics();
+    //this.props.getAllPics();
   }
   render()
   {

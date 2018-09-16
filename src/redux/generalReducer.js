@@ -5,6 +5,7 @@ const SEND_PIC_TO_DB = 'SEND_PIC_TO_DB';
 const GET_ALL_PICS = 'GET_ALL_PICS';
 const CLEAR_PREV_UPLOAD_DATA = 'CLEAR_PREV_UPLOAD_DATA';
 const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
+const SEND_SEARCH_TERMS = "SEND_SEARCH_TERMS";
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -13,7 +14,8 @@ const EDIT_PIC_TAGS = "EDIT_PIC_TAGS";
 // INITIAL APP STATE
 const initialState = {
   picsDataObj: [], //holds data returned from the photos table. Currently only for the entire database.
-  userNewUploads: [] //Same as before, but specifically for holding the user's newest uploads
+  userNewUploads: [], //Same as before, but specifically for holding the user's newest uploads
+  lastSearch: ''
 };
 
 //REDUCER
@@ -57,7 +59,15 @@ export default function generalReducer(state = initialState, action)
         picsDataObj:action.payload.data
       };
     case `${GET_PICTURE_BY_ID}_REJECTED`:
-      console.log('Error - GET_PICTURES_BY_ID_REJECTED');
+      console.log('Error - GET_PICTURE_BY_ID_REJECTED');
+      break;
+    case `${SEND_SEARCH_TERMS}_FULFILLED`:
+      return {
+        ...state,
+        picsDataObj: action.payload.data
+      };
+    case `${SEND_SEARCH_TERMS}_REJECTED`:
+      console.log('Error - SEND_SEARCH_TERMS_REJECTED');
       break;
     //Consider moving these to another reducer
     case `${EDIT_PIC_TITLE}_FULFILLED`:
@@ -82,31 +92,28 @@ export default function generalReducer(state = initialState, action)
         ...state
       }
     default:
+      console.log('reached default state')
       return state;
   }
 }
 
 // ACTION CREATORS
 
-export function sendPicToDB(url, uid)
-{ 
+export function sendPicToDB(url, uid){ 
   return {
     type: SEND_PIC_TO_DB,
     payload: axios.post('/api/submit', {url, uid}) //post request returns a data object with the pic's pid, url, and title
   }
 }
 
-export function getAllPics()
-{
+export function getAllPics(){
   return { 
     type: GET_ALL_PICS,
     payload: axios.get('/api/photos')
   }
 }
 
-export function clearPrevUploadData()
-//doesn't need a payload. It just empties data
-{
+export function clearPrevUploadData(){//doesn't need a payload. It just empties data
   return {
     type: CLEAR_PREV_UPLOAD_DATA,
     payload: true
@@ -120,9 +127,15 @@ export function clearPrevUploadData()
 //   };
 // }
 
-export function editPicTitle(titleObj)
-//takes in an object with a picture ID and a title
-{
+export function sendSearchTerms(terms){
+  console.log(`sendSearchTerms(${terms})`);
+  return {
+    type: SEND_SEARCH_TERMS,
+    payload: axios.get(`/api/search?terms=${terms}`)
+  };
+}
+
+export function editPicTitle(titleObj){//takes in an object with a picture ID and a title
   console.log("Received", (titleObj ? titleObj.title : 'undefined')) //REMOVE: prevents the console for checking an object before it exists
   return {
     type: EDIT_PIC_TITLE,
@@ -130,10 +143,9 @@ export function editPicTitle(titleObj)
   };
 }
 
-export function editPicTags(tagsObj)
-// takes in an object with a picture ID and a string of space-delimited tags
-// splits string into an array of strings (by spaces) and sends the array to the db
-{
+export function editPicTags(tagsObj){
+  // takes in an object with a picture ID and a string of space-delimited tags
+  // splits string into an array of strings (by spaces) and sends the array to the db
   tagsObj ? tagsObj.tags = tagsObj.tags.split(' '): null;
   console.log("Received", (tagsObj ? tagsObj.tags : 'undefined'))
   return {

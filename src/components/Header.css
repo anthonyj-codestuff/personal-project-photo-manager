@@ -18,8 +18,10 @@ header {
   box-sizing: border-box;
 }
 
-header div {
+.header-segment {
   /* border: 1px solid #00FF00; */
+  display: flex; /* Keeps the search bar centered vertically */
+  justify-content: center;
   border-radius: 10px;
   box-sizing: border-box;
   background-color: #515E89;
