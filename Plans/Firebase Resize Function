@@ -1,3 +1,9 @@
+npm install firebase-functions
+// in functions //
+npm install @google-cloud/storage@1.7
+npm install child-process-promise
+// =======================================
+
 const functions = require("firebase-functions");
 let gcs = require('@google-cloud/storage');
 gcs = gcs();
