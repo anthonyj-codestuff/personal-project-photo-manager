@@ -5,7 +5,9 @@ const SEND_PIC_TO_DB = 'SEND_PIC_TO_DB';
 const GET_ALL_PICS = 'GET_ALL_PICS';
 const CLEAR_PREV_UPLOAD_DATA = 'CLEAR_PREV_UPLOAD_DATA';
 const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
-const SEND_SEARCH_TERMS = "SEND_SEARCH_TERMS";
+const SET_SEARCH_TERMS = 'SET_SEARCH_TERMS';
+const SEND_SEARCH_TERMS = 'SEND_SEARCH_TERMS';
+const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -15,7 +17,9 @@ const EDIT_PIC_TAGS = "EDIT_PIC_TAGS";
 const initialState = {
   picsDataObj: [], //holds data returned from the photos table. Currently only for the entire database.
   userNewUploads: [], //Same as before, but specifically for holding the user's newest uploads
-  lastSearch: ''
+  searchResults: [],  //holds the results of the user's most recent search
+  lastSearchTerms: '',
+  currentlyViewingSearchResults: false //set to true by the search bar button. Reset by the header's gallery button
 };
 
 //REDUCER
@@ -61,14 +65,28 @@ export default function generalReducer(state = initialState, action)
     case `${GET_PICTURE_BY_ID}_REJECTED`:
       console.log('Error - GET_PICTURE_BY_ID_REJECTED');
       break;
+    case `${SET_SEARCH_TERMS}`:
+      return {
+        ...state,
+        lastSearchTerms: action.payload
+      };
     case `${SEND_SEARCH_TERMS}_FULFILLED`:
       return {
         ...state,
-        picsDataObj: action.payload.data
+        searchResults: action.payload.data,
+        currentlyViewingSearchResults: true
       };
     case `${SEND_SEARCH_TERMS}_REJECTED`:
       console.log('Error - SEND_SEARCH_TERMS_REJECTED');
       break;
+    case `${RESET_SEARCH_TOGGLE}`: //Reverses the effects of SEND_SEARCH_TERMS
+      return {
+        ...state,
+        searchResults: [],
+        lastSearchTerms: '',
+        currentlyViewingSearchResults: false
+      };
+    
     //Consider moving these to another reducer
     case `${EDIT_PIC_TITLE}_FULFILLED`:
     //This doesn't change state. It just polls the db
@@ -127,11 +145,28 @@ export function clearPrevUploadData(){//doesn't need a payload. It just empties 
 //   };
 // }
 
-export function sendSearchTerms(terms){
-  console.log(`sendSearchTerms(${terms})`);
+export function setSearchTerms(terms)
+{
+  return {
+    type: SET_SEARCH_TERMS,
+    payload: terms
+  };
+}
+
+export function sendSearchTerms(terms)
+{
   return {
     type: SEND_SEARCH_TERMS,
     payload: axios.get(`/api/search?terms=${terms}`)
+  };
+}
+
+export function resetSearchToggle()
+{
+  console.log(`resetSearchToggle()`);
+  return {
+    type: RESET_SEARCH_TOGGLE,
+    payload: true
   };
 }
 

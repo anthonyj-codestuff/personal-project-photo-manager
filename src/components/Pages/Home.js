@@ -12,16 +12,16 @@ class Home extends Component
 {
   componentDidMount()
   {
-    //Upon visiting the home page, get all pictures from the database
-    //this.props.getAllPics();
+      this.props.getAllPics();
   }
   render()
   {
     return (
       <div>
         <Header/>
-        {/* {typeof(this.props.picsDataObj)} */}
-        <DefaultImageGallery picData={this.props.picsDataObj}/>
+        <DefaultImageGallery 
+          picData={this.props.currentlyViewingSearchResults ? this.props.searchResults : this.props.picsDataObj}
+          searchTerms={this.props.lastSearchTerms}/>
       </div>
     ); //return
   }
