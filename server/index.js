@@ -11,7 +11,8 @@ const {
   getPhoto,
   searchPhotos,
   addPhoto,
-  getPhotoTags
+  getPhotoTags,
+  getAllTags
 } = require('./controller');
 
 const {
@@ -29,6 +30,7 @@ massive(process.env.DB_CONNECTION)
 
 app.get('/api/photos', getAllPics);            //for loading all (or some) pictures
 app.get('/api/photos/:pid', getPhoto); //for loading a specific picture
+app.get('/api/tags/all', getAllTags);  //Gets a list of tag names. Should be listed before getPhotoTags to avoid conflicts
 app.get('/api/tags/:pid', getPhotoTags);
 app.get('/api/search', searchPhotos);  //send a string of '+' delimited
 // app.get('/api/folder/:id');        //pull up the contents of a defined folder

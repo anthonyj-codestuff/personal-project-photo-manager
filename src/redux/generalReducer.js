@@ -5,9 +5,10 @@ const SEND_PIC_TO_DB = 'SEND_PIC_TO_DB';
 const GET_ALL_PICS = 'GET_ALL_PICS';
 const CLEAR_PREV_UPLOAD_DATA = 'CLEAR_PREV_UPLOAD_DATA';
 const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
-const SET_SEARCH_TERMS = 'SET_SEARCH_TERMS';
-const SEND_SEARCH_TERMS = 'SEND_SEARCH_TERMS';
+const SET_LAST_SEARCH_TERMS = 'SET_LAST_SEARCH_TERMS';
+const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
 const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
+const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -18,7 +19,9 @@ const initialState = {
   picsDataObj: [], //holds data returned from the photos table. Currently only for the entire database.
   userNewUploads: [], //Same as before, but specifically for holding the user's newest uploads
   searchResults: [],  //holds the results of the user's most recent search
+  globalTags:[], //holds a list of all tags in the db. Populated when the user opens the search modal
   lastSearchTerms: '',
+  lastSearchArr: [],
   currentlyViewingSearchResults: false //set to true by the search bar button. Reset by the header's gallery button
 };
 
@@ -65,26 +68,36 @@ export default function generalReducer(state = initialState, action)
     case `${GET_PICTURE_BY_ID}_REJECTED`:
       console.log('Error - GET_PICTURE_BY_ID_REJECTED');
       break;
-    case `${SET_SEARCH_TERMS}`:
+    case `${SET_LAST_SEARCH_TERMS}`:
       return {
         ...state,
         lastSearchTerms: action.payload
       };
-    case `${SEND_SEARCH_TERMS}_FULFILLED`:
+    case `${GET_SEARCH_RESULTS}_FULFILLED`:
       return {
         ...state,
         searchResults: action.payload.data,
         currentlyViewingSearchResults: true
       };
-    case `${SEND_SEARCH_TERMS}_REJECTED`:
-      console.log('Error - SEND_SEARCH_TERMS_REJECTED');
+    case `${GET_SEARCH_RESULTS}_REJECTED`:
+      console.log('Error - GET_SEARCH_RESULTS_REJECTED');
       break;
-    case `${RESET_SEARCH_TOGGLE}`: //Reverses the effects of SEND_SEARCH_TERMS
+    case `${RESET_SEARCH_TOGGLE}`: //Reverses the effects of GET_SEARCH_RESULTS
       return {
         ...state,
         searchResults: [],
         lastSearchTerms: '',
         currentlyViewingSearchResults: false
+      };
+    case `${GET_LIST_OF_TAGS}_FULFILLED`:
+      return {
+        ...state,
+        globalTags: action.payload.data
+      };
+    case `${GET_LIST_OF_TAGS}_REJECTED`:
+      console.log("Error - GET_LIST_OF_TAGS_REJECTED");
+      return {
+        ...state
       };
     
     //Consider moving these to another reducer
@@ -100,12 +113,12 @@ export default function generalReducer(state = initialState, action)
         ...state
       };
     case `${EDIT_PIC_TAGS}_FULFILLED`:
-    console.log("Tags updated successfully");
+      console.log("Tags updated successfully");
       return {
         ...state
       }
     case `${EDIT_PIC_TAGS}_REJECTED`:
-    console.log("Error - EDIT_PIC_TAGS_REJECTED");
+      console.log("Error - EDIT_PIC_TAGS_REJECTED");
       return {
         ...state
       }
@@ -148,15 +161,15 @@ export function clearPrevUploadData(){//doesn't need a payload. It just empties 
 export function setSearchTerms(terms)
 {
   return {
-    type: SET_SEARCH_TERMS,
+    type: SET_LAST_SEARCH_TERMS,
     payload: terms
   };
 }
 
-export function sendSearchTerms(terms)
+export function getSearchResults(terms)
 {
   return {
-    type: SEND_SEARCH_TERMS,
+    type: GET_SEARCH_RESULTS,
     payload: axios.get(`/api/search?terms=${terms}`)
   };
 }
@@ -167,6 +180,14 @@ export function resetSearchToggle()
   return {
     type: RESET_SEARCH_TOGGLE,
     payload: true
+  };
+}
+
+export function getListOfTags()
+{
+  return {
+    type: GET_LIST_OF_TAGS,
+    payload: axios.get('/api/tags/all')
   };
 }
 

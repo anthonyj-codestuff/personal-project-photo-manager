@@ -47,11 +47,20 @@ const getPhotoTags = (req, res, next) =>
     .catch(err => console.log(`Error in get_photo_tags() - ${err}`))
 }
 
+const getAllTags = (req, res, next) =>
+{
+  const dbInst = req.app.get('db');
+  dbInst.get_all_tags()
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in get_all_tags() - ${err}`))
+}
+
 module.exports =
 {
   getAllPics,
   getPhoto,
   searchPhotos,
   addPhoto,
-  getPhotoTags
+  getPhotoTags,
+  getAllTags
 };
