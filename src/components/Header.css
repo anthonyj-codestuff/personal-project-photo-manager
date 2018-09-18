@@ -31,9 +31,9 @@ header {
 
 header p {
   font-family: 'Averia Sans Libre', sans-serif;
+  color: #000000;
   font-size: 20px;
   margin: 0;
-  color: #000000;
 }
 
 @media only screen and (max-width: 450px) {
