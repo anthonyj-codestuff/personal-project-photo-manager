@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { connect } from 'react-redux';
 import { Button as Dot } from 'antd';
-import { setSearchTerms, getListOfTags } from '../redux/generalReducer';
+import { setSearchTermsInclusive, setSearchTermsExclusive, getListOfTags } from '../redux/generalReducer';
 import 'antd/dist/antd.css';
-
-const languages = [
-  {name: 'C',  year: 1972},{name: 'C#',  year: 2000},{name: 'C++',  year: 1983},{name: 'Clojure',  year: 2007},{name: 'Elm',  year: 2012},{name: 'Go',  year: 2009},{name: 'Haskell',  year: 1990},{name: 'Java',  year: 1995},{name: 'Javascript',  year: 1995},{name: 'Perl',  year: 1987},{name: 'PHP',  year: 1995},{name: 'Python',  year: 1991},{name: 'Ruby',  year: 1995},{name: 'Scala',  year: 2003}
-];
+import './SearchBarAutocomplete.css';
 
 function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -19,7 +16,10 @@ function getSuggestionValue(suggestion) {
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{suggestion.tag_name}</span>
+    <span>
+    {/* the search results should not be displayed with underscores. Convert them to spaces */}
+    {suggestion.tag_name.replace(/[_]/g, ' ')}
+    </span>
   );
 }
 
@@ -31,7 +31,7 @@ class SearchBarAutosuggest extends Component
     this.state = {
       value: '',
       suggestions: []
-    };    
+    };
   }
 
   componentDidMount()
@@ -40,14 +40,13 @@ class SearchBarAutosuggest extends Component
   }
   
   getSuggestions(value) {
-    const escapedValue = escapeRegexCharacters(value.trim());
+    const escapedValue = escapeRegexCharacters(value.trim().replace(/[\s]/g, '_'));
     
     if (escapedValue === '') {
       return [];
     }
   
     const regex = new RegExp('^' + escapedValue, 'i');
-  
     return this.props.globalTags.filter(tag => regex.test(tag.tag_name));
   }
   
@@ -72,22 +71,47 @@ class SearchBarAutosuggest extends Component
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: "Type 'c'",
+      placeholder: "Enter a search term",
       value,
       onChange: this.onChange
     };
 
     return (
-      <Autosuggest 
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps} />
+      <div className="search-bar-row">
+        <Autosuggest 
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps} />
+        <Dot 
+          className="plus" 
+          type="primary" 
+          shape="circle" 
+          icon="plus" 
+          type="standard" 
+          size="small" 
+          onClick={() => {
+            this.props.setSearchTermsInclusive(this.state.value.replace(/[\s]/g, '_'));
+            this.setState({value: ''});
+            }}/>
+        <Dot 
+          className="minus" 
+          type="primary" 
+          shape="circle" 
+          icon="minus" 
+          type="danger" 
+          size="small" 
+          // send the value to the search terms array and prepend it with a minus sign
+          onClick={() => {
+            this.props.setSearchTermsExclusive(this.state.value.replace(/[\s]/g, '_'));
+            this.setState({value: ''});
+            }}/>
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state) => state;
-export default connect(mapStateToProps, { setSearchTerms, getListOfTags })(SearchBarAutosuggest);
+export default connect(mapStateToProps, { setSearchTermsInclusive, setSearchTermsExclusive, getListOfTags })(SearchBarAutosuggest);
