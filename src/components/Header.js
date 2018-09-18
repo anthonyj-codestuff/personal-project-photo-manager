@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { resetSearchToggle } from '../redux/generalReducer';
+import { getSearchResults, resetSearchToggle } from '../redux/generalReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from './SearchBar';
 import './Header.css';
@@ -49,9 +49,21 @@ class Header extends Component
           </ModalBody>
           <ModalFooter>
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <Button className="header-segment" color='primary' onClick={this.toggle}>Search</Button>
+              <Button 
+                className="header-segment" 
+                color='primary' 
+                onClick={() => {
+                  this.toggle();
+                  this.props.getSearchResults(this.props.lastSearchArr);
+                  }}>Search</Button>
             </Link>
-            <Button className="header-segment" color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button 
+              className="header-segment" 
+              color="secondary" 
+              onClick={() => {
+                  this.toggle();
+                  this.props.resetSearchToggle();
+                  }}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </header>
@@ -61,4 +73,4 @@ class Header extends Component
 
 const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps, {resetSearchToggle})(Header);
+export default connect(mapStateToProps, { getSearchResults, resetSearchToggle })(Header);

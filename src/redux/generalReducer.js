@@ -5,7 +5,8 @@ const SEND_PIC_TO_DB = 'SEND_PIC_TO_DB';
 const GET_ALL_PICS = 'GET_ALL_PICS';
 const CLEAR_PREV_UPLOAD_DATA = 'CLEAR_PREV_UPLOAD_DATA';
 const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
-const SET_LAST_SEARCH_TERMS = 'SET_LAST_SEARCH_TERMS';
+const SET_SEARCH_TERMS_INC = 'SET_SEARCH_TERMS_INC';
+const SET_SEARCH_TERMS_EXC = 'SET_SEARCH_TERMS_EXC';
 const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
 const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
 const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
@@ -20,9 +21,10 @@ const initialState = {
   userNewUploads: [], //Same as before, but specifically for holding the user's newest uploads
   searchResults: [],  //holds the results of the user's most recent search
   globalTags:[], //holds a list of all tags in the db. Populated when the user opens the search modal
-  lastSearchTerms: '',
-  lastSearchArr: [],
-  currentlyViewingSearchResults: false //set to true by the search bar button. Reset by the header's gallery button
+  lastSearchArr: {
+    inc:[], 
+    exc:[]},
+  currentlyViewingSearchResults: false //set to true by the search modal button (TODO). Reset by the header's gallery button
 };
 
 //REDUCER
@@ -68,10 +70,21 @@ export default function generalReducer(state = initialState, action)
     case `${GET_PICTURE_BY_ID}_REJECTED`:
       console.log('Error - GET_PICTURE_BY_ID_REJECTED');
       break;
-    case `${SET_LAST_SEARCH_TERMS}`:
+    case `${SET_SEARCH_TERMS_INC}`:
+      let newInc = {inc: state.lastSearchArr.inc.slice(),
+                    exc: state.lastSearchArr.exc.slice()};
+      newInc.inc.push(action.payload); //ew
       return {
         ...state,
-        lastSearchTerms: action.payload
+        lastSearchArr: newInc
+      };
+    case `${SET_SEARCH_TERMS_EXC}`:
+      let newExc = {inc: state.lastSearchArr.inc.slice(),
+                    exc: state.lastSearchArr.exc.slice()};
+      newExc.exc.push(action.payload);
+      return {
+        ...state,
+        lastSearchArr: newExc
       };
     case `${GET_SEARCH_RESULTS}_FULFILLED`:
       return {
@@ -86,7 +99,7 @@ export default function generalReducer(state = initialState, action)
       return {
         ...state,
         searchResults: [],
-        lastSearchTerms: '',
+        lastSearchArr: {inc: [], exc: []},
         currentlyViewingSearchResults: false
       };
     case `${GET_LIST_OF_TAGS}_FULFILLED`:
@@ -158,19 +171,34 @@ export function clearPrevUploadData(){//doesn't need a payload. It just empties 
 //   };
 // }
 
-export function setSearchTerms(terms)
+export function setSearchTermsInclusive(terms)
 {
   return {
-    type: SET_LAST_SEARCH_TERMS,
+    type: SET_SEARCH_TERMS_INC,
+    payload: terms
+  };
+}
+
+export function setSearchTermsExclusive(terms)
+{
+  return {
+    type: SET_SEARCH_TERMS_EXC,
     payload: terms
   };
 }
 
 export function getSearchResults(terms)
 {
+  //Takes the two arrays of desired search parameters and constructs a query with them.
+  // inclusive['nature','animal'], exclusive['dog','cat']
+  // indicates that the user is searching for pictures of nature and animals, but not cats or dogs
+  // resulting query: 'nature+animal+-dog+-cat'
+  // deconstruct the query at the endpoint 
+  let query = terms.inc.join('+') + '+' + terms.exc.map(e => '-' + e).join('+');
+  console.log(query);
   return {
     type: GET_SEARCH_RESULTS,
-    payload: axios.get(`/api/search?terms=${terms}`)
+    payload: axios.get(`/api/search?terms=${query}`)
   };
 }
 
