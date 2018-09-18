@@ -16,9 +16,20 @@ const getPhoto = (req, res, next) =>
 
 const searchPhotos = (req, res, next) =>
 {
-  userTermArr = req.query.terms.split(' ');
+  // this function takes in a string of variables delimited by '+' to be used for the inclusive search.
+  // It additionally includes variables prepended by '-' to filter out unwanted results
+  // For example, the query coulld look like 'nature+animal+-dog+-cat'
+  // split this into two arrays and evaluate each one separately
+  console.log('original', req.query.terms);
+  userTermArr = req.query.terms.trim().split(' ');
+  console.log("userTermArr", userTermArr);
+  incArr = userTermArr.filter(e => e[0] !== '-');
+  console.log("incArr", incArr);
+  excArr = userTermArr.filter(e => e[0] === '-');
+  console.log("excArr", excArr);
+
   const dbInst = req.app.get('db');
-  searchQuery = userTermArr
+  searchQuery = incArr //construct the positive part of the query
   .map((e,i) => `SELECT photo.pid, photo.url, photo.title, photo.uid, photo.datetime FROM tag_ref JOIN tag ON tag.tid = tag_ref.tid JOIN photo ON photo.pid = tag.pid WHERE tag_ref.tag_name = '${e}'`)
   .join(' INTERSECT ')
   .concat(';');
