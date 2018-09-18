@@ -46,9 +46,5 @@ header p {
 }
 
 .search-modal {
-  background-color: rgb(92, 104, 92);
-}
-
-.search-modal > div {
-  height: 500px;
+  background-color: #9BA0B4;
 }
