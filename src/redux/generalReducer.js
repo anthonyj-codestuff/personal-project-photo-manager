@@ -54,7 +54,7 @@ export default function generalReducer(state = initialState, action)
     case `${GET_ALL_PICS}_REJECTED`:
       console.log('Error - GET_ALL_PICS_REJECTED');
       break;
-    case CLEAR_PREV_UPLOAD_DATA: //When the user uploads a new batch of pictures, clear out the data of the previous batch before uploading
+    case `${CLEAR_PREV_UPLOAD_DATA}`: //When the user uploads a new batch of pictures, clear out the data of the previous batch before uploading
       return {
         ...state,
         userNewUploads: []

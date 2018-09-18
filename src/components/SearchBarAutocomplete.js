@@ -13,25 +13,13 @@ function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions(value) {
-  const escapedValue = escapeRegexCharacters(value.trim());
-  
-  if (escapedValue === '') {
-    return [];
-  }
-
-  const regex = new RegExp('^' + escapedValue, 'i');
-
-  return languages.filter(language => regex.test(language.name));
-}
-
 function getSuggestionValue(suggestion) {
-  return suggestion.name;
+  return suggestion.tag_name;
 }
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{suggestion.name}</span>
+    <span>{suggestion.tag_name}</span>
   );
 }
 
@@ -46,6 +34,23 @@ class SearchBarAutosuggest extends Component
     };    
   }
 
+  componentDidMount()
+  {
+    this.props.getListOfTags();
+  }
+  
+  getSuggestions(value) {
+    const escapedValue = escapeRegexCharacters(value.trim());
+    
+    if (escapedValue === '') {
+      return [];
+    }
+  
+    const regex = new RegExp('^' + escapedValue, 'i');
+  
+    return this.props.globalTags.filter(tag => regex.test(tag.tag_name));
+  }
+  
   onChange = (event, { newValue, method }) => {
     this.setState({
       value: newValue
@@ -54,7 +59,7 @@ class SearchBarAutosuggest extends Component
   
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: getSuggestions(value)
+      suggestions: this.getSuggestions(value)
     });
   };
 
