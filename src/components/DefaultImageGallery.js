@@ -9,7 +9,7 @@ const DefaultImageGallery = (props) =>
 {
   return (
     <div className="gallery-container">
-      {props.searchTerms.length > 0 ? <p>Search Results for "{props.searchTerms}"</p> : <p>Image Gallery</p>}
+      {props.searchArr.length > 0 ? <p>Search Results for "{props.searchArr.join(' +')}"</p> : <p>Image Gallery</p>}
       <div className="image-gallery">
         {props.picData.length > 0 ? //Check if there is picData in 
           //picData is populated
@@ -25,7 +25,7 @@ const DefaultImageGallery = (props) =>
             )
           })
           //picData is an empty array
-          : props.searchTerms.length > 0 ? //User has just searched for something
+          : props.searchArr.length > 0 ? //User has just searched for something
             <h4>Oops! Your search results came up empty! Try checking your spelling or removing some restrictions</h4>
           : <h3>There doesn't seem to be anything in this gallery. Try uploading some pictures!</h3> //should only show up if the gallery is barren of images
         }

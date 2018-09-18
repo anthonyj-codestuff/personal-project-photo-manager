@@ -21,7 +21,7 @@ class Home extends Component
         <Header/>
         <DefaultImageGallery 
           picData={this.props.currentlyViewingSearchResults ? this.props.searchResults : this.props.picsDataObj}
-          searchTerms={this.props.lastSearchTerms}/>
+          searchArr={this.props.lastSearchArr}/>
       </div>
     ); //return
   }

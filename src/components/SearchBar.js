@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Button as Dot } from 'antd';
 
-import { setSearchTerms, getSearchResults, getListOfTags } from '../redux/generalReducer';
+import { getSearchResults, getListOfTags } from '../redux/generalReducer';
 import 'antd/dist/antd.css';
-import './SearchBar.css';
+// import './SearchBar.css';
 
 class SearchBar extends Component
 { 
@@ -38,7 +38,7 @@ class SearchBar extends Component
         />
         <button onClick={() => 
           {
-            this.props.setSearchTerms(this.state.terms);
+            // this.props.setSearchTerms(this.state.terms);
             this.props.getSearchResults(this.state.terms);
           }}>Go</button>
         <Dot className="search-bar plus" type="primary" shape="circle" icon="plus" type="standard" size="small" />
@@ -49,4 +49,4 @@ class SearchBar extends Component
 };
 
 const mapStateToProps = (state) => state;
-export default connect(mapStateToProps, {setSearchTerms, getSearchResults, getListOfTags})(SearchBar);
+export default connect(mapStateToProps, {getSearchResults, getListOfTags})(SearchBar);
