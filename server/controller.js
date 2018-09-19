@@ -33,7 +33,7 @@ const searchPhotos = (req, res, next) =>
   .map((e,i) => `SELECT photo.pid, photo.url, photo.title, photo.uid, photo.datetime FROM tag_ref JOIN tag ON tag.tid = tag_ref.tid JOIN photo ON photo.pid = tag.pid WHERE tag_ref.tag_name = '${e}'`)
   .join(' INTERSECT ')
   .concat(';');
-  console.log(searchQuery);
+  //console.log(searchQuery);
   dbInst.query(searchQuery)
   .then(response => res.status(200).send(response))
   .catch(err => console.log(`Error in search_photos() - ${err}`))

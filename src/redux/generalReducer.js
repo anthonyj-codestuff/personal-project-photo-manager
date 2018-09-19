@@ -195,7 +195,6 @@ export function getSearchResults(terms)
   // resulting query: 'nature+animal+-dog+-cat'
   // deconstruct the query at the endpoint 
   let query = terms.inc.join('+') + '+' + terms.exc.map(e => '-' + e).join('+');
-  console.log(query);
   return {
     type: GET_SEARCH_RESULTS,
     payload: axios.get(`/api/search?terms=${query}`)
