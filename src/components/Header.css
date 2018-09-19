@@ -29,6 +29,18 @@ header {
   margin: 0 5px;
 }
 
+.modal-search-terms {
+  /* border: 3px solid black; */
+  padding: 10px 0px;
+  font-family: Helvetica, sans-serif;
+  font-size:18px;
+  text-shadow: 0px 0px 5px #00000080;
+  justify-content: space-around;
+}
+
+.green {color: #208b1c;}
+.red {color: #af1212;}
+
 header p {
   font-family: 'Averia Sans Libre', sans-serif;
   color: #000000;
@@ -47,4 +59,14 @@ header p {
 
 .search-modal {
   background-color: #9BA0B4;
+}
+
+.modal-header {
+  padding: 0 0 0 10px;
+}
+
+.modal-title {
+  font-size: 20px;
+  line-height: 20px;
+  margin: 5px 0;
 }

@@ -1,5 +1,5 @@
 .search-bar-row {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   box-sizing: border-box;
 
   display: flex;
@@ -8,13 +8,9 @@
   align-items: center;
 }
 
-.plus i {
-  margin: auto;
-}
-
-.minus i {
-  margin: auto;
-}
+/* keeps the plus and minus centered in the button */
+.plus i {margin: auto;}
+.minus i {margin: auto;}
 
 .plus:hover {
   box-sizing: border-box;
@@ -24,11 +20,11 @@
 }
 
 .plus:active {
-  color: green;
+  color: #008000;
 }
 
 .minus:hover {
-  background-color: red;
+  background-color: #ff0000;
 }
 
 body {
@@ -55,11 +51,6 @@ body {
   outline: none;
   border: 2px solid #061748;
   border-radius: 1rem;
-}
-
-.react-autosuggest__input--open {
-  /* border-bottom-left-radius: 0; */
-  /* border-bottom-right-radius: 0; */
 }
 
 .react-autosuggest__suggestions-container {

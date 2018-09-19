@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -16,14 +16,22 @@ class Header extends Component
     super(props);
     this.state =
     {
-      modal: false
+      modal: false,
+      tooltipOpen: false
     };
-    this.toggle = this.toggle.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleSearchError = this.toggleSearchError.bind(this);
   }
 
-  toggle() {
+  toggleModal() {
     this.setState({
       modal: !this.state.modal
+    });
+  }
+
+  toggleSearchError() {
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen
     });
   }
 
@@ -40,30 +48,61 @@ class Header extends Component
         <Link to="/dashboard" style={{ textDecoration: 'none' }}>
           <Button className="header-segment" color='primary'><p>Options</p></Button>
         </Link>
-        <Button className="header-segment" color="primary" onClick={() => this.toggle()}><p>Search</p></Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className="search-modal">
-          <ModalHeader toggle={this.toggle}>Enter search terms</ModalHeader>
+        <Button className="header-segment" color="primary" onClick={() => this.toggleModal()}><p>Search</p></Button>
+
+        {/* From here on is the search modal */}
+
+        <Modal isOpen={this.state.modal} toggle={this.toggleModal} className="search-modal">
+          <ModalHeader toggle={this.toggleModal}>
+            <p className="modal-title">Press <span style={{color: '#008000'}}>plus</span> to require a term</p>
+            <p className="modal-title">Press <span style={{color: '#DD0000'}}>minus</span> to forbid a term</p>
+          </ModalHeader>
           <ModalBody>
             {/* <SearchBar/> */}
             <SearchBarAutosuggest/>
+            <div className="flex-row modal-search-terms">
+              <div className="flex-column">
+                {this.props.lastSearchArr.inc.map(e => <p className="green">{e}</p>)}
+              </div>
+              <div className="flex-column">
+                {this.props.lastSearchArr.exc.map(e => <p className="red">{e}</p>)}
+              </div>
+            </div>
           </ModalBody>
           <ModalFooter>
             <Link to="/" style={{ textDecoration: 'none' }}>
+              
+              {this.props.lastSearchArr.inc.length + this.props.lastSearchArr.exc.length > 0 ? 
+                //If there is at least one search term selected, enable the button
               <Button 
                 className="header-segment" 
                 color='primary' 
                 onClick={() => {
-                  this.toggle();
+                  this.toggleModal();
                   this.props.getSearchResults(this.props.lastSearchArr);
-                  }}>Search</Button>
+                  }}>Search
+              </Button>
+              :
+              <div>
+                <Tooltip placement="top" isOpen={this.state.tooltipOpen} target="TooltipSearchError" toggle={this.toggleSearchError}>
+                  Type in a search term and add it to the query with the plus and minus buttons
+                </Tooltip>
+                <Button 
+                  id="TooltipSearchError"
+                  className="header-segment" 
+                  color='primary'>Search
+                </Button>
+              </div>}
+
             </Link>
             <Button 
               className="header-segment" 
               color="secondary" 
               onClick={() => {
-                  this.toggle();
-                  this.props.resetSearchToggle();
-                  }}>Cancel</Button>
+                this.toggleModal();
+                this.props.resetSearchToggle();
+                }}>Cancel & Clear
+            </Button>
           </ModalFooter>
         </Modal>
       </header>

@@ -93,8 +93,9 @@ class SearchBarAutosuggest extends Component
           type="standard" 
           size="small" 
           onClick={() => {
-            this.props.setSearchTermsInclusive(this.state.value.replace(/[\s]/g, '_'));
-            this.setState({value: ''});
+            if(this.state.value) //prevents the user from entering a blank string
+              {this.props.setSearchTermsInclusive(this.state.value.replace(/[\s]/g, '_'));
+              this.setState({value: ''})};
             }}/>
         <Dot 
           className="minus" 
@@ -103,10 +104,10 @@ class SearchBarAutosuggest extends Component
           icon="minus" 
           type="danger" 
           size="small" 
-          // send the value to the search terms array and prepend it with a minus sign
-          onClick={() => {
-            this.props.setSearchTermsExclusive(this.state.value.replace(/[\s]/g, '_'));
-            this.setState({value: ''});
+          onClick={() => { // send the value to the search terms array and prepend it with a minus sign
+            if(this.state.value)
+              {this.props.setSearchTermsExclusive(this.state.value.replace(/[\s]/g, '_'));
+              this.setState({value: ''})};
             }}/>
       </div>
     );
