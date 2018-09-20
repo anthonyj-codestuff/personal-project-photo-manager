@@ -1,7 +1,7 @@
 .main-block {
   display: flex;
   flex-direction: row;
-  /* border: 2px solid #000000; */
+  border: 2px solid #000000;
   box-sizing: border-box;
 }
 .left-block {
@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: left;
   margin-left: auto;
-  /* border: 2px solid #000000; */
+  border: 2px solid #000000;
   padding: 10px 20px 20px 20px;
   box-sizing: border-box;
 }
