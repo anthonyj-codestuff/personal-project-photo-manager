@@ -29,7 +29,7 @@ class SearchBarAutosuggest extends Component
   {
     super();
     this.state = {
-      value: '',
+      // value: '', //replaced with a passed down value since the parent modal needs access to the input value
       suggestions: []
     };
   }
@@ -50,11 +50,18 @@ class SearchBarAutosuggest extends Component
     return this.props.globalTags.filter(tag => regex.test(tag.tag_name));
   }
   
-  onChange = (event, { newValue, method }) => {
-    this.setState({
-      value: newValue
-    });
+  onChange = (event, { newValue, method }) => 
+  {
+    this.props.setSearchbarValue(newValue);
   };
+
+  onKeyPress = (e) => {
+    if(e.key === 'Enter')
+    {
+      this.props.setSearchTermsInclusive(this.props.value.trim().replace(/[\s]/g, '_'));
+      this.props.setSearchbarValue('');
+    }
+  }
   
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
@@ -69,11 +76,13 @@ class SearchBarAutosuggest extends Component
   };
 
   render() {
-    const { value, suggestions } = this.state;
+    const { suggestions } = this.state;
+    const { value } = this.props;
     const inputProps = {
       placeholder: "Enter a search term",
       value,
-      onChange: this.onChange
+      onChange: this.onChange,
+      onKeyPress: this.onKeyPress
     };
 
     return (
@@ -93,9 +102,9 @@ class SearchBarAutosuggest extends Component
           type="standard" 
           size="small" 
           onClick={() => {
-            if(this.state.value) //prevents the user from entering a blank string
-              {this.props.setSearchTermsInclusive(this.state.value.replace(/[\s]/g, '_'));
-              this.setState({value: ''})};
+            if(this.props.value) //prevents the user from entering a blank string
+              {this.props.setSearchTermsInclusive(this.props.value.replace(/[\s]/g, '_'));
+              this.props.setSearchbarValue('')};
             }}/>
         <Dot 
           className="minus" 
@@ -106,8 +115,8 @@ class SearchBarAutosuggest extends Component
           size="small" 
           onClick={() => { // send the value to the search terms array and prepend it with a minus sign
             if(this.state.value)
-              {this.props.setSearchTermsExclusive(this.state.value.replace(/[\s]/g, '_'));
-              this.setState({value: ''})};
+              {this.props.setSearchTermsExclusive(this.props.value.replace(/[\s]/g, '_'));
+              this.props.setSearchbarValue('')};
             }}/>
       </div>
     );

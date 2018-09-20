@@ -73,7 +73,11 @@ export default function generalReducer(state = initialState, action)
     case `${SET_SEARCH_TERMS_INC}`:
       let newInc = {inc: state.lastSearchArr.inc.slice(),
                     exc: state.lastSearchArr.exc.slice()};
-      newInc.inc.push(action.payload); //ew
+      // check the value before adding it to state
+      console.log('action.payload', action.payload);
+      action.payload ? 
+      newInc.inc.push(action.payload) //ew
+      : null;
       return {
         ...state,
         lastSearchArr: newInc
@@ -81,7 +85,9 @@ export default function generalReducer(state = initialState, action)
     case `${SET_SEARCH_TERMS_EXC}`:
       let newExc = {inc: state.lastSearchArr.inc.slice(),
                     exc: state.lastSearchArr.exc.slice()};
-      newExc.exc.push(action.payload);
+      action.payload ? 
+      newInc.exc.push(action.payload)
+      : null;
       return {
         ...state,
         lastSearchArr: newExc
