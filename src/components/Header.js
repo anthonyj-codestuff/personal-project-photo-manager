@@ -28,7 +28,8 @@ class Header extends Component
   toggleModal() 
   {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      searchBarValue: ''
     });
   }
 
@@ -44,6 +45,13 @@ class Header extends Component
     this.setState({searchBarValue: value});
   }
 
+  async normalSearchButtonFn()
+  {
+    await this.props.setSearchTermsInclusive(this.state.searchBarValue.trim());
+    this.toggleModal();
+    this.props.getSearchResults(this.props.lastSearchArr);
+  }
+
   render()
   {
     //define shorthand terms for conditional rendering
@@ -54,7 +62,7 @@ class Header extends Component
     // Define button types
     const normalSearchButton = (<Link to="/" style={{ textDecoration: 'none' }}>
                           <Button className="header-segment" color='primary' 
-                          onClick={() => {this.props.setSearchTermsInclusive(this.state.searchBarValue.trim()); this.toggleModal(); this.props.getSearchResults(this.props.lastSearchArr);}}>
+                          onClick={() => {this.normalSearchButtonFn()}}>
                           Search</Button></Link>);
     // disabledSearchButton does not do anything, but displays a tooltip on mouseover or click
     const disabledSearchButton = (<div><Tooltip placement="top" isOpen={this.state.tooltipOpen} target="TooltipSearchError" toggle={this.toggleSearchError}>
