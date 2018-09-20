@@ -5,7 +5,6 @@ const DateTime = (props) => {
   let {datetime} = props;
   const date = datetime.match(/\d+-\d+-\d+/g)
   const time = datetime.match(/\d+:\d+/g)
-  console.log(datetime);
   return (
     <div>
       <p>{`Uploaded on ${date} at ${time}`}</p>

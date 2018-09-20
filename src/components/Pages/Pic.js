@@ -44,7 +44,7 @@ class Pic extends Component
               <img src={this.state.currentPic} alt={this.state.title}/>
             </div>
             <div className="stat-block">
-              <p><DateTime datetime={this.state.uploadDate}/></p>
+              <DateTime datetime={this.state.uploadDate}/>
               Stats: Size, dimensions, upload date, ratio
             </div>
             <div className="tag-cloud">
