@@ -10,19 +10,56 @@ const editTitle = (req, res, next) =>
     .catch(err => console.log(`Error in edit_photo_title() - ${err}`))
 }
 
-async function editTagsMain(req, res, next)
+// restructuring functions here to be synchronous. Each function should call the next one as a callback
+const editTagsMain = (req, res, next) =>
 {
-  // Send any unknown tags supplied by the user to the tag_ref table
-  await newTagsToReferenceTable(req, res);
-  // Alter the tags associated with a single pid to match the user's request
-  changePhotoTags(req, res);
+  // SEQUENCE: aliasUserTags() - alters tags to match user-defined tagging rules
+  //           newTagsToReferenceTable() - adds a new ID number to any unknown tags
+  //           changePhotoTags() - Applies all requested tags to the specified picture and removes tags not requested
+  // Before dealing with the user's query, check that their terms adhere to aliasing rules
+  aliasUserTags(req, res, newTagsToReferenceTable);
   res.sendStatus(200);
 }
 
-async function newTagsToReferenceTable(req, res)
+const aliasUserTags = async (req, res, callback) =>
+{
+  // Takes in newTagToReferenceTable as a callback
+  const dbInst = req.app.get('db');
+  const {tags} = req.body;
+  // create an array of promises that must be resolved before moving on
+  // for each tag supplied by the user, poll it against the db to see if it has an alias
+  const tagsPromise = new Promise(async (resolve, reject) => {
+    const promises = tags.map(str => {
+      return dbInst.alias_photo_tag(str)
+    });
+    resolve(await Promise.all([...promises]))
+  });
+  const data = await tagsPromise;
+
+  console.log("initial tags", req.body.tags);
+  req.body.tags = req.body.tags.map((e,i) => {
+    if(data[i].length > 0) 
+    {
+      return data[i]['0'].new_name;
+    }
+    else
+    {
+      return e;
+    }
+  })
+  console.log("reulting tags", req.body.tags);
+  // call newTagToReferenceTable and pass in the next callback
+  callback(req, res, changePhotoTags);
+}
+
+
+
+
+async function newTagsToReferenceTable(req, res, callback)
 // Handling an arbirtary number of values in SQL is really difficult, so this function does it in JS
 // Declare db instance and dereference variables
 {
+  // takes in changePhotoTags as a callback
   const dbInst = req.app.get('db');
   const {tags} = req.body;
   console.log('ENTERING newTagsToReferenceTable()');
@@ -51,10 +88,10 @@ async function newTagsToReferenceTable(req, res)
         }
       })
       .catch(err => console.log(`Error in controller.editTagsMain() [filter dupes] - ${err}`));
-
+  callback(req, res);
 }
 
-async function changePhotoTags(req, res)
+async function changePhotoTags(req, res, callback = null)
 // The tag_ref table should now be populated with any new tags supplied by the user
 // To apply tags to pictures, retrieve a list of the picture's existing tags and check for differences
 // 1. Any tags that do not exist in the user's query should be deleted

@@ -66,6 +66,14 @@ const getAllTags = (req, res, next) =>
     .catch(err => console.log(`Error in get_all_tags() - ${err}`))
 }
 
+const getAliases = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  dbInst.get_list_of_aliases()
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in get_list_of_aliases() - ${err}`))
+}
+
 module.exports =
 {
   getAllPics,
@@ -73,5 +81,6 @@ module.exports =
   searchPhotos,
   addPhoto,
   getPhotoTags,
-  getAllTags
+  getAllTags,
+  getAliases
 };

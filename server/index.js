@@ -12,7 +12,8 @@ const {
   searchPhotos,
   addPhoto,
   getPhotoTags,
-  getAllTags
+  getAllTags,
+  getAliases
 } = require('./controller');
 
 const {
@@ -33,14 +34,15 @@ app.get('/api/photos/:pid', getPhoto); //for loading a specific picture
 app.get('/api/tags/all', getAllTags);  //Gets a list of tag names. Should be listed before getPhotoTags to avoid conflicts
 app.get('/api/tags/:pid', getPhotoTags);
 app.get('/api/search', searchPhotos);  //send a string of '+' delimited substrings
-// app.get('/api/folder/:id');        //pull up the contents of a defined folder
-app.post('/api/submit', addPhoto);    //for posting a single picture with or without data
-// app.post('/api/folder');           //for creating new folders
-// app.put('/api/photos/:id');        //for editing a photo's data (adding a description, tags, etc)
-// app.put('/api/folder');            //for adding photo ids to a folder
-// app.put('/api/me');                //MAYBE - editing the user's information or profile stats
-// app.delete('/api/photos/:id');     //delete a user's own photo (pid must match)
-// app.delete('/api/folder/:id');     //delete a user's own folder WITHOUT DELETING CONTENTS (pid must match)
+app.get('/api/alias', getAliases);     //gets a list of defined alias objects
+// app.get('/api/folder/:id');         //pull up the contents of a defined folder
+app.post('/api/submit', addPhoto);     //for posting a single picture with or without data
+// app.post('/api/folder');            //for creating new folders
+// app.put('/api/photos/:id');         //for editing a photo's data (adding a description, tags, etc)
+// app.put('/api/folder');             //for adding photo ids to a folder
+// app.put('/api/me');                 //MAYBE - editing the user's information or profile stats
+// app.delete('/api/photos/:id');      //delete a user's own photo (pid must match)
+// app.delete('/api/folder/:id');      //delete a user's own folder WITHOUT DELETING CONTENTS (pid must match)
 
 //Editing Picture Information
 app.put('/api/edit_title', editTitle);

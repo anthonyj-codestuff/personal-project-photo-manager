@@ -10,6 +10,7 @@ const SET_SEARCH_TERMS_EXC = 'SET_SEARCH_TERMS_EXC';
 const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
 const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
 const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
+const GET_LIST_OF_ALIASES = 'GET_LIST_OF_ALIASES';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -24,7 +25,8 @@ const initialState = {
   lastSearchArr: {
     inc:[], 
     exc:[]},
-  currentlyViewingSearchResults: false //set to true by the search modal button (TODO). Reset by the header's gallery button
+  currentlyViewingSearchResults: false, //set to true by the search modal button (TODO). Reset by the header's gallery button
+  aliasObj: []
 };
 
 //REDUCER
@@ -118,10 +120,19 @@ export default function generalReducer(state = initialState, action)
       return {
         ...state
       };
-    
+    case `${GET_LIST_OF_ALIASES}_FULFILLED`:
+      return {
+        ...state,
+        aliases: action.payload.data
+      };
+    case `${GET_LIST_OF_ALIASES}_REJECTED`:
+      console.log("Error - GET_LIST_OF_ALIASES_REJECTED");
+      return {
+        ...state
+      };
     //Consider moving these to another reducer
     case `${EDIT_PIC_TITLE}_FULFILLED`:
-    //This doesn't change state. It just polls the db
+      //This doesn't change state. The action creator just polls the db
       console.log("Title changed successfully");
       return {
         ...state
@@ -142,7 +153,7 @@ export default function generalReducer(state = initialState, action)
         ...state
       }
     default:
-      console.log('reached default state')
+      console.log('Reached default state. Maybe something is pending.')
       return state;
   }
 }
@@ -177,24 +188,21 @@ export function clearPrevUploadData(){//doesn't need a payload. It just empties 
 //   };
 // }
 
-export function setSearchTermsInclusive(terms)
-{
+export function setSearchTermsInclusive(terms){
   return {
     type: SET_SEARCH_TERMS_INC,
     payload: terms
   };
 }
 
-export function setSearchTermsExclusive(terms)
-{
+export function setSearchTermsExclusive(terms){
   return {
     type: SET_SEARCH_TERMS_EXC,
     payload: terms
   };
 }
 
-export function getSearchResults(terms)
-{
+export function getSearchResults(terms){
   //Takes the two arrays of desired search parameters and constructs a query with them.
   // inclusive['nature','animal'], exclusive['dog','cat']
   // indicates that the user is searching for pictures of nature and animals, but not cats or dogs
@@ -207,8 +215,7 @@ export function getSearchResults(terms)
   };
 }
 
-export function resetSearchToggle()
-{
+export function resetSearchToggle(){
   console.log(`resetSearchToggle()`);
   return {
     type: RESET_SEARCH_TOGGLE,
@@ -216,11 +223,17 @@ export function resetSearchToggle()
   };
 }
 
-export function getListOfTags()
-{
+export function getListOfTags(){
   return {
     type: GET_LIST_OF_TAGS,
     payload: axios.get('/api/tags/all')
+  };
+}
+
+export function getListOfAliases(){
+  return {
+    type: GET_LIST_OF_ALIASES,
+    payload: axios.get('/api/alias')
   };
 }
 
