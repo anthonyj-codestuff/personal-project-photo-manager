@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getListOfAliases } from '../../../redux/generalReducer';
+import './TagAlias.css';
 
 class TagAlias extends Component 
 {
@@ -25,15 +26,24 @@ class TagAlias extends Component
   }
   
   render() {
-    console.log('hit', this.state.aliasObj);
-    return (this.state.aliasObj.map((e,i) => {
-        return (<div id={'alias' + i} style={{border: '1px solid #0000FF'}}>
-          <input placeholder={e.old_name}/>
-          <input placeholder={e.new_name}/>
-        </div>)
-      })
+    let aliasList = this.state.aliasObj.map((e,i) => {
+      return (
+        <tr key={'aliasInputBlock' + i}>
+          <td className="alias-table-cell">{e.old_name}</td>
+          <td className="alias-table-cell"><input placeholder={e.new_name}/></td>
+          {/* <td className="alias-table-cell"><button
+            onClick={() => }>x</button></td> */}
+        </tr>
+      );
+    });
+
+    return (
+      <table className="alias-table">
+        <tbody>
+          {aliasList}
+        </tbody>
+      </table>
     );
-  
   }
 }
 

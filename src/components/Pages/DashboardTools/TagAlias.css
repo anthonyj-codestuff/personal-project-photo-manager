@@ -1,0 +1,33 @@
+.alias-table {
+  border: 1px solid green;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 10px;
+}
+
+.alias-table-cell {
+  /* display: flex; */
+  /* align-items: center; */
+  border: 1px solid teal;
+  box-sizing: border-box;
+  /* padding: auto; */
+}
+
+.alias-table button {
+  border-radius: 1rem;
+  border: 2px solid black;
+  background-color: #9BA0B4;
+}
+
+.alias-table button:hover {
+  background-color: #255E69;
+}
+
+.alias-table input {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.alias-table p {
+  margin: 0px;
+}
