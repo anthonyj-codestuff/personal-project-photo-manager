@@ -3,7 +3,7 @@ const getAllPics = (req, res, next) =>
   const dbInst = req.app.get('db');
   dbInst.get_photos()
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in get_photos() - ${err}`))
+    .catch(err => console.log(`Error in get_photos() - ${err}`));
 }
 
 const getPhoto = (req, res, next) =>
@@ -11,7 +11,7 @@ const getPhoto = (req, res, next) =>
   const dbInst = req.app.get('db');
   dbInst.get_photo(req.params.pid)
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in get_photo() - ${err}`))
+    .catch(err => console.log(`Error in get_photo() - ${err}`));
 };
 
 const searchPhotos = (req, res, next) =>
@@ -36,7 +36,7 @@ const searchPhotos = (req, res, next) =>
   //console.log(searchQuery);
   dbInst.query(searchQuery)
   .then(response => res.status(200).send(response))
-  .catch(err => console.log(`Error in search_photos() - ${err}`))
+  .catch(err => console.log(`Error in search_photos() - ${err}`));
 }
 
 //requires an image url (up to 200 char) and an integer representing the user's id
@@ -46,7 +46,7 @@ const addPhoto = (req, res, next) =>
   const {url, uid} = req.body;
   dbInst.post_photo([url, uid])
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in add_photo() - ${err}`))
+    .catch(err => console.log(`Error in add_photo() - ${err}`));
 };
 
 const getPhotoTags = (req, res, next) =>
@@ -55,7 +55,7 @@ const getPhotoTags = (req, res, next) =>
   const {pid} = req.params;
   dbInst.get_photo_tags(pid)
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in get_photo_tags() - ${err}`))
+    .catch(err => console.log(`Error in get_photo_tags() - ${err}`));
 }
 
 const getAllTags = (req, res, next) =>
@@ -63,7 +63,7 @@ const getAllTags = (req, res, next) =>
   const dbInst = req.app.get('db');
   dbInst.get_all_tags()
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in get_all_tags() - ${err}`))
+    .catch(err => console.log(`Error in get_all_tags() - ${err}`));
 }
 
 const getAliases = (req, res, next) => 
@@ -71,7 +71,7 @@ const getAliases = (req, res, next) =>
   const dbInst = req.app.get('db');
   dbInst.get_list_of_aliases()
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in get_list_of_aliases() - ${err}`))
+    .catch(err => console.log(`Error in get_list_of_aliases() - ${err}`));
 }
 
 const addAlias = (req, res, next) => 
@@ -81,7 +81,17 @@ const addAlias = (req, res, next) =>
   console.log(oldname, newname);
   dbInst.add_alias(oldname, newname)
     .then(response => res.status(200).send(response))
-    .catch(err => console.log(`Error in add_alias() - ${err}`))
+    .catch(err => console.log(`Error in add_alias() - ${err}`));
+}
+
+const deleteAlias = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  const {id} = req.params;
+  console.log(id);
+  dbInst.delete_alias(id)
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in delete_alias() - ${err}`));
 }
 
 module.exports =
@@ -93,5 +103,6 @@ module.exports =
   getPhotoTags,
   getAllTags,
   getAliases,
-  addAlias
+  addAlias,
+  deleteAlias
 };

@@ -12,6 +12,7 @@ const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
 const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
 const GET_LIST_OF_ALIASES = 'GET_LIST_OF_ALIASES';
 const ADD_ALIAS = 'ADD_ALIAS';
+const DELETE_ALIAS = 'DELETE_ALIAS';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -143,6 +144,17 @@ export default function generalReducer(state = initialState, action)
       return {
         ...state
       }
+    case `${DELETE_ALIAS}_FULFILLED`:
+      return {
+        ...state,
+        aliasObj: action.payload.data
+      };
+    case `${DELETE_ALIAS}_REJECTED`:
+      console.log("Error - DELETE_ALIAS_REJECTED");
+      return {
+        ...state
+      };
+
     //Consider moving these to another reducer
     case `${EDIT_PIC_TITLE}_FULFILLED`:
       //This doesn't change state. The action creator just polls the db
@@ -254,6 +266,13 @@ export function addAlias(newAlias){
   return {
     type: ADD_ALIAS,
     payload: axios.post('/api/alias', newAlias)
+  }
+}
+
+export function deleteAlias(removeIndex){
+  return {
+    type: DELETE_ALIAS,
+    payload: axios.delete(`/api/alias/${removeIndex}`)
   }
 }
 
