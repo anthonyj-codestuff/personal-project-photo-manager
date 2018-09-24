@@ -78,6 +78,7 @@ const addAlias = (req, res, next) =>
 {
   const dbInst = req.app.get('db');
   const {oldname, newname} = req.body;
+  console.log(oldname, newname);
   dbInst.add_alias(oldname, newname)
     .then(response => res.status(200).send(response))
     .catch(err => console.log(`Error in add_alias() - ${err}`))

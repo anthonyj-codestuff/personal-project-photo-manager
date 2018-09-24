@@ -3,20 +3,23 @@
   box-sizing: border-box;
   padding: 0;
   margin: 10px;
+  text-align: center;
 }
 
 .alias-table-cell {
   /* display: flex; */
   /* align-items: center; */
-  border: 1px solid teal;
+  /* border: 1px solid teal; */
   box-sizing: border-box;
-  /* padding: auto; */
+  text-align: left;
+  padding: 2px 0;
 }
 
 .alias-table button {
   border-radius: 1rem;
   border: 2px solid black;
   background-color: #9BA0B4;
+  margin: 0 2px;
 }
 
 .alias-table button:hover {
@@ -24,6 +27,7 @@
 }
 
 .alias-table input {
+  width: 100%;
   box-sizing: border-box;
   margin: 0;
 }

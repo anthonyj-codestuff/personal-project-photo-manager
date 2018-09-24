@@ -124,16 +124,19 @@ export default function generalReducer(state = initialState, action)
     case `${GET_LIST_OF_ALIASES}_FULFILLED`:
       return {
         ...state,
-        aliases: action.payload.data
+        aliasObj: action.payload.data
       };
     case `${GET_LIST_OF_ALIASES}_REJECTED`:
       console.log("Error - GET_LIST_OF_ALIASES_REJECTED");
       return {
         ...state
       };
-      case `${ADD_ALIAS}_FULFILLED`:
+    case `${ADD_ALIAS}_FULFILLED`:
+      let newAlias = action.payload.data['0'];
+      console.log(newAlias);
       return {
-        ...state
+        ...state,
+        aliasObj: [...state.aliasObj, newAlias]
       }
     case `${ADD_ALIAS}_REJECTED`:
       console.log("Error - ADD_ALIAS_REJECTED");
