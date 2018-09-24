@@ -13,7 +13,8 @@ const {
   addPhoto,
   getPhotoTags,
   getAllTags,
-  getAliases
+  getAliases,
+  addAlias
 } = require('./controller');
 
 const {
@@ -35,6 +36,7 @@ app.get('/api/tags/all', getAllTags);  //Gets a list of tag names. Should be lis
 app.get('/api/tags/:pid', getPhotoTags);
 app.get('/api/search', searchPhotos);  //send a string of '+' delimited substrings
 app.get('/api/alias', getAliases);     //gets a list of defined alias objects
+app.post('/api/alias', addAlias);      //sends a new alias to the database list
 // app.get('/api/folder/:id');         //pull up the contents of a defined folder
 app.post('/api/submit', addPhoto);     //for posting a single picture with or without data
 // app.post('/api/folder');            //for creating new folders

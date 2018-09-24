@@ -74,6 +74,15 @@ const getAliases = (req, res, next) =>
     .catch(err => console.log(`Error in get_list_of_aliases() - ${err}`))
 }
 
+const addAlias = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  const {oldname, newname} = req.body;
+  dbInst.add_alias(oldname, newname)
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in add_alias() - ${err}`))
+}
+
 module.exports =
 {
   getAllPics,
@@ -82,5 +91,6 @@ module.exports =
   addPhoto,
   getPhotoTags,
   getAllTags,
-  getAliases
+  getAliases,
+  addAlias
 };

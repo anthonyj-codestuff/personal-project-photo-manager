@@ -27,7 +27,11 @@ CREATE TABLE tag (
   pid INTEGER NOT NULL
 );
 
-
+CREATE TABLE tag_alias (
+  alias_id SERIAL PRIMARY KEY,
+  old_name varchar(50) NOT NULL UNIQUE,
+  new_name varchar(50) NOT NULL
+);
 
 
 
