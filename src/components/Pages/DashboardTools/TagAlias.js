@@ -51,8 +51,9 @@ class TagAlias extends Component
     aliasList = this.props.aliasObj.slice(0).reverse().map((e,i) => {
       return (
         <tr key={'aliasInputBlock' + i}>
-          <td className="alias-table-cell">{e.old_name}</td>
-          <td className="alias-table-cell"><input placeholder={e.new_name}/></td>
+          <td className="alias-table-cell">{e.old_name.replace(/[_]/g, ' ')}</td>
+          <td className="alias-table-cell"> -> </td>
+          <td className="alias-table-cell">{e.new_name.replace(/[_]/g, ' ')}</td>
           <td className="alias-table-cell">
           <button onClick={async () => {
             await this.props.deleteAlias(e.alias_id);
@@ -71,6 +72,7 @@ class TagAlias extends Component
           <thead>
             <tr>
             <td><input onChange={(e) => this.setState({oldNameInput: e.target.value})} value={this.state.oldNameInput} placeholder='Old Name'/></td>
+            <td className="alias-table-cell"> -> </td>
             <td><input onChange={(e) => this.setState({newNameInput: e.target.value})} value={this.state.newNameInput} placeholder='Becomes...'/></td>
             <td className="alias-table-cell">
               <button onClick={() => this.handleNewAliasButtonFn()}>Add</button>

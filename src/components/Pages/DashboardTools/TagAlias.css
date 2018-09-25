@@ -12,7 +12,7 @@
   /* border: 1px solid teal; */
   box-sizing: border-box;
   text-align: left;
-  padding: 2px 0;
+  padding: 2px 5px;
 }
 
 .alias-table button {
@@ -27,7 +27,7 @@
 }
 
 .alias-table input {
-  width: 100%;
+  width: 150px;
   box-sizing: border-box;
   margin: 0;
 }
