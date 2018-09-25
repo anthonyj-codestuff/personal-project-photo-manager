@@ -13,6 +13,9 @@ const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
 const GET_LIST_OF_ALIASES = 'GET_LIST_OF_ALIASES';
 const ADD_ALIAS = 'ADD_ALIAS';
 const DELETE_ALIAS = 'DELETE_ALIAS';
+const GET_LIST_OF_IMPS = 'GET_LIST_OF_IMPS';
+const ADD_IMP = 'ADD_IMP';
+const DELETE_IMP = 'DELETE_IMP';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -28,7 +31,8 @@ const initialState = {
     inc:[], 
     exc:[]},
   currentlyViewingSearchResults: false, //set to true by the search modal button (TODO). Reset by the header's gallery button
-  aliasObj: []
+  aliasObj: [],
+  impObj: []
 };
 
 //REDUCER
@@ -122,6 +126,7 @@ export default function generalReducer(state = initialState, action)
       return {
         ...state
       };
+    //Tag Aliasing handlers
     case `${GET_LIST_OF_ALIASES}_FULFILLED`:
       return {
         ...state,
@@ -151,6 +156,39 @@ export default function generalReducer(state = initialState, action)
       };
     case `${DELETE_ALIAS}_REJECTED`:
       console.log("Error - DELETE_ALIAS_REJECTED");
+      return {
+        ...state
+      };
+    //Tag Implication handlers
+    case `${GET_LIST_OF_IMPS}_FULFILLED`:
+      return {
+        ...state,
+        impObj: action.payload.data
+      };
+    case `${GET_LIST_OF_IMPS}_REJECTED`:
+      console.log("Error - GET_LIST_OF_IMPS_REJECTED");
+      return {
+        ...state
+      };
+    case `${ADD_IMP}_FULFILLED`:
+      let newImp = action.payload.data['0'];
+      console.log(newImp);
+      return {
+        ...state,
+        impObj: [...state.aliasObj, newImp]
+      }
+    case `${ADD_IMP}_REJECTED`:
+      console.log("Error - ADD_IMP_REJECTED");
+      return {
+        ...state
+      };
+    case `${DELETE_IMP}_FULFILLED`:
+      return {
+        ...state,
+        impObj: action.payload.data
+      };
+    case `${DELETE_IMP}_REJECTED`:
+      console.log("Error - DELETE_IMP_REJECTED");
       return {
         ...state
       };
@@ -274,6 +312,25 @@ export function deleteAlias(removeIndex){
     type: DELETE_ALIAS,
     payload: axios.delete(`/api/alias/${removeIndex}`)
   }
+}
+
+export function getListOfImps(){
+  return {
+    type: GET_LIST_OF_IMPS,
+    payload: axios.get(`/api/imp`)
+  };
+}
+export function addImp(newImp){
+  return {
+    type: ADD_IMP,
+    payload: axios.post(`/api/imp`, newImp)
+  };
+}
+export function deleteImp(removeIndex){
+  return {
+    type: DELETE_IMP,
+    payload: axios.delete(`/api/imp/${removeIndex}`)
+  };
 }
 
 export function editPicTitle(titleObj){//takes in an object with a picture ID and a title

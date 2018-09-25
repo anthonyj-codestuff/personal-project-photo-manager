@@ -2,6 +2,7 @@ import React from 'react';
 
 import Header from '../Header';
 import TagAlias from './DashboardTools/TagAlias';
+import TagImplication from './DashboardTools/TagImplication';
 
 const Dashboard = () => {
   return (
@@ -14,7 +15,8 @@ const Dashboard = () => {
         <p>Tag aliasing, implication, merging, & auditing. Mass tagging. Photo editing (cropping, rotating, maybe color correction) Folders. </p>
       </div>
         <TagAlias/>
-    </div>
+        <TagImplication/>
+      </div>
   );
 };
 

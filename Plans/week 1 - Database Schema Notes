@@ -33,6 +33,13 @@ CREATE TABLE tag_alias (
   new_name varchar(50) NOT NULL
 );
 
+CREATE TABLE tag_imp
+(
+  imp_id SERIAL PRIMARY KEY,
+  predicate VARCHAR(50),
+  implies VARCHAR(50)
+);
+
 
 
 photo

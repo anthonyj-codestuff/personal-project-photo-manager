@@ -15,7 +15,10 @@ const {
   getAllTags,
   getAliases,
   addAlias,
-  deleteAlias
+  deleteAlias,
+  getImps,
+  addImp,
+  deleteImp
 } = require('./controller');
 
 const {
@@ -37,7 +40,9 @@ app.get('/api/tags/all', getAllTags);     //Gets a list of tag names. Should be 
 app.get('/api/tags/:pid', getPhotoTags);
 app.get('/api/search', searchPhotos);     //send a string of '+' delimited substrings
 app.get('/api/alias', getAliases);        //gets a list of defined alias objects
+app.get('/api/imp', getImps);             //gets a list of user-defined tag implications
 app.post('/api/alias', addAlias);         //sends a new alias to the database list
+app.post('/api/imp', addImp);             //sends a new implication to the database
 // app.get('/api/folder/:id');            //pull up the contents of a defined folder
 app.post('/api/submit', addPhoto);        //for posting a single picture with or without data
 // app.post('/api/folder');               //for creating new folders
@@ -46,6 +51,7 @@ app.post('/api/submit', addPhoto);        //for posting a single picture with or
 // app.put('/api/me');                    //MAYBE - editing the user's information or profile stats
 // app.delete('/api/photos/:id');         //delete a user's own photo (pid must match)
 app.delete('/api/alias/:id', deleteAlias);//Deletes a user-defined alias
+app.delete('/api/imp/:id', deleteImp);    //Deletes a user defined tag implication
 // app.delete('/api/folder/:id');         //delete a user's own folder WITHOUT DELETING CONTENTS (pid must match)
 
 //Editing Picture Information

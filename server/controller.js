@@ -94,6 +94,32 @@ const deleteAlias = (req, res, next) =>
     .catch(err => console.log(`Error in delete_alias() - ${err}`));
 }
 
+const getImps = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  dbInst.get_list_of_imps()
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in get_list_of_imps() - ${err}`));
+}
+const addImp = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  const {predicate, consequent} = req.body;
+  console.log(predicate, consequent);
+  dbInst.add_imp(predicate, consequent)
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in add_imp() - ${err}`));
+}
+const deleteImp = (req, res, next) => 
+{
+  const dbInst = req.app.get('db');
+  const {id} = req.params;
+  console.log(id);
+  dbInst.delete_imp(id)
+    .then(response => res.status(200).send(response))
+    .catch(err => console.log(`Error in delete_imp() - ${err}`));
+}
+
 module.exports =
 {
   getAllPics,
@@ -104,5 +130,8 @@ module.exports =
   getAllTags,
   getAliases,
   addAlias,
-  deleteAlias
+  deleteAlias,
+  getImps,
+  addImp,
+  deleteImp
 };
