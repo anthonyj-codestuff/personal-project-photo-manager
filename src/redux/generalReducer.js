@@ -23,16 +23,22 @@ const EDIT_PIC_TAGS = "EDIT_PIC_TAGS";
 
 // INITIAL APP STATE
 const initialState = {
+//===PICTURE ARRAYS===
   picsDataObj: [], //holds data returned from the photos table. Currently only for the entire database.
   userNewUploads: [], //Same as before, but specifically for holding the user's newest uploads
   searchResults: [],  //holds the results of the user's most recent search
-  globalTags:[], //holds a list of all tags in the db. Populated when the user opens the search modal
   lastSearchArr: {
     inc:[], 
     exc:[]},
+//===TAGGING REFERENCE AND FLOW CONTROL===
+  globalTags:[], //holds a list of all tags in the db. Populated when the user opens the search modal
   currentlyViewingSearchResults: false, //set to true by the search modal button (TODO). Reset by the header's gallery button
-  aliasObj: [],
-  impObj: []
+//===USER-DEFINED TAGGING RULES===
+  aliasObj: [], // holds a list of all aliases obtained from the database
+  impObj: [], // holds a list of all implications obtained from the database
+//===MASS TAGGING REFERENCE===
+  massTagSelectedPool: [], //holds the user's currently selected pool of images to be tagged en masse
+  massTagSearchResults: [] //maybe don't use this
 };
 
 //REDUCER

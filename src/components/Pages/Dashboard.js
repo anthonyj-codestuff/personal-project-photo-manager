@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../Header';
 import TagAlias from './DashboardTools/TagAlias';
 import TagImplication from './DashboardTools/TagImplication';
+import MassTagging from './DashboardTools/MassTagging';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -19,6 +20,7 @@ const Dashboard = () => {
         <TagAlias/>
         <TagImplication/>
       </div>
+      <MassTagging/>
     </div>
   );
 };

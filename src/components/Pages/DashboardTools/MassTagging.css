@@ -1,0 +1,36 @@
+.out {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+  border: 1px solid red;
+  padding: 5px;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  margin: 2px;
+  z-index: 2;
+}
+
+.wrap-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 100%;
+  border: 1px solid green;
+  margin: 5px;
+  /* padding: 5px; */
+}
+
+.in {
+  width: 308px;
+  height: 300px;
+  border: 1px solid blue;
+  margin: 2px;
+  min-height: 100px;
+  z-index: 100;
+}

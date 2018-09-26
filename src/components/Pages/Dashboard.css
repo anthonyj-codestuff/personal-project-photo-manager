@@ -1,6 +1,7 @@
 .tag-rules-block {
   display: flex;
   flex-direction: row;
+  /* align-content: center; */
   justify-content: space-around;
   border: 1px solid black;
   background-color: #9BA0B4;
@@ -10,4 +11,11 @@
 
 .tag-rules {
   background-color: #FFFFFF;
+}
+
+@media only screen and (max-width: 865px) {
+  .tag-rules-block {
+    flex-direction: column;
+    width: auto;
+  }
 }
