@@ -11,7 +11,6 @@ class TagAlias extends Component
     super();
     this.state =
     {
-      aliasObj: [],
       oldNameInput: '',
       newNameInput: ''
     };

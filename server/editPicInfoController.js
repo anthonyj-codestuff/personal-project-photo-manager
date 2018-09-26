@@ -1,3 +1,5 @@
+const { _, flatten } = require('lodash');
+
 const massive = require('massive');
 
 const editTitle = (req, res, next) =>
@@ -13,15 +15,46 @@ const editTitle = (req, res, next) =>
 // restructuring functions here to be synchronous. Each function should call the next one as a callback
 const editTagsMain = (req, res, next) =>
 {
-  // SEQUENCE: aliasUserTags() - alters tags to match user-defined tagging rules
+  // SEQUENCE: handleTagImplications() - analyzes the user's input and inserts implied tags
+  //           aliasUserTags() - alters tags to match user-defined tagging rules
   //           newTagsToReferenceTable() - adds a new ID number to any unknown tags
   //           changePhotoTags() - Applies all requested tags to the specified picture and removes tags not requested
   // Before dealing with the user's query, check that their terms adhere to aliasing rules
-  aliasUserTags(req, res, newTagsToReferenceTable);
+  // aliasUserTags(req, res, newTagsToReferenceTable);
+  handleTagImplications(req, res, aliasUserTags);
   res.sendStatus(200);
 }
 
-const aliasUserTags = async (req, res, callback) =>
+async function handleTagImplications(req, res, callback)
+{
+  const dbInst = req.app.get('db');
+  let {tags} = req.body; //not const. Implied tags will be added to the end of the array for double-checking
+  let tagLenBefore;//defined at the top of the loop
+  let tagLenAfter; //defined after the loop is run
+  
+  //This loop should run at least one time, but if changes are made to the 
+  do {
+  tagLenBefore = tags.length;
+  const impPromise = new Promise(async (resolve, reject) => {
+    const promises = tags.map(str => {
+      return dbInst.handle_tag_imp(str)
+    });
+    resolve(await Promise.all([...promises]))
+  });
+  const data = await impPromise;
+  // convert data from a 2D array of arrays and objects to a 1D array of strings
+  trimData = _.flatten(data).map(e => e.implies);
+  trimData.map((e,i,s) => {
+    !tags.includes(e) ? tags.push(e) : null
+  });
+  tagLenAfter = tags.length;
+  console.log('Implied tags discovered:', trimData);
+  }while(tagLenAfter > tagLenBefore);
+
+  callback(req, res, newTagsToReferenceTable);
+}
+
+async function aliasUserTags(req, res, callback)
 {
   // Takes in newTagToReferenceTable as a callback
   const dbInst = req.app.get('db');
@@ -51,9 +84,6 @@ const aliasUserTags = async (req, res, callback) =>
   // call newTagToReferenceTable and pass in the next callback
   callback(req, res, changePhotoTags);
 }
-
-
-
 
 async function newTagsToReferenceTable(req, res, callback)
 // Handling an arbirtary number of values in SQL is really difficult, so this function does it in JS

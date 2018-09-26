@@ -175,7 +175,7 @@ export default function generalReducer(state = initialState, action)
       console.log(newImp);
       return {
         ...state,
-        impObj: [...state.aliasObj, newImp]
+        impObj: [...state.impObj, newImp]
       }
     case `${ADD_IMP}_REJECTED`:
       console.log("Error - ADD_IMP_REJECTED");
