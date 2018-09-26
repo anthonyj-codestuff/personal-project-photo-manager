@@ -13,6 +13,10 @@
   background-color: #FFFFFF;
 }
 
+.info-box {
+  padding: 10px;
+}
+
 @media only screen and (max-width: 865px) {
   .tag-rules-block {
     flex-direction: column;

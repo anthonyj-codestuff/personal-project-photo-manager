@@ -20,6 +20,7 @@ const searchPhotos = (req, res, next) =>
   // It additionally includes variables prepended by '-' to filter out unwanted results
   // For example, the query coulld look like 'nature+animal+-dog+-cat'
   // split this into two arrays and evaluate each one separately
+  // axios (express) automatically converts pluses to spaces, so no conversion is necessary
   console.log('queryTerms', req.query.terms);
   userTermArr = req.query.terms.trim().split(' ');
   console.log("userTermArr", userTermArr);

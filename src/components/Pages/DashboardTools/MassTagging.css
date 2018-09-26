@@ -3,16 +3,17 @@
   flex-direction: row;
   width: 100%;
   height: auto;
-  border: 1px solid red;
-  padding: 5px;
+  /* border: 1px solid red; */
 }
 
 .square {
   width: 100px;
   height: 100px;
   border: 1px solid black;
-  margin: 2px;
-  z-index: 2;
+  margin: 1px;
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .wrap-box {
@@ -21,16 +22,26 @@
   flex-wrap: wrap;
   align-content: flex-start;
   width: 100%;
-  border: 1px solid green;
-  margin: 5px;
-  /* padding: 5px; */
+  /* border: 1px solid green; */
+  padding: 5px;
 }
 
 .in {
-  width: 308px;
-  height: 300px;
-  border: 1px solid blue;
-  margin: 2px;
+  position: relative;
+  width: 320px;
+  height: 100%;
+  /* border: 1px solid blue; */
+  padding: 2px;
   min-height: 100px;
-  z-index: 100;
+}
+
+.gui {
+  /* position: absolute; */
+  width: 100%;
+  /* border: 1px solid pink; */
+}
+
+.sticky {
+  position: sticky;
+  top: 10px;
 }

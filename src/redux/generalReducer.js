@@ -8,6 +8,7 @@ const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
 const SET_SEARCH_TERMS_INC = 'SET_SEARCH_TERMS_INC';
 const SET_SEARCH_TERMS_EXC = 'SET_SEARCH_TERMS_EXC';
 const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
+const GET_SEARCH_RESULTS_TAGTOOL = 'GET_SEARCH_RESULTS_TAGTOOL';
 const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
 const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
 const GET_LIST_OF_ALIASES = 'GET_LIST_OF_ALIASES';
@@ -38,7 +39,7 @@ const initialState = {
   impObj: [], // holds a list of all implications obtained from the database
 //===MASS TAGGING REFERENCE===
   massTagSelectedPool: [], //holds the user's currently selected pool of images to be tagged en masse
-  massTagSearchResults: [] //maybe don't use this
+  massTagSearchResults: []
 };
 
 //REDUCER
@@ -114,6 +115,15 @@ export default function generalReducer(state = initialState, action)
       };
     case `${GET_SEARCH_RESULTS}_REJECTED`:
       console.log('Error - GET_SEARCH_RESULTS_REJECTED');
+      break;
+    case `${GET_SEARCH_RESULTS_TAGTOOL}_FULFILLED`:
+      return {
+        ...state,
+        massTagSearchResults: action.payload.data
+        //Do not set currentlyViewingSearchResults. Doing so will cause the main gallery to render 0 search results
+      };
+    case `${GET_SEARCH_RESULTS_TAGTOOL}_REJECTED`:
+      console.log('Error - GET_SEARCH_RESULTS_TAGTOOL_REJECTED');
       break;
     case `${RESET_SEARCH_TOGGLE}`: //Reverses the effects of GET_SEARCH_RESULTS
       return {
@@ -278,8 +288,18 @@ export function getSearchResults(terms){
   // resulting query: 'nature+animal+-dog+-cat'
   // deconstruct the query at the endpoint 
   let query = terms.inc.join('+') + '+' + terms.exc.map(e => '-' + e).join('+');
+  console.log(query);
   return {
     type: GET_SEARCH_RESULTS,
+    payload: axios.get(`/api/search?terms=${query}`)
+  };
+}
+
+export function getSearchResultsTagTool(terms){
+  // Identical to getSearchResults(), but the results go to a different location
+  let query = terms.inc.join('+') + '+' + terms.exc.map(e => '-' + e).join('+');
+  return {
+    type: GET_SEARCH_RESULTS_TAGTOOL,
     payload: axios.get(`/api/search?terms=${query}`)
   };
 }
