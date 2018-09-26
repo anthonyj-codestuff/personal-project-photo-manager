@@ -15,12 +15,11 @@ const editTitle = (req, res, next) =>
 // restructuring functions here to be synchronous. Each function should call the next one as a callback
 const editTagsMain = (req, res, next) =>
 {
-  // SEQUENCE: handleTagImplications() - analyzes the user's input and inserts implied tags
-  //           aliasUserTags() - alters tags to match user-defined tagging rules
+  // SEQUENCE: Each function passes the next function in the chain as a callback
+  //           handleTagImplications() - analyzes the user's input and inserts implied tags
+  //           aliasUserTags() - alters tag list to conform to user-defined tagging rules
   //           newTagsToReferenceTable() - adds a new ID number to any unknown tags
   //           changePhotoTags() - Applies all requested tags to the specified picture and removes tags not requested
-  // Before dealing with the user's query, check that their terms adhere to aliasing rules
-  // aliasUserTags(req, res, newTagsToReferenceTable);
   handleTagImplications(req, res, aliasUserTags);
   res.sendStatus(200);
 }
@@ -32,7 +31,8 @@ async function handleTagImplications(req, res, callback)
   let tagLenBefore;//defined at the top of the loop
   let tagLenAfter; //defined after the loop is run
   
-  //This loop should run at least one time, but if changes are made to the 
+  //This block should run at least one time, but if changes are made to the tag
+  // list, the list should be double checked to take care of chained implications
   do {
   tagLenBefore = tags.length;
   const impPromise = new Promise(async (resolve, reject) => {
@@ -80,7 +80,7 @@ async function aliasUserTags(req, res, callback)
       return e;
     }
   })
-  console.log("reulting tags", req.body.tags);
+  console.log("resulting tags", req.body.tags);
   // call newTagToReferenceTable and pass in the next callback
   callback(req, res, changePhotoTags);
 }

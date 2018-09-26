@@ -78,7 +78,7 @@ const addAlias = (req, res, next) =>
 {
   const dbInst = req.app.get('db');
   const {oldname, newname} = req.body;
-  console.log('new alias:', oldname, newname);
+  console.log(`new alias: ${oldname} = ${newname}`);
   dbInst.add_alias(oldname, newname)
     .then(response => res.status(200).send(response))
     .catch(err => console.log(`Error in add_alias() - ${err}`));
@@ -105,7 +105,7 @@ const addImp = (req, res, next) =>
 {
   const dbInst = req.app.get('db');
   const {predicate, implies} = req.body;
-  console.log('new implication:', predicate, implies);
+  console.log(`new implication: ${predicate} < ${implies}`);
   dbInst.add_imp(predicate, implies)
     .then(response => res.status(200).send(response))
     .catch(err => console.log(`Error in add_imp() - ${err}`));
