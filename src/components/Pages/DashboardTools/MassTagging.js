@@ -236,6 +236,9 @@ class MassTagging extends Component
                   <a style={{'color':'#5555FF', 'textDecoration':'underline'}} onClick={() => {
                     this.props.resetMassTaggingPool();
                     this.setState({selectedCards: [], selectedSearchTerms: []});
+                    if(this.state.tagFormFadeIn){
+                      this.toggleTagForm();
+                    }
                   }}>Reset All</a>
                 </div>
               </div>}
