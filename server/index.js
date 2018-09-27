@@ -1,7 +1,6 @@
 const express = require('express');
 const { json } = require('body-parser');
 const massive = require('massive');
-const path = require('path'); // Usually moved to the start of file
 // const fbConfig = require('./firebaseAuth');
 require('dotenv').config();
 
@@ -36,9 +35,7 @@ massive(process.env.DB_CONNECTION)
 .catch(err => console.log(`Error in massive() - ${err}`));
 
 // point server to the build folder
-app.get('*', (req, res)=>{
-    res.sendFile(path.join(__dirname, '../build/index.html'));
-});
+app.use( express.static( `${__dirname}/../build` ) );
 
 app.get('/api/photos', getAllPics);       //for loading all (or some) pictures
 app.get('/api/photos/:pid', getPhoto);    //for loading a specific picture
