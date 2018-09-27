@@ -8,7 +8,8 @@ const GET_PICTURE_BY_ID = 'GET_PICTURE_BY_ID';
 const SET_SEARCH_TERMS_INC = 'SET_SEARCH_TERMS_INC';
 const SET_SEARCH_TERMS_EXC = 'SET_SEARCH_TERMS_EXC';
 const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
-const GET_SEARCH_RESULTS_TAGTOOL = 'GET_SEARCH_RESULTS_TAGTOOL';
+const GET_SEARCH_RESULTS_MASSTAG = 'GET_SEARCH_RESULTS_MASSTAG';
+const RESET_MASSTAG_DATA = 'RESET_MASSTAG_DATA';
 const RESET_SEARCH_TOGGLE = 'RESET_SEARCH_TOGGLE';
 const GET_LIST_OF_TAGS = 'GET_LIST_OF_TAGS';
 const GET_LIST_OF_ALIASES = 'GET_LIST_OF_ALIASES';
@@ -116,15 +117,22 @@ export default function generalReducer(state = initialState, action)
     case `${GET_SEARCH_RESULTS}_REJECTED`:
       console.log('Error - GET_SEARCH_RESULTS_REJECTED');
       break;
-    case `${GET_SEARCH_RESULTS_TAGTOOL}_FULFILLED`:
+    case `${GET_SEARCH_RESULTS_MASSTAG}_FULFILLED`:
       return {
         ...state,
         massTagSearchResults: action.payload.data
         //Do not set currentlyViewingSearchResults. Doing so will cause the main gallery to render 0 search results
       };
-    case `${GET_SEARCH_RESULTS_TAGTOOL}_REJECTED`:
-      console.log('Error - GET_SEARCH_RESULTS_TAGTOOL_REJECTED');
+    case `${GET_SEARCH_RESULTS_MASSTAG}_REJECTED`:
+      console.log('Error - GET_SEARCH_RESULTS_MASSTAG_REJECTED');
       break;
+    case `${RESET_MASSTAG_DATA}`:
+      // Empties every array associated with the mass tagging component
+      return {
+        ...state,
+        massTagSelectedPool: [],
+        massTagSearchResults: []
+      }
     case `${RESET_SEARCH_TOGGLE}`: //Reverses the effects of GET_SEARCH_RESULTS
       return {
         ...state,
@@ -299,8 +307,19 @@ export function getSearchResultsTagTool(terms){
   // Identical to getSearchResults(), but the results go to a different location
   let query = terms.inc.join('+') + '+' + terms.exc.map(e => '-' + e).join('+');
   return {
-    type: GET_SEARCH_RESULTS_TAGTOOL,
+    type: GET_SEARCH_RESULTS_MASSTAG,
     payload: axios.get(`/api/search?terms=${query}`)
+  };
+}
+
+export function resetMassTaggingPool(){
+  // If the mass tagging component ever leaves the DOM, then the user has left the page and the data should be destroyed
+    // This function is also called explicitly when:
+    //    the user clicks on the Dashboard button from the Dashboard
+    //    the user clicks on the Reset button from the mass tagging component
+  return {
+    type: RESET_MASSTAG_DATA,
+    payload: true
   };
 }
 

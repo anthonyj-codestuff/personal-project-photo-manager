@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'rea
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getSearchResults, resetSearchToggle, setSearchTermsInclusive } from '../redux/generalReducer';
+import { getSearchResults, resetSearchToggle, setSearchTermsInclusive, resetMassTaggingPool } from '../redux/generalReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from './SearchBar';
 import './Header.css';
@@ -78,7 +78,10 @@ class Header extends Component
         <Link to="/upload" style={{ textDecoration: 'none' }}>
           <Button className="header-segment" color='primary'><p>Upload</p></Button>
         </Link>
-        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+        <Link to="/dashboard" 
+              style={{ textDecoration: 'none' }} 
+              //The link will not fire if the user is already on the Dashboard, so componentWillUnmount will not fire. Run the Mass Tagging cleanup function manually
+              onClick={() => this.props.resetMassTaggingPool()}>
           <Button className="header-segment" color='primary'><p>Options</p></Button>
         </Link>
         <Button className="header-segment" color="primary" onClick={() => this.toggleModal()}><p>Search</p></Button>
@@ -131,4 +134,4 @@ class Header extends Component
 
 const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps, { getSearchResults, resetSearchToggle, setSearchTermsInclusive })(Header);
+export default connect(mapStateToProps, { getSearchResults, resetSearchToggle, setSearchTermsInclusive, resetMassTaggingPool })(Header);

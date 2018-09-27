@@ -8,7 +8,7 @@ class MassTagImgNode extends Component
     super(props)
     this.state =
     {
-      isSelected: false
+      isSelected: this.props.isSelected || false
     };
   }
   render() 
@@ -17,10 +17,9 @@ class MassTagImgNode extends Component
     return (
       <div 
         className='square'
-        style={{'background-image':`url(${this.props.src})`}}
+        style={{'backgroundImage':`url(${this.props.src})`}}
         onClick={() => {
-          console.log('hit2');
-          this.props.selectCard(this.props.id);
+          this.props.selectCardFn(this.props.id);
           this.setState({isSelected: !this.state.isSelected});
         }}>
         {this.state.isSelected && renderSelectedIcon}
