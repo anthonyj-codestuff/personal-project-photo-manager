@@ -51,14 +51,15 @@ class TagAlias extends Component
       return (
         <tr key={'aliasInputBlock' + i}>
           <td className="alias-table-cell">{e.old_name.replace(/[_]/g, ' ')}</td>
-          <td className="alias-table-cell"> -> </td>
+          <td className="alias-table-cell"> = </td>
           <td className="alias-table-cell">{e.new_name.replace(/[_]/g, ' ')}</td>
           <td className="alias-table-cell">
-          <button onClick={async () => {
-            await this.props.deleteAlias(e.alias_id);
-            this.props.getListOfAliases();
-            }}>x
-          </button></td>
+            <button onClick={async () => {
+              await this.props.deleteAlias(e.alias_id);
+              this.props.getListOfAliases();
+              }}>x
+            </button>
+          </td>
         </tr>
       );
     })

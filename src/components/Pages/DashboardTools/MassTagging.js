@@ -35,9 +35,11 @@ class MassTagging extends Component
       searchTooltipOpen: false,
       searchBarValue: '',
       selectedSearchTerms: [],
-      tagAutocompleteSuggestions: []
+      tagAutocompleteSuggestions: [],
+      selectedCards: []
     };
     this.toggleMassSearchError = this.toggleMassSearchError.bind(this);
+    this.toggleCardInSelected = this.toggleCardInSelected.bind(this);
   }
 
   componentDidMount(){
@@ -108,6 +110,23 @@ class MassTagging extends Component
       });
   }
 
+  toggleCardInSelected(num)
+  {
+    let currentCardNums = this.state.selectedCards.slice()
+    console.log(currentCardNums.includes(num));
+
+    // if the number already exists, remove it
+    if(this.state.selectedCards.includes(num)){
+      let index = currentCardNums.indexOf(num);
+      currentCardNums.splice(index, 1);
+      this.setState({selectedCards: currentCardNums});
+    }
+    // otherwise, add it to the end of the list
+    else {
+      this.setState({selectedCards: currentCardNums.concat(num)});
+    }
+  }
+
   render() 
   {
     let squares = this.props.massTagSearchResults.map((e,i) => {
@@ -116,7 +135,8 @@ class MassTagging extends Component
               key={e.pid}
               id={e.pid}
               src={e.url.replace(/(\?alt)/,'-small?alt')} 
-              alt={e.title}/>
+              alt={e.title}
+              selectCard={this.toggleCardInSelected}/>
     });
 
     const { tagAutocompleteSuggestions, searchBarValue } = this.state;

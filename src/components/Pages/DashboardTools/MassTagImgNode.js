@@ -13,10 +13,17 @@ class MassTagImgNode extends Component
   }
   render() 
   {
-    let renderSelectedIcon = <div></div>
+    let renderSelectedIcon = <img src={check}/>
     return (
-      <div className='square' style={{'background-image':`url(${this.props.src})`}}>
-        <div><img src={check}/></div>
+      <div 
+        className='square'
+        style={{'background-image':`url(${this.props.src})`}}
+        onClick={() => {
+          console.log('hit2');
+          this.props.selectCard(this.props.id);
+          this.setState({isSelected: !this.state.isSelected});
+        }}>
+        {this.state.isSelected && renderSelectedIcon}
       </div>
     ); //return
   }
