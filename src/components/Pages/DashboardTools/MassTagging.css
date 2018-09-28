@@ -22,7 +22,7 @@
   flex-wrap: wrap;
   align-content: flex-start;
   width: 100%;
-  /* border: 1px solid green; */
+  border: 1px solid red;
   padding: 5px;
 }
 
@@ -43,6 +43,7 @@
 
 
 .sticky {
+  border: 1px solid green;
   position: sticky;
   top: 10px;
 }
