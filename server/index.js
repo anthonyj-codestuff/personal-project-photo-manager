@@ -23,7 +23,8 @@ const {
 
 const {
   editTitle,
-  editTagsMain
+  editTagsMain,
+  applyTagToMass
 } = require('./editPicInfoController');
 
 const app = express();
@@ -44,9 +45,9 @@ app.get('/api/tags/:pid', getPhotoTags);
 app.get('/api/search', searchPhotos);     //send a string of '+' delimited substrings
 app.get('/api/alias', getAliases);        //gets a list of defined alias objects
 app.get('/api/imp', getImps);             //gets a list of user-defined tag implications
+// app.get('/api/folder/:id');            //pull up the contents of a defined folder
 app.post('/api/alias', addAlias);         //sends a new alias to the database list
 app.post('/api/imp', addImp);             //sends a new implication to the database
-// app.get('/api/folder/:id');            //pull up the contents of a defined folder
 app.post('/api/submit', addPhoto);        //for posting a single picture with or without data
 // app.post('/api/folder');               //for creating new folders
 // app.put('/api/photos/:id');            //for editing a photo's data (adding a description, tags, etc)
@@ -60,6 +61,7 @@ app.delete('/api/imp/:id', deleteImp);    //Deletes a user defined tag implicati
 //Editing Picture Information
 app.put('/api/edit_title', editTitle);
 app.put('/api/edit_tags', editTagsMain);
+app.put('/api/edit_tags_mass', applyTagToMass);
 
 
 app.listen(port, () => console.log(`Listening for requests on port ${port}`));

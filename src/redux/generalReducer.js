@@ -18,6 +18,7 @@ const DELETE_ALIAS = 'DELETE_ALIAS';
 const GET_LIST_OF_IMPS = 'GET_LIST_OF_IMPS';
 const ADD_IMP = 'ADD_IMP';
 const DELETE_IMP = 'DELETE_IMP';
+const APPLY_TAG_TO_POOL = 'APPLY_TAG_TO_POOL';
 
 //consider moving this to an EditDB reducer to keep things clean
 const EDIT_PIC_TITLE = "EDIT_PIC_TITLE";
@@ -150,7 +151,8 @@ export default function generalReducer(state = initialState, action)
       return {
         ...state
       };
-    //Tag Aliasing handlers
+
+      //Tag Aliasing handlers
     case `${GET_LIST_OF_ALIASES}_FULFILLED`:
       return {
         ...state,
@@ -236,6 +238,15 @@ export default function generalReducer(state = initialState, action)
       }
     case `${EDIT_PIC_TAGS}_REJECTED`:
       console.log("Error - EDIT_PIC_TAGS_REJECTED");
+      return {
+        ...state
+      }
+    case `${APPLY_TAG_TO_POOL}_FULFILLED`:
+      return {
+        ...state
+      }
+    case `${APPLY_TAG_TO_POOL}_REJECTED`:
+      console.log("Error - APPLY_TAG_TO_POOL_REJECTED");
       return {
         ...state
       }
@@ -365,16 +376,27 @@ export function getListOfImps(){
     payload: axios.get(`/api/imp`)
   };
 }
+
 export function addImp(newImp){
   return {
     type: ADD_IMP,
     payload: axios.post(`/api/imp`, newImp)
   };
 }
+
 export function deleteImp(removeIndex){
   return {
     type: DELETE_IMP,
     payload: axios.delete(`/api/imp/${removeIndex}`)
+  };
+}
+
+export function applyTagToPool(poolObj){
+  console.log(poolObj);
+  return {
+    action: APPLY_TAG_TO_POOL,
+  // payload: 2
+    payload: axios.put('/api/edit_tags_mass', poolObj)
   };
 }
 

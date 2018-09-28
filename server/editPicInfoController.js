@@ -12,9 +12,39 @@ const editTitle = (req, res, next) =>
     .catch(err => console.log(`Error in edit_photo_title() - ${err}`))
 }
 
+async function applyTagToMass(req, res, next)
+{
+  // okay, a lot of things are going to start happening at once. The function stack below 
+  // is not made to handle multiple pictures, but it can handle one at a time pretty effectively.
+  // The function stack expects a single pid (string) and an array of strings (tag)
+  // ex. BODY { pid: '487',
+  //            tags: [ 'bat', 'mammal', 'sleepy', 'underground' ] }
+  // GOAL: Retrieve all of the variables necessary to trigger the function stack manually
+  const dbInst = req.app.get('db');
+  const {term, arr} = req.body;
+
+  const massPromise = new Promise(async (resolve, reject) => {
+    const promises = arr.map(pid => {
+      console.log(pid)
+      return dbInst.get_photo_tags(pid)
+    });
+    resolve(await Promise.all([...promises]))
+  })
+  const data = await massPromise;
+  // data comes back as raw SQL data and the stack expects a clean array of strings
+  // clean the array and make it a 2D string array
+  cleanData = data.map(arr => arr.map(obj => obj.tag_name));
+  console.log(cleanData);
+  
+}
+
 // restructuring functions here to be synchronous. Each function should call the next one as a callback
 const editTagsMain = (req, res, next) =>
 {
+  console.log('BODY', req.body);
+  var allSmall;
+  {req.body.tags ? allSmall = req.body.tags.map(e => e.toLowerCase()) : null}
+  req.body.tags = allSmall;
   // SEQUENCE: Each function passes the next function in the chain as a callback
   //           handleTagImplications() - analyzes the user's input and inserts implied tags
   //           aliasUserTags() - alters tag list to conform to user-defined tagging rules
@@ -155,5 +185,6 @@ async function changePhotoTags(req, res, callback = null)
 module.exports =
 {
   editTitle,
-  editTagsMain
+  editTagsMain,
+  applyTagToMass
 };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { Button, Tooltip, Fade } from 'reactstrap';
 import { Button as Dot } from 'antd';
-import { getAllPics, getListOfTags, getSearchResultsTagTool, resetMassTaggingPool } from '../../../redux/generalReducer';
+import { getAllPics, getListOfTags, getSearchResultsTagTool, resetMassTaggingPool, applyTagToPool } from '../../../redux/generalReducer';
 
 import MassTagImgNode from './MassTagImgNode';
 import 'antd/dist/antd.css';
@@ -35,14 +35,16 @@ class MassTagging extends Component
     super(props);
     this.state = {
       searchTooltipOpen: false,
+      tagTooltipOpen: false,
       searchBarValue: '',
       tagBarValue: '',
-      selectedSearchTerms: [],
+      selectedSearchTerms: ['outdoors'],
       tagAutocompleteSuggestions: [],
       selectedCards: [],
       tagFormFadeIn: false
     };
     this.toggleMassSearchError = this.toggleMassSearchError.bind(this);
+    this.toggleMassTagError = this.toggleMassTagError.bind(this);
     this.toggleCardInSelected = this.toggleCardInSelected.bind(this);
     this.toggleTagForm = this.toggleTagForm.bind(this);
   }
@@ -142,6 +144,11 @@ class MassTagging extends Component
     this.setState({searchTooltipOpen: !this.state.searchTooltipOpen});
   };
 
+  toggleMassTagError()
+  {
+    this.setState({tagTooltipOpen: !this.state.TagTooltipOpen});
+  };
+
   normalSearchButtonFn()
   {
     // before searching, put any straggling search term into the array
@@ -153,6 +160,16 @@ class MassTagging extends Component
         inc: this.state.selectedSearchTerms,
         exc: []
       });
+  }
+
+  normalTagButtonFn()
+  {
+    const term = this.state.tagBarValue;
+    const arr = this.state.selectedCards;
+    if(term.trim().length > 0)
+    {
+      this.props.applyTagToPool({term, arr});
+    }
   }
 
   toggleCardInSelected(num)
@@ -223,6 +240,15 @@ class MassTagging extends Component
                                   Type in a search term and add it to the query with the plus button</Tooltip>
                                   <Button id="TooltipMassSearchError" className="header-segment"  color='primary'>
                                   Search</Button></div>); 
+    // 
+    const normalTagButton = (<Button className="header-segment" color='primary' 
+                                  onClick={() => {this.normalTagButtonFn()}}>
+                                  Tag All</Button>);
+    // disabledTagButton does not do anything, but displays a tooltip on mouseover or click
+    const disabledTagButton = (<div><Tooltip placement="top" isOpen={this.state.tagTooltipOpen} target="TooltipMassTagError" toggle={this.toggleMassTagError}>
+                                  Type in a term and hit Tag All to apply it</Tooltip>
+                                  <Button id="TooltipMassTagError" className="header-segment"  color='primary'>
+                                  Tag All</Button></div>); 
 
     return (
       <div className="tag-rules-block">
@@ -283,7 +309,10 @@ class MassTagging extends Component
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
                 inputProps={inputPropsTag} />
+                {/* {this.state.tagFormFadeIn ? (this.state.tagBarValue.trim() ? normalTagButton : disabledTagButton) : null} */}
+                {normalTagButton}
               </Fade>
+              
             </div>
           </div>
           <div className='wrap-box'>
@@ -300,4 +329,4 @@ const mapStateToProps = (state) => ({
   picsDataObj: state.picsDataObj,
   massTagSelectedPool: state.massTagSelectedPool,
   massTagSearchResults: state.massTagSearchResults});
-export default connect(mapStateToProps, { getAllPics, getListOfTags, getSearchResultsTagTool, resetMassTaggingPool })(MassTagging);
+export default connect(mapStateToProps, { getAllPics, getListOfTags, getSearchResultsTagTool, resetMassTaggingPool, applyTagToPool })(MassTagging);
