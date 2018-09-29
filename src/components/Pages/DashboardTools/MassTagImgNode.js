@@ -8,9 +8,19 @@ class MassTagImgNode extends Component
     super(props)
     this.state =
     {
-      isSelected: this.props.isSelected || false
+      isSelected: this.props.selectedCardNum === this.props.id || false
     };
   }
+
+  componentDidUpdate(prevProps, prevState)
+  {
+    if(prevProps.selectedCardNum === this.props.id &&
+      this.props.selectedCardNum !== this.props.id){
+        // this.props.selectCardFn(this.props.id);
+        this.setState({isSelected: !this.state.isSelected})
+    }
+  }
+
   render() 
   {
     let renderSelectedIcon = <img src={check}/>

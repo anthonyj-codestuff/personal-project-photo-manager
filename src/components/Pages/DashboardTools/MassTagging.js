@@ -40,7 +40,8 @@ class MassTagging extends Component
       tagBarValue: '',
       selectedSearchTerms: ['outdoors'],
       tagAutocompleteSuggestions: [],
-      selectedCards: [],
+      // selectedCards: [],
+      selectedCard: null, //This should be an array of numbers. Fix this sometime
       tagFormFadeIn: false
     };
     this.toggleMassSearchError = this.toggleMassSearchError.bind(this);
@@ -165,40 +166,46 @@ class MassTagging extends Component
   normalTagButtonFn()
   {
     const term = this.state.tagBarValue;
-    const arr = this.state.selectedCards;
+    const pid = [this.state.selectedCard];
     if(term.trim().length > 0)
     {
-      this.props.applyTagToPool({term, arr});
+      this.props.applyTagToPool({term, pid});
     }
   }
 
   toggleCardInSelected(num)
   {
-    let currentCardNums = this.state.selectedCards.slice()
-    console.log(currentCardNums.includes(num));
+    // let currentCardNums = this.state.selectedCards.slice()
+    let currentCardNum = this.state.selectedCard;
+    // console.log(currentCardNums.includes(num));
 
     // if the number already exists, remove it
-    if(this.state.selectedCards.includes(num)){
-      let index = currentCardNums.indexOf(num);
-      currentCardNums.splice(index, 1);
-      this.setState({selectedCards: currentCardNums});
+    // if(this.state.selectedCards.includes(num)){
+    if(currentCardNum === num){
+      // let index = currentCardNums.indexOf(num);
+      // currentCardNums.splice(index, 1);
+      // this.setState({selectedCards: currentCardNums});
       // if the mass tagging form is visible AND the last selected card was removed, toggle the form off
-      if(this.state.tagFormFadeIn && currentCardNums.length <= 0)
+      this.setState({selectedCard: null})
+      // if(this.state.tagFormFadeIn && currentCardNums.length <= 0)
+      if(this.state.tagFormFadeIn && currentCardNum === null)
       {
         this.toggleTagForm();
       }
     }
     // otherwise, add it to the end of the list
     else {
-      currentCardNums.push(num);
-      this.setState({selectedCards: currentCardNums});
+      // currentCardNums.push(num);
+      currentCardNum = num;
+      // this.setState({selectedCards: currentCardNums});
+      this.setState({selectedCard: currentCardNum});
       // if the mass tagging form is not visible, toggle the mass tagging form
       if(!this.state.tagFormFadeIn)
       {
         this.toggleTagForm();
       }
     }
-    console.log('Selected Cards:', currentCardNums.join(' '));
+    console.log('Selected Cards:', currentCardNum);
   }
 
   render() 
@@ -211,8 +218,10 @@ class MassTagging extends Component
               id={e.pid}
               src={e.url.replace(/(\?alt)/,'-small?alt')} //convert image to thumbnail url
               alt={e.title}
-              isSelected={this.state.selectedCards.includes(e.pid)}
-              selectCardFn={this.toggleCardInSelected}/>
+              // isSelected={this.state.selectedCard.includes(e.pid)}
+              selectedCardNum={this.state.selectedCard}
+              selectCardFn={this.toggleCardInSelected}
+              />
     });
 
     const { tagAutocompleteSuggestions, searchBarValue, tagBarValue } = this.state;
@@ -256,9 +265,10 @@ class MassTagging extends Component
           <div className='in'>
             <div className='gui sticky'>
               {<div>
-                <h5>Mass Tagging</h5>
+                <h5>Fast Tagging</h5>
                 <div className='flex-row separate'>
-                  <span>{`Selected Pictures: ${this.state.selectedCards.length}`}</span>
+                  {/* <span>{`Pictures Selected: ${this.state.selectedCards.length}`}</span> */}
+                  <span>{`Selected: ${this.state.selectedCard ? `#${this.state.selectedCard}` : ''}`}</span>
                   <a style={{'color':'#5555FF', 'textDecoration':'underline'}} onClick={() => {
                     this.props.resetMassTaggingPool();
                     this.setState({selectedCards: [], selectedSearchTerms: []});

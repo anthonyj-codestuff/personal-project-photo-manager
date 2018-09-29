@@ -16,7 +16,7 @@ async function dothething(fakeReq, res) {
 }
 
 async function applyTagToMass(req, res, next) {
-  console.log(req)
+  console.log(req.body)
   // okay, a lot of things are going to start happening at once. The function stack below 
   // is not made to handle multiple pictures, but it can handle one at a time pretty effectively.
   // GOAL: Retrieve all of the variables necessary to trigger the function stack manually
@@ -25,7 +25,7 @@ async function applyTagToMass(req, res, next) {
   //            tags: [ 'bat', 'mammal', 'sleepy', 'underground' ] }
   const dbInst = req.app.get('db');
   const { term } = req.body;
-  const pidArr = req.body.arr;
+  const pidArr = req.body.pid;
 
   const massPromise = new Promise(async (resolve, reject) => {
     const promises = pidArr.map(pid => {
@@ -94,8 +94,8 @@ async function handleTagImplications(req, res, callback) {
     console.log('Implied tags discovered:', trimData);
   } while (tagLenAfter > tagLenBefore);
 
-  console.log('REQ', req.body.pid);
-  // callback(req, res, newTagsToReferenceTable);
+  // console.log('REQ', req.body.pid);
+  callback(req, res, newTagsToReferenceTable);
 }
 
 async function aliasUserTags(req, res, callback) {
