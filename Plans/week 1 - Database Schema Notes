@@ -20,11 +20,12 @@ CREATE TABLE user
 
 CREATE TABLE tag_ref (
   tid SERIAL PRIMARY KEY,
-  tag_name VARCHAR(50) NOT NULL
+  tag_name VARCHAR(50) NOT NULL UNIQUE
 );
 CREATE TABLE tag (
   tid INTEGER NOT NULL,
-  pid INTEGER NOT NULL
+  pid INTEGER NOT NULL,
+  UNIQUE (tid, pid)
 );
 
 CREATE TABLE tag_alias (
