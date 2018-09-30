@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import Header from '../Header';
+import PopDownHeader from '../PopDownHeader';
 import DateTime from '../DateTime';
 import './Pic.css';
 import TagEditBox from './PicStatComponents/TagEditBox';
@@ -65,6 +66,7 @@ class Pic extends Component
     return (
       <div>
         <Header/>
+        <PopDownHeader/>
         <div className="main-block">
           <div className="left-block">
             <div className="pic-title-block">
