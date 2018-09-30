@@ -1,0 +1,21 @@
+.stat-block-tags {
+  /* border: 1px solid red; */
+  padding: 5px 0 0 5px;
+}
+
+.stat-block-main {
+  /* border: 1px solid green; */
+  padding: 0 0 0 5px;
+}
+
+.stat-block-tags-list {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 450px) {
+  .stat-block-tags-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

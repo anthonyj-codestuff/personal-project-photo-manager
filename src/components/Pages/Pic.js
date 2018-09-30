@@ -17,11 +17,12 @@ class Pic extends Component
       currentPic:'',
       title: '',
       uploadDate: '',
-      dimensions: {},
+      imgStats: {},
       description: 'none', //not implemented
-      tagCloudObj: {} //not implemented
+      tags: [] //Passed down into the stat block
     };
     this.onImgLoad = this.onImgLoad.bind(this);
+    this.retrieveTagList = this.retrieveTagList.bind(this);
   }
 
   componentDidMount()
@@ -35,10 +36,26 @@ class Pic extends Component
     .catch(err => console.log(`Error in Pic.componentDidMount() - ${err}`))
   }
 
+  retrieveTagList(tags)
+  {
+    console.log(tags)
+    this.setState({tags});
+  }
+
   onImgLoad({target:img}) {
-    this.setState({dimensions:{
-        height:document.getElementById('currently-loaded-img').naturalHeight, 
-        width:document.getElementById('currently-loaded-img').naturalWidth
+    const { naturalHeight, 
+            naturalWidth, 
+            offsetHeight, 
+            offsetWidth,
+            alt,
+            src } = document.getElementById('currently-loaded-img');
+    this.setState({imgStats:{
+        imgX:naturalWidth,
+        imgY:naturalHeight,
+        imgx:offsetWidth,
+        imgy:offsetHeight,
+        title:alt,
+        src
       }
     });
   }
@@ -56,19 +73,25 @@ class Pic extends Component
             </div>
             <PicStatBlock
               class="under-pic"
-              imgX={this.state.dimensions.width} 
-              imgY={this.state.dimensions.height}
-              uploadDate={this.state.uploadDate}/>
+              imgID={this.props.match.params.pid}
+              imgStats={this.state.imgStats} 
+              uploadDate={this.state.uploadDate}
+              tagsArray={this.state.tags}/>
             <div className="tag-cloud">
-              <p>It would be really cool to render a tag cloud here, but when you click on it, it switches to a text box where you can edit the tags</p>
-              <TagEditBox pid={this.props.match.params.pid}/>
+              <strong>Use this box to apply categories to an image.</strong>
+              <p>Tags are separated by spaces.</p>
+              <p>If you wish to make a tag that contains a space, insert an underscore (_) in its place</p>
+              <TagEditBox 
+                pid={this.props.match.params.pid}
+                sendTagsToParent={this.retrieveTagList}/>
             </div>
           </div>
           <PicStatBlock 
             class='sidebar'
-            imgX={this.state.dimensions.width} 
-            imgY={this.state.dimensions.height}
-            uploadDate={this.state.uploadDate}/>
+            imgID={this.props.match.params.pid}
+            imgStats={this.state.imgStats}
+            uploadDate={this.state.uploadDate}
+            tagsArray={this.state.tags}/>
         </div>
       </div>
     );

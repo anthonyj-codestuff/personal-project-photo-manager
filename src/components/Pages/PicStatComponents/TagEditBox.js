@@ -28,6 +28,7 @@ class TagEditBox extends Component
         // The response comes back as an array of objects, so destructure and sort in alphabetical order
         let tags = response.data.map(e => e.tag_name).sort().join(' ');
         this.setState({tagString:tags});
+        this.props.sendTagsToParent(response.data);
       })
     .catch(err => console.log(`Error in TagEditBox.ComponentDidMount() - ${err}`));
   }
