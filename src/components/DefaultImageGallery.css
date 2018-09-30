@@ -1,5 +1,6 @@
 .image-gallery {
   border: 2px solid #000000;
+  background-color: #205f8a;
   box-sizing: border-box;
   border-radius: 3px;
   display: flex;
@@ -29,9 +30,9 @@
   width: 100px;
   border: 1px solid #000000;
   border-radius: 5px;
-  -webkit-box-shadow: 4px 4px 8px 0px #32323278;
-  -moz-box-shadow:    4px 4px 8px 0px #32323278;
-  box-shadow:         4px 4px 8px 0px #32323278;
+  -webkit-box-shadow: 4px 4px 8px 0px #323232FF;
+  -moz-box-shadow:    4px 4px 8px 0px #323232FF;
+  box-shadow:         4px 4px 8px 0px #323232FF;
 }
 
 .single-image:hover {

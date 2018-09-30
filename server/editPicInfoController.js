@@ -59,13 +59,39 @@ const editTagsMain = (req, res, next) => {
   { req.body.tags ? allSmall = req.body.tags.map(e => e.toLowerCase()) : null }
   req.body.tags = allSmall;
   // SEQUENCE: Each function passes the next function in the chain as a callback
-  //           handleTagImplications() - analyzes the user's input and inserts implied tags
   //           aliasUserTags() - alters tag list to conform to user-defined tagging rules
+  //           handleTagImplications() - analyzes the user's input and inserts implied tags
   //           newTagsToReferenceTable() - adds a new ID number to any unknown tags
   //           changePhotoTags() - Applies all requested tags to the specified picture and removes tags not requested
-  handleTagImplications(req, res, aliasUserTags);
+  aliasUserTags(req, res, handleTagImplications);
   res.sendStatus(200);
 }
+  
+async function aliasUserTags(req, res, callback) {
+  // Takes in newTagToReferenceTable as a callback
+  const dbInst = req.app.get('db');
+  const { tags } = req.body;
+  // create an array of promises that must be resolved before moving on
+  // for each tag supplied by the user, poll it against the db to see if it has an alias
+  const tagsPromise = new Promise(async (resolve, reject) => {
+    const promises = tags.map(str => {
+      return dbInst.alias_photo_tag(str)
+    });
+    resolve(await Promise.all([...promises]))
+  });
+  const data = await tagsPromise;
+  console.log('data', data);
+  console.log("initial tags", req.body.tags);
+  req.body.tags.forEach((e, i, s) => {
+    if (data[i].length > 0) {
+      s[i] = data[i]['0'].new_name;
+    }
+  })
+  console.log("resulting tags", req.body.tags);
+  // call newTagToReferenceTable and pass in the next callback
+  callback(req, res, changePhotoTags);
+}
+  
 
 async function handleTagImplications(req, res, callback) {
   console.log('handleTagImplications', req.body.pid);
@@ -97,35 +123,6 @@ async function handleTagImplications(req, res, callback) {
   // console.log('REQ', req.body.pid);
   callback(req, res, newTagsToReferenceTable);
 }
-
-async function aliasUserTags(req, res, callback) {
-  // Takes in newTagToReferenceTable as a callback
-  const dbInst = req.app.get('db');
-  const { tags } = req.body;
-  // create an array of promises that must be resolved before moving on
-  // for each tag supplied by the user, poll it against the db to see if it has an alias
-  const tagsPromise = new Promise(async (resolve, reject) => {
-    const promises = tags.map(str => {
-      return dbInst.alias_photo_tag(str)
-    });
-    resolve(await Promise.all([...promises]))
-  });
-  const data = await tagsPromise;
-
-  console.log("initial tags", req.body.tags);
-  req.body.tags.forEach((e, i) => {
-    if (data[i].length > 0) {
-      return data[i]['0'].new_name;
-    }
-    else {
-      return e;
-    }
-  })
-  console.log("resulting tags", req.body.tags);
-  // call newTagToReferenceTable and pass in the next callback
-  callback(req, res, changePhotoTags);
-}
-
 async function newTagsToReferenceTable(req, res, callback)
 // Handling an arbirtary number of values in SQL is really difficult, so this function does it in JS
 // Declare db instance and dereference variables

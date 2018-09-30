@@ -6,12 +6,12 @@
   padding: 5px;
   margin: 10px;
   text-align: center;
+  height: 75vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .alias-table-cell {
-  /* display: flex; */
-  /* align-items: center; */
-  /* border: 1px solid teal; */
   box-sizing: border-box;
   text-align: left;
   padding: 2px 5px;
@@ -36,4 +36,10 @@
 
 .alias-table p {
   margin: 0px;
+}
+
+@media only screen and (max-width: 865px) {
+  .alias-table {
+    width: fit-content;
+  }
 }

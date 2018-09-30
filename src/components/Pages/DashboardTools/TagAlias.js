@@ -33,8 +33,8 @@ class TagAlias extends Component
     else
     {
       this.props.addAlias({
-        oldname: this.state.oldNameInput.trim().toLowerCase(), 
-        newname: this.state.newNameInput.trim().toLowerCase()});
+        oldname: this.state.oldNameInput.trim().toLowerCase().replace(/[\s]/g, '_'), 
+        newname: this.state.newNameInput.trim().toLowerCase().replace(/[\s]/g, '_')});
       this.setState({oldNameInput: '', newNameInput: ''});
     }
   }

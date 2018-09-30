@@ -36,14 +36,36 @@
 }
 
 .gui {
-  /* position: absolute; */
   width: 100%;
-  /* border: 1px solid pink; */
 }
 
 
 .sticky {
   border: 1px solid green;
+  border-radius: 10px;
+  background-color: #9BA0B4;
   position: sticky;
   top: 10px;
+  width: fit-content;
+}
+
+@media only screen and (max-width: 650px) {
+  .out {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .search-bar-row {
+    width: 200px;
+    justify-content: left;
+  }
+  .wrap-box {
+    padding: 0px;
+    margin: 0px;
+  }
+  .mobile-friendly {
+    padding: 0px;
+    margin: 0px;
+  }
 }

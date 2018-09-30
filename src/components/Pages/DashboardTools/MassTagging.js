@@ -17,13 +17,14 @@ function escapeRegexCharacters(str) {
 
 function getSuggestionValue(suggestion) {
   return suggestion.tag_name.replace(/[_]/g, ' ');
+  // return suggestion.tag_name;
 }
 
 function renderSuggestion(suggestion) {
   return (
     <span>
       {/* the search results should not be displayed with underscores. Convert them to spaces */}
-      {suggestion.tag_name.replace(/[_]/g, ' ')}
+      {suggestion.tag_name.trim().replace(/[_]/g, ' ')}
     </span>
   );
 }
@@ -75,6 +76,7 @@ class MassTagging extends Component
   
   getSuggestions(value) 
   {
+
     const escapedValue = escapeRegexCharacters(value.trim().replace(/[\s]/g, '_'));
     
     if (escapedValue === '') {
@@ -111,6 +113,7 @@ class MassTagging extends Component
 
   onChangeTag = (event, { newValue, method }) => 
   {
+    newValue;
     this.setState({tagBarValue: newValue});
   };
 
@@ -126,7 +129,7 @@ class MassTagging extends Component
   {
     if(e.key === 'Enter')
     {
-      console.log('confirmed');
+      console.log('confirmed', this.state.tagBarValue);
     }
   }
   
@@ -165,9 +168,9 @@ class MassTagging extends Component
 
   normalTagButtonFn()
   {
-    const term = this.state.tagBarValue;
+    const term = this.state.tagBarValue.trim().replace(/[\s]/g, '_');
     const pid = [this.state.selectedCard];
-    if(term.trim().length > 0)
+    if(term.length > 0)
     {
       this.props.applyTagToPool({term, pid});
     }
@@ -252,15 +255,15 @@ class MassTagging extends Component
     // 
     const normalTagButton = (<Button className="header-segment" color='primary' 
                                   onClick={() => {this.normalTagButtonFn()}}>
-                                  Tag All</Button>);
+                                  Tag!</Button>);
     // disabledTagButton does not do anything, but displays a tooltip on mouseover or click
     const disabledTagButton = (<div><Tooltip placement="top" isOpen={this.state.tagTooltipOpen} target="TooltipMassTagError" toggle={this.toggleMassTagError}>
                                   Type in a term and hit Tag All to apply it</Tooltip>
                                   <Button id="TooltipMassTagError" className="header-segment"  color='primary'>
-                                  Tag All</Button></div>); 
+                                  Tag?</Button></div>); 
 
     return (
-      <div className="tag-rules-block">
+      <div className="tag-rules-block mobile-friendly">
         <div className='out'>
           <div className='in'>
             <div className='gui sticky'>
@@ -278,7 +281,7 @@ class MassTagging extends Component
                   }}>Reset All</a>
                 </div>
               </div>}
-              <div className="search-bar-row"> {/* Inherited from the header stylesheet */}
+              <div className="search-bar-row"> {/* Inherited from the autocomplete stylesheet */}
               <Autosuggest 
                 suggestions={tagAutocompleteSuggestions}
                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -304,8 +307,8 @@ class MassTagging extends Component
               {/* Render each search term below the search bar */}
               {this.state.selectedSearchTerms.map((e, i) => {
                 return (<div className='flex-row'>
-                  <button onClick={() => this.removeTermFromList(i)}>x</button>
                   <p className="green">{e.replace(/[_]/g, ' ')}</p>
+                  <button onClick={() => this.removeTermFromList(i)}>x</button>
                   </div>)
               })}
               {/* Render a different button depending on if the user is capable of searching */}

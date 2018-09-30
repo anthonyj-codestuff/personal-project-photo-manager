@@ -29,8 +29,8 @@ class TagImplication extends Component
     else
     {
       this.props.addImp({
-        predicate: this.state.predicateInput.trim().toLowerCase(), 
-        implies: this.state.impliesInput.trim().toLowerCase()});
+        predicate: this.state.predicateInput.trim().toLowerCase().replace(/[\s]/g, '_'), 
+        implies: this.state.impliesInput.trim().toLowerCase().replace(/[\s]/g, '_')});
       this.setState({predicateInput: '', impliesInput: ''});
     }
   }
