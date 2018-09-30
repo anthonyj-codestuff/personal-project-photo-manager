@@ -5,6 +5,7 @@ import Header from '../Header';
 import DateTime from '../DateTime';
 import './Pic.css';
 import TagEditBox from './PicStatComponents/TagEditBox';
+import PicStatBlock from './PicStatBlock';
 
 class Pic extends Component
 {
@@ -16,9 +17,11 @@ class Pic extends Component
       currentPic:'',
       title: '',
       uploadDate: '',
+      dimensions: {},
       description: 'none', //not implemented
       tagCloudObj: {} //not implemented
     };
+    this.onImgLoad = this.onImgLoad.bind(this);
   }
 
   componentDidMount()
@@ -32,6 +35,14 @@ class Pic extends Component
     .catch(err => console.log(`Error in Pic.componentDidMount() - ${err}`))
   }
 
+  onImgLoad({target:img}) {
+    this.setState({dimensions:{
+        height:document.getElementById('currently-loaded-img').naturalHeight, 
+        width:document.getElementById('currently-loaded-img').naturalWidth
+      }
+    });
+  }
+
   render()
   {
     return (
@@ -41,22 +52,24 @@ class Pic extends Component
           <div className="left-block">
             <div className="pic-title-block">
               <h2>{this.state.title}</h2>
-              <img src={this.state.currentPic} alt={this.state.title}/>
+              <img id='currently-loaded-img' src={this.state.currentPic} alt={this.state.title} onLoad={this.onImgLoad}/>
             </div>
-            <div className="stat-block">
-              <DateTime datetime={this.state.uploadDate}/>
-              Stats: Size, dimensions, upload date, ratio
-            </div>
+            <PicStatBlock
+              class="under-pic"
+              imgX={this.state.dimensions.width} 
+              imgY={this.state.dimensions.height}
+              uploadDate={this.state.uploadDate}/>
             <div className="tag-cloud">
               <p>It would be really cool to render a tag cloud here, but when you click on it, it switches to a text box where you can edit the tags</p>
               <TagEditBox pid={this.props.match.params.pid}/>
             </div>
           </div>
-          <div className="right-block">
-            Single Photo Options: edit tags, download, crop, rotate, add to folder, delete photo
-          </div>
+          <PicStatBlock 
+            class='sidebar'
+            imgX={this.state.dimensions.width} 
+            imgY={this.state.dimensions.height}
+            uploadDate={this.state.uploadDate}/>
         </div>
-
       </div>
     );
   }

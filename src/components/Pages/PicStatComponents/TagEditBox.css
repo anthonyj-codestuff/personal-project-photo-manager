@@ -3,12 +3,6 @@ textarea {
   height: 100px;
   resize: none;
   
-  background-color: #664466;
-  color: #FFFFFF;
-}
-
-@media only screen and (max-width: 450px) {
-  textarea {
-    height: 75px;
-  }
+  background-color: #9BA0B4;
+  color: #000000;
 }

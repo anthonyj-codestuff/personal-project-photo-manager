@@ -30,25 +30,37 @@ h2 {
   text-align: left;
 }
 .stat-block {
-  border: 2px solid #000000;
+  border: 2px solid #0000FF;
   margin: 20px 0;
   box-sizing: border-box;
 }
+
+.sidebar {
+  background-color: #9BA0B4;
+  /* border: 3px solid #000000; */
+  /* box-sizing: border-box; */
+  margin: 0 5px 0 auto;
+  min-width: 250px;
+  max-width: 250px;
+}
+
+.under-pic {
+  display: none;
+  background-color: #9db49b;
+  /* border: 3px solid #000000; */
+  box-sizing: border-box;
+  margin: 0 5px 0 auto;
+  width: 100%;
+}
+
 .tag-cloud {
   border: 2px solid #000000;
   margin: 20px 0 0 0;
   box-sizing: border-box;
 }
+
 .tag-cloud > textarea {
   /* Styling information here will overwrite the upload page settings */
-}
-
-.right-block {
-  background-color: #9BA0B4;
-  border: 3px solid #000000;
-  margin: 0 5px 0 auto;
-  width: 300px;
-  box-sizing: border-box;
 }
 
 @media only screen and (max-width: 450px) {
@@ -65,5 +77,11 @@ h2 {
   .tag-cloud {
     border: 1px solid #000000;
     margin: 5px 0 0 0;
+  }
+  .sidebar {
+    display: none;
+  }
+  .under-pic {
+    display: inherit;
   }
 }

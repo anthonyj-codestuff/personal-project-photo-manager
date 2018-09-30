@@ -6,9 +6,7 @@ const DateTime = (props) => {
   const date = datetime.match(/\d+-\d+-\d+/g)
   const time = datetime.match(/\d+:\d+/g)
   return (
-    <div>
-      <p>{`Uploaded on ${date} at ${time}`}</p>
-    </div>
+    <p>{`Uploaded on ${date} at ${time}`}</p>
   );
 };
 

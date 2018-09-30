@@ -11,9 +11,11 @@ import './NewUploadForm.css';
 const NewUploadForm = (props) => 
 {
   return (
-    <div>
-      <div className="single-form-container" >
-        <img className="single-image new-image" src={props.url} alt={props.title}/>
+    <div className="single-form-container" >
+      <div className='mobile-top'>
+        <div className='new-image-box'>
+          <img className='new-image' src={props.url} alt={props.title}/>
+        </div>
         <div className="middle-box">
           <p>Title:</p>
           <input 
@@ -26,14 +28,13 @@ const NewUploadForm = (props) =>
             <option value="null">Not Implemented</option>
           </select> 
         </div>
-        <div className="right-box">
-          <div>
-            <p>Tags:</p>
-          </div>
-          <div className="new-upload-tag-box" >
-            {/* <textarea onBlur={(e) => props.editPicTags({pid:props.pid, tags:e.target.value})} placeholder="enter_tags_here"/> */}
-            <TagEditBox pid={props.pid}/>
-          </div>
+      </div>
+      <div className="right-box">
+        <div>
+          <p>Tags:</p>
+        </div>
+        <div className="new-upload-tag-box" >
+          <TagEditBox pid={props.pid}/>
         </div>
       </div>
     </div>
