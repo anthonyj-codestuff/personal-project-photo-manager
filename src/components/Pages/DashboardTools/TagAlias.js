@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Popover, Button } from 'antd';
 
 import { getListOfAliases, addAlias, deleteAlias } from '../../../redux/generalReducer';
 import './TagAlias.css';
@@ -45,6 +46,12 @@ class TagAlias extends Component
   }
   
   render() { 
+    const content = (
+      <div className='dashboard-tooltip'>
+        <span>Any tags found in the left column will be changed to their parner in the right column before they are added to the database. If the user defines 'outside = outdoors', then all new instances of 'outside' will be changed</span>
+      </div>
+    );
+
     let aliasList = [];
     this.props.aliasObj ?
     aliasList = this.props.aliasObj.slice(0).reverse().map((e,i) => {
@@ -67,13 +74,18 @@ class TagAlias extends Component
 
     return (
       <div className="alias-table">
-        <h3>Tag Aliases</h3>
+        <div className='flex-row flex-center-x flex-center-y'>
+          <h3>Tag Aliases</h3>
+          <Popover content={content} title="Tag Aliasing" trigger="click">
+            <p style={{'color':'#5555FF', 'textDecoration':'underline'}}> Help?</p>
+          </Popover>
+        </div>
         <table>
           <thead>
             <tr>
             <td><input onChange={(e) => this.setState({oldNameInput: e.target.value})} value={this.state.oldNameInput} placeholder='Old Name'/></td>
-            <td className="alias-table-cell"> -> </td>
-            <td><input onChange={(e) => this.setState({newNameInput: e.target.value})} value={this.state.newNameInput} placeholder='Becomes...'/></td>
+            <td className="alias-table-cell"> = </td>
+            <td><input onChange={(e) => this.setState({newNameInput: e.target.value})} value={this.state.newNameInput} placeholder='New Name'/></td>
             <td className="alias-table-cell">
               <button onClick={() => this.handleNewAliasButtonFn()}>Add</button>
             </td>

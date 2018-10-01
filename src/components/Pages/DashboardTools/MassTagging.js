@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { Button, Tooltip, Fade } from 'reactstrap';
-import { Button as Dot } from 'antd';
+import { Popover, Button as Dot } from 'antd';
 import { getAllPics, getListOfTags, getSearchResultsTagTool, resetMassTaggingPool, applyTagToPool } from '../../../redux/generalReducer';
 
 import MassTagImgNode from './MassTagImgNode';
@@ -39,10 +39,10 @@ class MassTagging extends Component
       tagTooltipOpen: false,
       searchBarValue: '',
       tagBarValue: '',
-      selectedSearchTerms: ['outdoors'],
+      selectedSearchTerms: [],
       tagAutocompleteSuggestions: [],
       // selectedCards: [],
-      selectedCard: null, //This should be an array of numbers. Fix this sometime
+      selectedCard: null,
       tagFormFadeIn: false
     };
     this.toggleMassSearchError = this.toggleMassSearchError.bind(this);
@@ -212,7 +212,13 @@ class MassTagging extends Component
   }
 
   render() 
-  {
+  { 
+    const content = (
+      <div className='dashboard-tooltip'>
+        <span>This tool allows the user to make small changes without needing to navigate between individual pictures. Search for a tag to narrow down results, and then select a picture to tag.</span>
+      </div>
+    );
+
     let squares = this.props.massTagSearchResults.map((e,i) => 
     {
       return <MassTagImgNode 
@@ -268,7 +274,12 @@ class MassTagging extends Component
           <div className='in'>
             <div className='gui sticky'>
               {<div>
-                <h5>Fast Tagging</h5>
+                <div className='flex-row flex-center-x flex-center-y'>
+                  <h3>Fast Tagging Tool</h3>
+                  <Popover content={content} title="Fast Tagging" trigger="click">
+                    <p style={{'color':'#5555FF', 'textDecoration':'underline'}}> Help?</p>
+                  </Popover>
+                </div>
                 <div className='flex-row separate'>
                   {/* <span>{`Pictures Selected: ${this.state.selectedCards.length}`}</span> */}
                   <span>{`Selected: ${this.state.selectedCard ? `#${this.state.selectedCard}` : ''}`}</span>
@@ -306,9 +317,9 @@ class MassTagging extends Component
               </div>
               {/* Render each search term below the search bar */}
               {this.state.selectedSearchTerms.map((e, i) => {
-                return (<div className='flex-row'>
-                  <p className="green">{e.replace(/[_]/g, ' ')}</p>
-                  <button onClick={() => this.removeTermFromList(i)}>x</button>
+                return (<div className='flex-row flex-center-y'>
+                  <p className="green modal-search-terms fast-tag-terms">{e.replace(/[_]/g, ' ')}</p>
+                  <button className='blue-button' onClick={() => this.removeTermFromList(i)}>x</button>
                   </div>)
               })}
               {/* Render a different button depending on if the user is capable of searching */}

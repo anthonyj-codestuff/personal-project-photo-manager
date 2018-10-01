@@ -23,3 +23,7 @@
     width: auto;
   }
 }
+
+.dashboard-tooltip {
+  max-width: 300px;
+}

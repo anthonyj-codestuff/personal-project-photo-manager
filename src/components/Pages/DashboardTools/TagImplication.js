@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Popover, Button } from 'antd';
 
 import { getListOfImps, addImp, deleteImp } from '../../../redux/generalReducer';
 import './TagImplication.css';
@@ -41,6 +42,12 @@ class TagImplication extends Component
   }
   
   render() { 
+    const content = (
+      <div className='dashboard-tooltip'>
+        <span>Defines when tags should be accompanied by other tags. For instance, 'swimming -> water' means that any instance of a 'swimming' tag should also have a 'water' tag.</span>
+      </div>
+    );
+    
     let impList = [];
     this.props.impObj ?
     impList = this.props.impObj.slice(0).reverse().map((e,i) => {
@@ -62,7 +69,12 @@ class TagImplication extends Component
 
     return (
       <div className="alias-table">
-        <h3>Tag Implications</h3>
+        <div className='flex-row flex-center-x flex-center-y'>
+          <h3>Tag Implications</h3>
+          <Popover content={content} title="Tag Implication" trigger="click">
+            <p style={{'color':'#5555FF', 'textDecoration':'underline'}}> Help?</p>
+          </Popover>
+        </div>
         <table>
           <thead>
             <tr>
