@@ -59,11 +59,11 @@ const editTagsMain = (req, res, next) => {
   { req.body.tags ? allSmall = req.body.tags.map(e => e.toLowerCase()) : null }
   req.body.tags = allSmall;
   // SEQUENCE: Each function passes the next function in the chain as a callback
-  //           aliasUserTags() - alters tag list to conform to user-defined tagging rules
   //           handleTagImplications() - analyzes the user's input and inserts implied tags
+  //           aliasUserTags() - alters tag list to conform to user-defined tagging rules
   //           newTagsToReferenceTable() - adds a new ID number to any unknown tags
   //           changePhotoTags() - Applies all requested tags to the specified picture and removes tags not requested
-  aliasUserTags(req, res, handleTagImplications);
+  handleTagImplications(req, res, aliasUserTags);
   res.sendStatus(200);
 }
   

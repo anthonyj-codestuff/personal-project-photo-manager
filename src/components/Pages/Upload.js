@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 //only needed to gain access to props
 import { connect } from 'react-redux';
@@ -20,23 +22,25 @@ const Upload = (props) => {
       {/* Map through Redux's array of picture data and create one upload form for each one
           Each upload form has internal functionality to poll the database as the user finishes typing */}
       <div className="new-picture-forms">
-      <p>Test - Delete when finished</p>
-      <NewUploadForm
-                  pid={490}
-                  url={"https://firebasestorage.googleapis.com/v0/b/photo-storage-test-40dab.appspot.com/o/don't%20delete%2FMaOswE8.png?alt=media&token=65f7c686-a01f-4cb8-a034-00dee00804f3"}
-                  title={"Untitled"}/>
-      <p>New Uploads</p>
+      {props.userNewUploads.length ? <p>New Uploads</p> : null}
         {props.userNewUploads.map((e) => 
-            {
-              return (
-                <NewUploadForm
-                  key={e.pid}
-                  pid={e.pid}
-                  url={e.url}
-                  title={e.title}/>
-              )
-            }
+          {
+            return (
+              <NewUploadForm
+                key={e.pid}
+                pid={e.pid}
+                url={e.url}
+                title={e.title}/>
+            )
+          }
         )}
+        {props.userNewUploads.length ? 
+        <div className='space-top flex-row flex-center-x'>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            {/* Does nothing but redirect the user to home. Data is saved automatically as they type */}
+            <Button className='header-segment' color='primary' style={{'width':'200px'}}>Submit Changes</Button>
+          </Link>
+        </div> : null}
       </div>
     </div>
   );

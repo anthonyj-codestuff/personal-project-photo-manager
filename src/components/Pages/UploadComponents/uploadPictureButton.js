@@ -51,11 +51,12 @@ class UploadPictureButton extends Component {
     // console.log(fbConfig)
     return (
       <div className="upload-module">
-        <label>
-          {this.state.isUploading && <p>Uploading: {this.state.progress}</p>}
+        <label className='header-segment upload-button' style={{pointer: 'cursor'}}>
+          {this.state.isUploading ? <p>Uploading: {this.state.progress}</p> : 'Upload a Photo'}
           <FileUploader
             accept="image/*"
             name="avatar"
+            hidden='true'
             randomizeFilename
             storageRef={firebase.storage().ref("images")}
             onUploadStart={this.handleUploadStart}

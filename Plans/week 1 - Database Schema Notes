@@ -90,5 +90,19 @@ tag_name   varchar(50)
 assoc_pid  array --holds a list of photo ids
 
 
+// UNUSED QUERIES //
 
+/ Gets the count of all tagged photos /
+SELECT COUNT(*), photo.pid
+  FROM tag
+  JOIN photo ON photo.pid = tag.pid
+  GROUP BY photo.pid;
+
+/ Pulls pids of all untagged photos /
+SELECT photo.*
+  FROM photo
+  WHERE NOT EXISTS(
+    SELECT NULL
+    FROM tag
+    WHERE photo.pid = tag.pid)
 

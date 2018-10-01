@@ -18,6 +18,10 @@
   justify-content: center;
 }
 
+.space-top {
+  margin-top: 20px;
+}
+
 .flex-center-y{
   align-items: center;
 }

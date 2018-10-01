@@ -1,20 +1,32 @@
 .upload-module {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   box-sizing: border-box;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin-right: 1px;
   padding: 10px;
 }
+
+.upload-button {
+  border: 2px solid #0069D9;
+}
+
+.upload-button:hover {
+  background-color: #0069D9;
+  color: white;
+}
+
+.upload-button
 
 input {
   margin: 10px;  /* Margin should equal the padding on the label + actual margin or else divs will clip into label */
 }
 
-label {
-  background-color: #54697a;
-  border: 2px solid #BADA55;
+/* label {
+  background-color: #afafaf;
   box-sizing: border-box;
-  color: #000000;
   padding: 10px;
   border-radius: 4px;
   cursor: default;
-}
+} */
