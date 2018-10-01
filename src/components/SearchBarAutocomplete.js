@@ -114,8 +114,9 @@ class SearchBarAutosuggest extends Component
           type="danger" 
           size="small" 
           onClick={() => { // send the value to the search terms array and prepend it with a minus sign
-            if(this.state.value)
-              {this.props.setSearchTermsExclusive(this.props.value.replace(/[\s]/g, '_'));
+            if(this.props.value)
+            {
+              this.props.setSearchTermsExclusive(this.props.value.replace(/[\s]/g, '_'));
               this.props.setSearchbarValue('')};
             }}/>
       </div>

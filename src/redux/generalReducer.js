@@ -91,7 +91,6 @@ export default function generalReducer(state = initialState, action)
       let newInc = {inc: state.lastSearchArr.inc.slice(),
                     exc: state.lastSearchArr.exc.slice()};
       // check the value before adding it to state
-      console.log('action.payload', action.payload);
       action.payload ? 
       newInc.inc.push(action.payload) //ew
       : null;
@@ -103,7 +102,7 @@ export default function generalReducer(state = initialState, action)
       let newExc = {inc: state.lastSearchArr.inc.slice(),
                     exc: state.lastSearchArr.exc.slice()};
       action.payload ? 
-      newInc.exc.push(action.payload)
+      newExc.exc.push(action.payload)
       : null;
       return {
         ...state,
@@ -294,6 +293,7 @@ export function setSearchTermsInclusive(terms){
 }
 
 export function setSearchTermsExclusive(terms){
+  console.log(terms);
   return {
     type: SET_SEARCH_TERMS_EXC,
     payload: terms
