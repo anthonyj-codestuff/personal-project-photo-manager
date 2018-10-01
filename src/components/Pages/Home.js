@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../Header';
 import DefaultImageGallery from '../DefaultImageGallery';
+import PopDownHeader from '../../components/PopDownHeader';
 // import './Home.css';
 
 //Redux stuff
@@ -18,7 +19,8 @@ class Home extends Component
   {
     return (
       <div>
-        <Header/>
+      <div className='dt-header-div'><Header/></div>
+      <div className='mb-header-div'><PopDownHeader/></div>
         <DefaultImageGallery 
           picData={this.props.currentlyViewingSearchResults ? this.props.searchResults : this.props.picsDataObj}
           searchArr={this.props.lastSearchArr}

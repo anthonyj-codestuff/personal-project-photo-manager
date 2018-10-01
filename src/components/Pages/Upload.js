@@ -6,12 +6,14 @@ import { connect } from 'react-redux';
 import Header from '../Header';
 import UploadPictureButton from './UploadComponents/uploadPictureButton';
 import NewUploadForm from './UploadComponents/NewUploadForm';
+import PopDownHeader from '../../components/PopDownHeader';
 import './Upload.css';
 
 const Upload = (props) => {
   return (
     <div>
-      <Header/>
+      <div className='dt-header-div'><Header/></div>
+      <div className='mb-header-div'><PopDownHeader/></div>
       <h2>Upload Page</h2>
       <UploadPictureButton/>
       {/* This should display only the images that the user just uploaded */}
