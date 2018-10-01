@@ -19,10 +19,10 @@
 }
 
 /* This should maybe cause the last row to be left-justified */
-.image-gallery:after {
+/* .image-gallery:after {
   content: "";
   flex: auto;
-}
+} */
 
 .single-image {
   margin: 20px;

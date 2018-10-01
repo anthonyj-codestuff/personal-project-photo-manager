@@ -88,3 +88,9 @@ body {
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
+
+@media only screen and (max-width: 340px) {
+  .react-autosuggest__input {
+    width: 200px;
+  }
+}

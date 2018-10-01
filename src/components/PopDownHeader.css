@@ -29,3 +29,9 @@
 .popdown-search-button {
   width: 97%;
 }
+.popdown-search-button:hover {
+  border: 1px solid #0069D9;
+  background-color: #515E89;
+  color: #40A9FF;
+  
+}

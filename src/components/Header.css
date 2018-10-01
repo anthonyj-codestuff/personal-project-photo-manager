@@ -45,6 +45,10 @@ header {
 .green {color: #208b1c;}
 .red {color: #af1212;}
 
+.ant-btn-circle.ant-btn-sm {
+  min-width: 24px;
+}
+
 @media only screen and (max-width: 450px) {
   header {
     display: flex;
@@ -66,4 +70,10 @@ header {
   font-size: 20px;
   line-height: 20px;
   margin: 5px 0;
+}
+
+@media only screen and (max-width: 340px) {
+  .modal-title {
+    font-size: 15px;
+  }
 }
