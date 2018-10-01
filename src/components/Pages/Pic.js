@@ -65,8 +65,8 @@ class Pic extends Component
   {
     return (
       <div>
-        <Header/>
-        <PopDownHeader/>
+        <div className='dt-header-div'><Header/></div>
+        <div className='mb-header-div'><PopDownHeader/></div>
         <div className="main-block">
           <div className="left-block">
             <div className="pic-title-block">

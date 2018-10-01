@@ -13,3 +13,12 @@
 .separate {
   justify-content: space-between;
 }
+
+@media only screen and (max-width: 450px) {
+  .dt-header-div {
+    display: none;
+  }
+  .mb-header-div {
+    display: inherit;
+  }
+}

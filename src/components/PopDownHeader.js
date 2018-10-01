@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -13,8 +14,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
-  
-  import { getSearchResults, resetSearchToggle, setSearchTermsInclusive, resetMassTaggingPool } from '../redux/generalReducer';
+
+import { getSearchResults, resetSearchToggle, setSearchTermsInclusive, resetMassTaggingPool } from '../redux/generalReducer';
+import './PopDownHeader.css'
 
 class Example extends React.Component {
   constructor(props) {
@@ -34,21 +36,25 @@ class Example extends React.Component {
     return (
       <div>
         <Navbar color="dark" dark expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
+          <NavbarBrand href="/">PicSorter</NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link to="/" style={{ textDecoration: 'none' }} onClick={() => this.props.resetSearchToggle()}>Gallery</Link>
+                <Link to="/" style={{ textDecoration: 'none' }} className="header-segment" onClick={() => this.props.resetSearchToggle()}>Gallery</Link>
               </NavItem>
               <NavItem>
-                <Link to="/upload" style={{ textDecoration: 'none' }}>Upload</Link>
+                <Link to="/upload" style={{ textDecoration: 'none' }} className="header-segment">Upload</Link>
               </NavItem>
               <NavItem>
                 <Link to="/dashboard" 
                 style={{ textDecoration: 'none' }} 
+                className="header-segment"
                 //The link will not fire if the user is already on the Dashboard, so componentWillUnmount will not fire. Run the Mass Tagging cleanup function manually
                 onClick={() => this.props.resetMassTaggingPool()}>Options</Link>
+              </NavItem>
+              <NavItem>
+                <Button className="header-segment popdown-search-button" color="primary"><p>Search</p></Button> {/* onClick={() => this.toggleModal()} */}
               </NavItem>
             </Nav>
           </Collapse>
