@@ -1,10 +1,4 @@
-## Table of Contents
-
-- [Create a Readme File](#create-a-readme-file)
-
-## Create a Readme File
-
-A tool that allows the user to manage and categorize images based on user-defined tags and rules
+This tool allows the user to manage and categorize images based on user-defined tags and rules
 The user is able to:
   * Upload images
   * Apply tags (categories) to images
