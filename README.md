@@ -13,4 +13,25 @@ The user is able to:
 
 ![All screenshots of mobile website](https://i.imgur.com/ZhGIA2U.png)
 
+SETUP INSTRUCTIONS
+To set up from scratch (assuming that VSCode and NPM are installed properly on your system. 
+  Also create a project at Heroku and install Postgres on it):
+1: Run script in create_new_tables.sql to set up PostgreSQL database if accessing database directly. This step will be deprecated in a later version.
+2: Create a new .env file under the root dir
+		DB_CONNECTION= [YOUR HEROKU CREDENTIALS STRING + '?ssl=true']
+		SERVER_PORT=3001
+		REACT_APP_API_KEY= [config.apiKey]
+		REACT_APP_AUTH_DOMAIN= [config.authDomain]
+		REACT_APP_DB_URL= [config.databaseURL]
+		REACT_APP_PROJECT_ID= [config.projectId]
+		REACT_APP_STORAGE_BUCKET= [config.storageBucket]
+		REACT_APP_MESSAGING_SENDER_ID= [config.messagingSenderId]
+4: Create a new Google Firebase project and give it a name (console.firebase.google.com)
+	Open the Develop Menu and Click Storage and Get Started to activate Storage functionality
+	Click Rules and change 'request.auth != null;' to 'true' (this is not a permanent thing and should be removed after auth0 is set up)
+5: As of 2018-11-03, your Firebase credentials should be located on your project page. Find them by clicking the </> button and fill in your .env file
+6: Activate Functions on Firebase and run 'npm install -g firebase-tools' followed by 'firebase-init' and 'firebase-deploy'. 
+	You may be asked to run 'firebase-login' as well
+	On init, press space to select Functions and confirm
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
