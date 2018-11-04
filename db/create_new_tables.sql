@@ -26,3 +26,9 @@ CREATE TABLE IF NOT EXISTS tag_imp
     predicate VARCHAR(50),
     implies VARCHAR(50)
 );
+
+CREATE TABLE IF NOT EXISTS tag_ref
+(
+    tid SERIAL PRIMARY KEY NOT NULL,
+    tag_name VARCHAR(50)
+);
