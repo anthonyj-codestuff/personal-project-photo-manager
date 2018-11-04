@@ -12,3 +12,10 @@ CREATE TABLE IF NOT EXISTS tag
     tid INTEGER NOT NULL,
     pid INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS tag_alias
+(
+    alias_id SERIAL PRIMARY KEY NOT NULL,
+    old_name VARCHAR(50) NOT NULL,
+    new_name VARCHAR(50) NOT NULL
+);
