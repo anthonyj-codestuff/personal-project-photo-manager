@@ -19,3 +19,10 @@ CREATE TABLE IF NOT EXISTS tag_alias
     old_name VARCHAR(50) NOT NULL,
     new_name VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS tag_imp
+(
+    imp_id SERIAL PRIMARY KEY NOT NULL,
+    predicate VARCHAR(50),
+    implies VARCHAR(50)
+);
