@@ -32,3 +32,14 @@ CREATE TABLE IF NOT EXISTS tag_ref
     tid SERIAL PRIMARY KEY NOT NULL,
     tag_name VARCHAR(50)
 );
+
+CREATE TABLE IF NOT EXISTS users
+(
+    uid SERIAL PRIMARY KEY NOT NULL,
+    uname VARCHAR(50),
+    email VARCHAR(200),
+    phone INTEGER,
+    avatar VARCHAR(200),
+    upload_count INTEGER,
+    created_date DATE DEFAULT CURRENT_DATE
+);
