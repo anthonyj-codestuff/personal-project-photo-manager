@@ -7,11 +7,17 @@ The user is able to:
     * Tags can be instructed to implicate other tags in the event of tags that share common traits (eg: swimming < water)
   * Apply a mass tagging operation on a custom pool of images (UNDER CONSTRUCTION)
 
+### Front page view of photo management website and demonstration of search modal
 ![Front page view of photo management website and demonstration of search modal](https://i.imgur.com/RX0HPGk.gif)
+### Demonstration of user-defined custom rules
 
+Aliases transform one tag into a replacement tag to consolidate terms and account for common spelling errors
+
+Implications add additional terms whenever one tag would imply the existence of another
 ![Demonstration of user-defined custom rules](https://i.imgur.com/bXnuljb.png)
 
-![All screenshots of mobile website](https://i.imgur.com/ZhGIA2U.png)
+### All screenshots of mobile website
+![All screenshots of mobile website](https://i.imgur.com/bfveSLu.png)
 
 SETUP INSTRUCTIONS
 To set up from scratch (assuming that VSCode and NPM are installed properly on your system. 
