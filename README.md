@@ -11,6 +11,6 @@ The user is able to:
 
 ![Demonstration of user-defined custom rules](https://i.imgur.com/bXnuljb.png)
 
-![All screenshots of mobile website](https://i.imgur.com/ZhGIA2U.png)
+![All screenshots of mobile website](https://i.imgur.com/bfveSLu.png)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
