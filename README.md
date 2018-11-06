@@ -40,8 +40,15 @@ Also create a project at Heroku and install Postgres on it):
 Open the Develop Menu and Click Storage and Get Started to activate Storage functionality  
 Click Rules and change **request.auth != null;** to **true** (this is not a permanent thing and should be removed after auth0 is set up)
 4. As of 2018-11-03, your Firebase credentials should be located on your project page. Find them by clicking the </> button and fill in your .env file
-5. Activate Functions on Firebase and run **npm install -g firebase-tools** followed by **firebase-init** and **firebase-deploy**.  
-You may be asked to run **firebase-login** as well  
-On init, press space to select Functions and confirm
+5. Activate Functions on Firebase and run **npm install -g firebase-tools** followed by **firebase init** and **firebase-deploy**.  
+You may be asked to run **firebase login** as well  
+On init, press space to select Functions and confirm  
+If you get **Error: 403, The caller does not have permission**, delete the contents of **.firebaserc** and try again  
+Point firebase-init to your project and choose Javascript (or Typescript) as your preferred language. Install requested dependencies  
+6. Check **Plans/Firebase Resize Function** and copy the funtion to the requested location. This funtion will allow Firebase to automatically resize images as they are uploaded  
+If you are on Windows, you may also need to go to **.firebase.json** and change **$RESOURCE_DIR** with **%RESOURCE_DIR%** before the next step  
+I also had to run **cd functions\\** followed by **npm i @google-cloud/storage@1.7 child-process-save** to get it running a second time  
+7. Run **firebase deploy** to activate the script  
+8. Should work. Message me if you have problems.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
