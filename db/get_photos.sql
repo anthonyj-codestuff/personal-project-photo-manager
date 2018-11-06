@@ -1,1 +1,1 @@
-SELECT * FROM photo;
+SELECT * FROM photo ORDER BY datetime DESC;
