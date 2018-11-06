@@ -4,6 +4,9 @@ npm install @google-cloud/storage@1.7
 npm install child-process-promise
 // =======================================
 
+
+// REPLACE CONTENTS OF functions/index.js WITH THIS //
+
 const functions = require("firebase-functions");
 let gcs = require('@google-cloud/storage');
 gcs = gcs();
