@@ -23,18 +23,18 @@ const searchPhotos = (req, res, next) =>
   // axios (express) automatically converts pluses to spaces, so no conversion is necessary
   console.log('queryTerms', req.query.terms);
   userTermArr = req.query.terms.trim().split(' ');
-  console.log("userTermArr", userTermArr);
+  // console.log("userTermArr", userTermArr);
   incArr = userTermArr.filter(e => e[0] !== '-');
-  console.log("incArr", incArr);
+  // console.log("incArr", incArr);
   excArr = userTermArr.filter(e => e[0] === '-');
-  console.log("excArr", excArr);
+  // console.log("excArr", excArr);
 
   const dbInst = req.app.get('db');
   searchQuery = incArr //construct the positive part of the query
   .map((e,i) => `SELECT photo.pid, photo.url, photo.title, photo.uid, photo.datetime FROM tag_ref JOIN tag ON tag.tid = tag_ref.tid JOIN photo ON photo.pid = tag.pid WHERE tag_ref.tag_name = '${e}'`)
   .join(' INTERSECT ')
   .concat(';');
-  console.log(searchQuery);
+  // console.log(searchQuery);
   dbInst.query(searchQuery)
   .then(response => res.status(200).send(response))
   .catch(err => console.log(`Error in search_photos() - ${err}`));
