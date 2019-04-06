@@ -1,6 +1,5 @@
 {
   "projects": {
-    "default": "photo-storage-test-40dab",
-    "photo-album": "photo-storage-test-40dab"
+    "default": "pic-tagger"
   }
 }
