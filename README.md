@@ -39,7 +39,7 @@ Also create a project at Heroku and install Postgres on it):
 3. Create a new Google Firebase project and give it a name (console.firebase.google.com)  
 Open the Develop Menu and Click Storage and Get Started to activate Storage functionality  
 Click Rules and change **request.auth != null;** to **true** (this is not a permanent thing and should be removed after auth0 is set up)
-4. As of 2018-11-03, your Firebase credentials should be located on your project page. Find them by clicking the </> button and fill in your .env file
+4. As of 2019-05-12, your Firebase credentials should be located on your project settings page. Find them by clicking the </> button and registering the program. Then fill in your .env file
 5. Activate Functions on Firebase and run **npm install -g firebase-tools** followed by **firebase init** and **firebase-deploy**.  
 You may be asked to run **firebase login** as well  
 On init, press space to select Functions and confirm  
