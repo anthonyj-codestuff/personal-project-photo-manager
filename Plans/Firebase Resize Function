@@ -16,6 +16,7 @@ const suffix = '-small';
 const projectId = 'photo-storage-test-40dab';
 let gcs = new Storage ({projectId});
 
+
 exports.onFileChange= functions.storage.object().onFinalize(event => {
     console.log(event);
     const bucket = event.bucket;
