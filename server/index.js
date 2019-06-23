@@ -1,8 +1,11 @@
+const path = require('path'); 
 const express = require('express');
 const { json } = require('body-parser');
 const massive = require('massive');
 // const fbConfig = require('./firebaseAuth');
-require('dotenv').config();
+const envFilePath = path.join(__dirname, '../project.standard.env')
+// const envFilePath = path.join(__dirname, '../project.alternate.env')
+require('dotenv').config({path: path.resolve(envFilePath)});
 
 const port = process.env.SERVER_PORT || 3001;
 
